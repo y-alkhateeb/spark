@@ -1,6 +1,6 @@
 // Keys
 class ApplicationConstants{
-  static const TITLE_APP_NAME = 'FLUTTER CLEAN CODE TEMPLATE';
+  static const TITLE_APP_NAME = 'SPARK';
   static const KEY_LANGUAGE = 'language';
   static const KEY_TOKEN = 'token';
   static const KEY_FIREBASE_TOKEN = 'firebase_token';
