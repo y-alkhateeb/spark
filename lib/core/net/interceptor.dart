@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:spark/core/common/appConfig.dart';
 import '../../feature/account/data/repository/account_repository.dart';
 import '../constants/app/app_constants.dart';
 

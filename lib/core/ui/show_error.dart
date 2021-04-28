@@ -55,7 +55,7 @@ class ShowError {
         },
       ),
     );
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       snackBar,
     );
   }
@@ -64,14 +64,14 @@ class ShowError {
     final snackBar = SnackBar(
       content: Text(message),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showUnexpectedError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_general),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showUnauthorizedError(BuildContext context) {
@@ -80,14 +80,14 @@ class ShowError {
         S.of(context).error_Unauthorized_Error,
       ),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showBadRequestError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_BadRequest_Error),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showForbiddenError(BuildContext context) {
@@ -96,41 +96,41 @@ class ShowError {
         S.of(context).error_forbidden_error,
       ),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showInternalServerError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_internal_server),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showNotFoundError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_NotFound_Error),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showConflictError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_general),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showTimeoutError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_Timeout_Error),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   static void showUnknownError(BuildContext context) {
     final snackBar = SnackBar(
       content: Text(S.of(context).error_general),
     );
-    Scaffold.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
