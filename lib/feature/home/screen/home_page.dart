@@ -9,8 +9,9 @@ import 'package:spark/core/model/lanuage_model.dart';
 import 'package:spark/core/ui/more_item.dart';
 import 'package:spark/core/ui/show_dialog.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
-import 'package:spark/generated/l10n.dart';
 import 'package:provider/provider.dart';
+import '../../../core/common/resource.dart';
+
 
 class HomePage extends StatefulWidget {
   static const routeName = "/Home";
@@ -28,11 +29,19 @@ class _HomePageState extends State<HomePage>{
       body: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: Text("Spark"),
+          title: Text("Spark",style: Colors.amber.headline40,),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            MoreItem(
+              title: S.of(context).label_logout,
+              image: ApplicationConstants.MENU_LOGOUT,
+              onPressed: () async {
+                "we are resource".logE;
+              },
+            ),
+
             MoreItem(
               title: S.of(context).label_logout,
               image: ApplicationConstants.MENU_LOGOUT,

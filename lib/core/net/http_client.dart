@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/navigation/navigation_service.dart';
 import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
@@ -22,6 +23,8 @@ import 'api_url.dart';
 import '../constants/enums/http_method.dart';
 import 'package:http_parser/http_parser.dart';
 
+import 'interceptor.dart';
+
 
 class HttpClient{
   late Dio _client;
@@ -37,7 +40,15 @@ class HttpClient{
       baseUrl: BASE_URL,
     );
     _client = Dio(_options);
+    /// For logger
+    _client.interceptors.add(PrettyDioLogger());
+
+    /// For add Authentication into header
+    /// [authorization] [os] [appversion] [session]
+    _client.interceptors.add(AuthInterceptor());
   }
+
+
 
   Future<Either<BaseError, T>> sendRequest<T,E>({
     required HttpMethod method,
@@ -155,10 +166,8 @@ class HttpClient{
           return Right(response.data as T);
         }
       } on FormatException catch(e) {
-        debugPrint(e.toString());
         return Left(FormatError());
       } catch (e) {
-        debugPrint(e.toString());
         return Left(UnknownError());
       }
     }

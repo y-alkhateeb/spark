@@ -29,7 +29,7 @@ dependencies:
   #  Http client for Dart
   dio: ^4.0.0
   # Pretty Dio logger is a Dio interceptor that logs network calls in a pretty, easy to read format
-  pretty_dio_logger: ^1.1.1
+  pretty_dio_logger: ^1.2.0-beta-1
   # compare objects
   equatable: ^2.0.0
   # adapting screen and font size

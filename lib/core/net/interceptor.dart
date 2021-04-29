@@ -9,6 +9,9 @@ class AuthInterceptor extends Interceptor {
       final token = await AccountRepository.authToken;
       if (token.isNotEmpty) {
         options.headers[ApplicationConstants.HEADER_AUTH] = '$token';
+        options.headers[ApplicationConstants.HEADER_APP_VERSION] = '$token';
+        options.headers[ApplicationConstants.HEADER_OS] = '$token';
+        options.headers[ApplicationConstants.HEADER_SESSION] = '$token';
       }
     }
     return super.onRequest(options, handler);

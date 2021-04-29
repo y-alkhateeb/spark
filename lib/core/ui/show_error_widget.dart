@@ -266,7 +266,7 @@ class CustomErrorScreenWidget extends StatelessWidget {
           ),
           Gaps.vGap32,
           Text(
-            message ?? "",
+            message,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,

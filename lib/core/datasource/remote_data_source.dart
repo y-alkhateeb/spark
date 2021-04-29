@@ -23,11 +23,11 @@ class RemoteDataSource {
  }) async {
 
    // Specify the headers.
-   final Map<String, String> headers = {};
-   GetIt.I<HttpClient>().instance.interceptors.clear();
-   if (withAuthentication) {
-     GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
-   }
+   // final Map<String, String> headers = {};
+   // GetIt.I<HttpClient>().instance.interceptors.clear();
+   // if (withAuthentication) {
+   //   GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
+   // }
 
    // Send the request.
    final response = await GetIt.I<HttpClient>().upload<TResponse, EModel>(
@@ -37,7 +37,7 @@ class RemoteDataSource {
      fileName: filePath.substring(filePath.lastIndexOf('/') + 1),
      mediaType: mediaType,
      data: data!,
-     headers: headers,
+     // headers: headers,
      onSendProgress: onSendProgress!,
      cancelToken: cancelToken,
    );
@@ -68,16 +68,16 @@ class RemoteDataSource {
   }) async {
 
     // Specify the headers.
-    final Map<String, String> headers = {};
-    GetIt.I<HttpClient>().instance.interceptors.clear();
-    if (withAuthentication) {
-      GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
-    }
+    // final Map<String, String> headers = {};
+    // GetIt.I<HttpClient>().instance.interceptors.clear();
+    // if (withAuthentication) {
+    //   GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
+    // }
     // Send the request.
     final response = await GetIt.I<HttpClient>().sendRequest<TResponse,EModel>(
       method: method,
       url: url,
-      headers: headers,
+      // headers: headers,
       queryParameters: queryParameters ?? {},
       body: body!,
       cancelToken: cancelToken,

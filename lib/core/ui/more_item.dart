@@ -32,7 +32,7 @@ class MoreItem extends StatelessWidget {
             title: Text(
               title,
               textScaleFactor: 1.0,
-              style: TextStyleLight.instance.headline5
+              style: TextStyleLight.instance.headline24
             ),
           ),
         ),
