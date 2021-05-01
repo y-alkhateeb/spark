@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
 import 'package:spark/core/common/Utils.dart';
 import 'package:spark/core/common/app_colors.dart';
 import 'package:spark/core/common/dimens.dart';
@@ -25,33 +27,30 @@ class _HomePageState extends State<HomePage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff9fdff),
-      body: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text("Spark",style: Colors.amber.headline40,),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MoreItem(
-              title: S.of(context).label_logout,
-              image: ApplicationConstants.MENU_LOGOUT,
-              onPressed: () async {
-                "we are resource".logE;
-              },
-            ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text("Spark",style: Colors.amber.headline40,),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          MoreItem(
+            title: S.of(context).label_logout,
+            image: ApplicationConstants.MENU_LOGOUT,
+            onPressed: () async {
+              "we are resource".logE;
+            },
+          ),
 
-            MoreItem(
-              title: S.of(context).label_logout,
-              image: ApplicationConstants.MENU_LOGOUT,
-              onPressed: () async {
-                await logout();
-              },
-            ),
-          ],
-        ),
-      )
+          MoreItem(
+            title: S.of(context).label_logout,
+            image: ApplicationConstants.MENU_LOGOUT,
+            onPressed: () async {
+              BlocProvider.of<AppConfigCubit>(context).userLogout();
+            },
+          ),
+        ],
+      ),
     );
   }
 

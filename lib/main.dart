@@ -9,6 +9,6 @@ main() async {
   setupInjection();
   // Init Language.
   await LocalizationProvider.instance.fetchLocale();
-  AppConfig().initVersion();
+  AppConfig().initApp();
   runApp(App());
 }

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextStyleLight {
-  static TextStyleLight? _instace;
-  static TextStyleLight get instance {
-    if (_instace == null) _instace = TextStyleLight._init();
-    return _instace!;
-  }
+  static TextStyleLight _instance = TextStyleLight._init();
+
+  factory TextStyleLight() => _instance;
 
   TextStyleLight._init();
 

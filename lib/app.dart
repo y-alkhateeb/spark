@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:provider/provider.dart';
 import 'aplash.dart';
+import 'core/bloc/app_config/app_config_cubit.dart';
 import 'core/common/provider_list.dart';
 import 'core/localization/localization_provider.dart';
 import 'core/navigation/navigation_route.dart';
@@ -13,9 +14,7 @@ import 'core/navigation/navigation_service.dart';
 import 'feature/account/presentation/viewModel/account_bloc.dart';
 import 'generated/l10n.dart';
 
-
 class App extends StatefulWidget {
-
   const App({Key? key}) : super(key: key);
 
   @override
@@ -26,7 +25,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [...ApplicationProvider.instance.dependItems],
+      providers: [...ApplicationProvider().dependItems],
       child: Consumer<LocalizationProvider>(
         builder: (_, provider, __) {
           return ScreenUtilInit(
@@ -80,5 +79,6 @@ class _AppState extends State<App> {
   void dispose() {
     super.dispose();
     BlocProvider.of<AccountBloc>(context).close();
+    BlocProvider.of<AppConfigCubit>(context).close();
   }
 }

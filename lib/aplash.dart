@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'feature/account/data/repository/account_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
 import 'feature/account/presentation/screen/login_screen.dart';
 import 'feature/home/screen/home_page.dart';
 
@@ -10,52 +11,46 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
-  @override
-  void initState() {
-    checkToken();
-    super.initState();
-  }
-
-  checkToken(){
-    Future.delayed(
-        const Duration(seconds: 4),
-        () async {
-          if(await AccountRepository.hasToken){
-            Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-          }
-          else Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
-        }
-    );
+  checkToken(AppConfigState state) {
+    Future.delayed(const Duration(seconds: 4), () async {
+      if (await state.isUserAuthenticated) {
+        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      } else
+        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: double.maxFinite,
-        width: double.maxFinite,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.white,
-              Colors.white,
-            ],
+      body: BlocBuilder<AppConfigCubit, AppConfigState>(
+        builder: (context, state) {
+          checkToken(state);
+        return Container(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white,
+                Colors.black45,
+              ],
+            ),
           ),
-        ),
-        child: Center(
-            child:  Column(
+          child: Center(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Container()
-                ),
+                    width: MediaQuery.of(context).size.width,
+                    child: Container()),
               ],
             ),
-        ),
+          ),
+        );
+        }
       ),
     );
   }

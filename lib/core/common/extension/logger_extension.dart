@@ -9,16 +9,16 @@ extension loggerExtension on String{
 }
 
 extension textStyle on Color{
-  TextStyle get headline14 => TextStyleLight.instance.headline14.copyWith(color: this);
-  TextStyle get headline18 => TextStyleLight.instance.headline18.copyWith(color: this);
-  TextStyle get headline20 => TextStyleLight.instance.headline20.copyWith(color: this);
-  TextStyle get headline22 => TextStyleLight.instance.headline22.copyWith(color: this);
-  TextStyle get headline24 => TextStyleLight.instance.headline24.copyWith(color: this);
-  TextStyle get headline28 => TextStyleLight.instance.headline28.copyWith(color: this);
-  TextStyle get headline34 => TextStyleLight.instance.headline34.copyWith(color: this);
-  TextStyle get headline40 => TextStyleLight.instance.headline40.copyWith(color: this);
-  TextStyle get headline48 => TextStyleLight.instance.headline48.copyWith(color: this);
-  TextStyle get headline60 => TextStyleLight.instance.headline60.copyWith(color: this);
-  TextStyle get headline70 => TextStyleLight.instance.headline70.copyWith(color: this);
-  TextStyle get headline96 => TextStyleLight.instance.headline96.copyWith(color: this);
+  TextStyle get headline14 => TextStyleLight().headline14.copyWith(color: this);
+  TextStyle get headline18 => TextStyleLight().headline18.copyWith(color: this);
+  TextStyle get headline20 => TextStyleLight().headline20.copyWith(color: this);
+  TextStyle get headline22 => TextStyleLight().headline22.copyWith(color: this);
+  TextStyle get headline24 => TextStyleLight().headline24.copyWith(color: this);
+  TextStyle get headline28 => TextStyleLight().headline28.copyWith(color: this);
+  TextStyle get headline34 => TextStyleLight().headline34.copyWith(color: this);
+  TextStyle get headline40 => TextStyleLight().headline40.copyWith(color: this);
+  TextStyle get headline48 => TextStyleLight().headline48.copyWith(color: this);
+  TextStyle get headline60 => TextStyleLight().headline60.copyWith(color: this);
+  TextStyle get headline70 => TextStyleLight().headline70.copyWith(color: this);
+  TextStyle get headline96 => TextStyleLight().headline96.copyWith(color: this);
 }

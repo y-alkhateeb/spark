@@ -18,6 +18,8 @@ import 'package:spark/feature/home/screen/home_page.dart';
 import 'package:spark/generated/l10n.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'register_screen.dart';
+import './../../../../core/common/resource.dart';
+
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/LoginScreen";
@@ -47,91 +49,93 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: SafeArea(
-          child: ModalProgressHUD(
-            inAsyncCall: _inAsyncCall,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.dp32),
-              child: BlocListener(
-                listenWhen: (p,c)=>p != c,
-                listener: (context, state) {
-                  if (state is LoginAccountWaiting) {
-                    setState(() {
-                      _inAsyncCall = true;
-                    });
-                  }
-                  if (state is LoginAccountSuccess) {
-                    setState(() {
-                      _inAsyncCall = false;
-                    });
-                    Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-                  }  else if (state is LoginAccountGeneralFailure) {
-                    setState(() {
-                      _inAsyncCall = false;
-                    });
-                    ShowError.showErrorSnakBar(context, state.error, state);
-                  }
-                },
-                bloc: BlocProvider.of<AccountBloc>(context),
-                child: Column(
+      resizeToAvoidBottomInset: false,
+      body: ModalProgressHUD(
+        inAsyncCall: _inAsyncCall,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.dp32),
+          child: BlocListener(
+            listener: (context, state) {
+              "state is: $state ".logW;
+              if(state is LoginAccountState){
+                if(state.loginAccountWaiting != null){
+                  setState(() {
+                    _inAsyncCall = true;
+                  });
+                }
+                if(state.loginAccountFailure != null){
+                  setState(() {
+                    _inAsyncCall = false;
+                  });
+                  ShowError.showErrorSnakBar(context,
+                      state.loginAccountFailure!.error,
+                      state.loginAccountFailure);
+                }
+                if(state.loginModel != null){
+                  setState(() {
+                    _inAsyncCall = false;
+                  });
+                  Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                }
+              }
+
+            },
+            bloc: BlocProvider.of<AccountBloc>(context),
+            child: Column(
+              children: <Widget>[
+                Gaps.vGap64,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Gaps.vGap64,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          "WELCOME",
-                          style: TextStyle(
-                            color: AppColors.lightFontColor,
-                            fontSize: Dimens.font_sp38,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "WELCOME",
+                      style: TextStyle(
+                        color: AppColors.lightFontColor,
+                        fontSize: Dimens.font_sp38,
+                      ),
                     ),
-                    Gaps.vGap64,
-                    _buildPhoneNumberField(),
-                    Gaps.vGap32,
-                    _buildPasswordField(),
-                    Gaps.vGap128,
-                    CustomButton(
-                      color: AppColors.greenColor,
-                      text: S.of(context).label_Login,
-                      textColor: AppColors.lightFontColor,
-                      onPressed: () {
-                        sendRequest();
-                      },
-                    ),
-                    Gaps.vGap64,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          S.of(context).label_or_u_can,
-                          style: TextStyle(
-                            color: AppColors.lightFontColor,
-                            fontSize: ScreenUtil().setSp(Dimens.font_sp28),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Gaps.vGap64,
-                    CustomButton(
-                      color: AppColors.lightFontColor,
-                      text:
-                          S.of(context).label_sign_up,
-                      textColor: AppColors.blueFontColor,
-                      onPressed: () {
-                        unFocus();
-                        Navigator.of(context)
-                            .pushNamed(RegisterScreen.routeName);
-                      },
-                    ),
-                    Gaps.vGap64,
                   ],
                 ),
-              ),
+                Gaps.vGap64,
+                _buildPhoneNumberField(),
+                Gaps.vGap32,
+                _buildPasswordField(),
+                Gaps.vGap128,
+                CustomButton(
+                  color: AppColors.greenColor,
+                  text: S.of(context).label_Login,
+                  textColor: AppColors.lightFontColor,
+                  onPressed: () {
+                    sendRequest();
+                  },
+                ),
+                Gaps.vGap64,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      S.of(context).label_or_u_can,
+                      style: TextStyle(
+                        color: AppColors.lightFontColor,
+                        fontSize: ScreenUtil().setSp(Dimens.font_sp28),
+                      ),
+                    ),
+                  ],
+                ),
+                Gaps.vGap64,
+                CustomButton(
+                  color: AppColors.lightFontColor,
+                  text:
+                      S.of(context).label_sign_up,
+                  textColor: AppColors.blueFontColor,
+                  onPressed: () {
+                    unFocus();
+                    Navigator.of(context)
+                        .pushNamed(RegisterScreen.routeName);
+                  },
+                ),
+                Gaps.vGap64,
+              ],
             ),
           ),
         ),

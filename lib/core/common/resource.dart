@@ -1,7 +1,6 @@
 export 'extension/logger_extension.dart';
 export 'gaps.dart';
 export 'toast.dart';
-export 'appConfig.dart';
 export 'app_colors.dart';
 export 'dimens.dart';
 export 'date_utils.dart';

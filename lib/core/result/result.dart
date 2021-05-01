@@ -65,22 +65,16 @@ class Result<Error extends BaseError, Data> {
       if (onError != null) {
         onError(error!);
       }
-
-      return;
     }
 
-    if (hasDataOnly) {
+    else if (hasDataOnly) {
       if (onData != null) {
         onData(data!);
       }
-
-      return;
     }
 
-    if (onErrorWithData != null) {
+    else if (onErrorWithData != null) {
       onErrorWithData(data!, error!);
-
-      return;
     }
   }
 }

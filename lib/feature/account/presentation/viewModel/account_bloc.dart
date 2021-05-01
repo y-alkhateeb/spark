@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
+import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
 import 'package:spark/feature/account/domain/usecase/login_usecase.dart';
 import 'package:spark/feature/account/domain/usecase/register_usecase.dart';
@@ -21,8 +22,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   @override
   Stream<AccountState> mapEventToState(AccountEvent event,) async* {
     if (event is LoginAccountEvent) {
-      yield LoginAccountWaiting();
-      yield LoginAccountSuccess();
+      AccountState state = LoginAccountState().waiting;
+      yield state;
       final data = await LoginUseCase(GetIt.I<IAccountRepository>())(
           LoginRequest(
             cancelToken: event.loginRequest.cancelToken,
@@ -31,20 +32,27 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             password: event.loginRequest.password,
           )
       );
+      print(data);
       data.pick(
-        onData: (data) async*{
-          yield LoginAccountSuccess();
-        },
-        onError: (error) async*{
-          yield LoginAccountGeneralFailure(
-              error,
-                  () {
-                this.add(event);
-              }
+        onData: (data){
+          state = LoginAccountState(
+            loginModel: data,
           );
         },
-        onErrorWithData: (data, error){}
+        onError: (error) {
+          state = LoginAccountState(
+            loginAccountFailure: AccountFailure(
+                error,
+                    () {
+                  this.add(event);
+                }
+            )
+          );
+        },
+        onErrorWithData: (data, error){
+        }
       );
+      yield state;
     }
 
     if (event is RegisterAccountEvent) {
@@ -76,4 +84,6 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
 
   }
+
+
 }

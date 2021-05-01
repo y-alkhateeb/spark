@@ -31,9 +31,9 @@ launchURL(String url) async {
   }
 }
 
-logout() async {
-  if (await AccountRepository.hasToken){
-    await GetIt.I<AccountRepository>().deleteToken();
-    Navigator.of(NavigationService.instance.navigatorKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
-  }
-}
+// logout() async {
+//   if (await AccountRepository.hasToken){
+//     await GetIt.I<AccountRepository>().deleteToken();
+//     Navigator.of(NavigationService.instance.navigatorKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
+//   }
+// }

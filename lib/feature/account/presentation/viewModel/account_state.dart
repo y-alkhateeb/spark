@@ -1,7 +1,6 @@
 part of 'account_bloc.dart';
 
 abstract class AccountState extends Equatable {
-  const AccountState();
 }
 
 class AccountInitial extends AccountState {
@@ -9,58 +8,91 @@ class AccountInitial extends AccountState {
   List<Object> get props => [];
 }
 
+class AccountWaiting extends AccountState {
+  AccountWaiting();
+
+  @override
+  List<Object> get props => [];
+}
+
+class AccountFailure extends AccountState {
+  final BaseError error;
+  final VoidCallback callback;
+
+  AccountFailure(this.error, this.callback);
+
+  @override
+  List<Object> get props => [error, callback];
+}
+
+
 /// Login
-class LoginAccountWaiting extends AccountState {
-  const LoginAccountWaiting();
-  @override
-  List<Object> get props => [];
-}
-class LoginAccountSuccess extends AccountState {
-  const LoginAccountSuccess();
-  @override
-  List<Object> get props => [];
-}
-class LoginAccountConfirmFailure extends AccountState {
-  final BaseError error;
-  final VoidCallback callback;
+class LoginAccountState extends AccountState {
+  final AccountWaiting? loginAccountWaiting;
+  final AccountFailure? loginAccountFailure;
+  final LoginModel? loginModel;
 
-  const LoginAccountConfirmFailure(this.error, this.callback);
-  @override
-  List<Object> get props => [];
-}
-class LoginAccountGeneralFailure extends AccountState {
-  final BaseError error;
-  final VoidCallback callback;
+  LoginAccountState({
+    this.loginAccountWaiting,
+    this.loginAccountFailure,
+    this.loginModel,
+  });
 
-  const LoginAccountGeneralFailure(this.error, this.callback);
+  LoginAccountState copyWith({
+    AccountWaiting? loginAccountWaiting,
+    AccountFailure? loginAccountFailure,
+    LoginModel? loginModel,
+  }) =>
+      LoginAccountState(
+          loginAccountWaiting: loginAccountWaiting ?? this.loginAccountWaiting,
+          loginAccountFailure: loginAccountFailure ?? this.loginAccountFailure,
+          loginModel: loginModel ?? this.loginModel);
+
+  LoginAccountState get waiting => LoginAccountState(
+    loginModel: null,
+    loginAccountFailure: null,
+    loginAccountWaiting: AccountWaiting()
+  );
+
   @override
-  List<Object> get props => [error,callback];
+  List<Object?> get props => [
+        loginAccountWaiting,
+        loginAccountFailure,
+        loginModel,
+      ];
 }
 
 /// Register
 class RegisterAccountWaiting extends AccountState {
-  const RegisterAccountWaiting();
+   RegisterAccountWaiting();
+
   @override
   List<Object> get props => [];
 }
+
 class RegisterAccountSuccess extends AccountState {
-  const RegisterAccountSuccess();
+   RegisterAccountSuccess();
+
   @override
   List<Object> get props => [];
 }
+
 class RegisterAccountConfirmFailure extends AccountState {
   final BaseError error;
   final VoidCallback callback;
 
-  const RegisterAccountConfirmFailure(this.error, this.callback);
+   RegisterAccountConfirmFailure(this.error, this.callback);
+
   @override
   List<Object> get props => [];
 }
+
 class RegisterAccountGeneralFailure extends AccountState {
   final BaseError error;
   final VoidCallback callback;
 
-  const RegisterAccountGeneralFailure(this.error, this.callback);
+   RegisterAccountGeneralFailure(this.error, this.callback);
+
   @override
-  List<Object> get props => [error,callback];
+  List<Object> get props => [error, callback];
 }

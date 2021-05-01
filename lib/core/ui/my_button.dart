@@ -41,16 +41,16 @@ class MyButton extends StatelessWidget {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.disabled)) {
-              return disabledTextColor ?? AppColors.text_gray;
+              return disabledTextColor ?? AppColors().text_gray;
             }
             return textColor ?? Colors.white;
           },
           ),
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.disabled)) {
-              return disabledBackgroundColor ?? AppColors.text_gray;
+              return disabledBackgroundColor ?? AppColors().text_gray;
             }
-            return backgroundColor ?? AppColors.text_gray;
+            return backgroundColor ?? AppColors().text_gray;
           }),
           overlayColor: MaterialStateProperty.resolveWith((states) {
             return (textColor ?? Colors.white).withOpacity(0.12);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spark/core/common/app_colors.dart';
 import 'package:spark/core/theme/light/text_style_light.dart';
-import '../../core/common/dimens.dart';
 
 class MoreItem extends StatelessWidget {
   final String image;
@@ -32,7 +31,7 @@ class MoreItem extends StatelessWidget {
             title: Text(
               title,
               textScaleFactor: 1.0,
-              style: TextStyleLight.instance.headline24
+              style: TextStyleLight().headline24
             ),
           ),
         ),
