@@ -7,6 +7,7 @@ import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/data/model/response/login_model.dart';
+import 'package:spark/feature/account/data/model/response/register_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
 import 'package:spark/feature/account/domain/usecase/login_usecase.dart';
 import 'package:spark/feature/account/domain/usecase/register_usecase.dart';
@@ -32,7 +33,6 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             password: event.loginRequest.password,
           )
       );
-      print(data);
       data.pick(
         onData: (data){
           state = LoginAccountState(
@@ -56,7 +56,8 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
     }
 
     if (event is RegisterAccountEvent) {
-      yield RegisterAccountWaiting();
+      AccountState state = RegisterAccountState().waiting;
+      yield state;
       final _result = await RegisterUseCase(GetIt.I<IAccountRepository>())(
           RegisterRequest(
             firstName: event.registerRequest.firstName,
@@ -68,19 +69,24 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
           )
       );
       _result.pick(
-        onError: (error) async*{
-          yield RegisterAccountGeneralFailure(
-              error,
-                  () {
-                this.add(event);
-              }
+        onError: (error) {
+          state = RegisterAccountState(
+              registerAccountFailure: AccountFailure(
+                  error,
+                      () {
+                    this.add(event);
+                  }
+              )
           );
         },
-        onData: (data) async*{
-          yield RegisterAccountSuccess();
+        onData: (data){
+          state = RegisterAccountState(
+            registerModel: data,
+          );
         },
         onErrorWithData: (data, error){},
       );
+      yield state;
     }
 
   }

@@ -38,8 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _phoneOrEmailKey = new GlobalKey<FormFieldState<String>>();
   final _passwordKey = new GlobalKey<FormFieldState<String>>();
-  final _phoneOrEmailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _phoneOrEmailController = TextEditingController(text: "0950404087");
+  final _passwordController = TextEditingController(text: "12345678");
 
   bool turnPhoneOrEmailValidate = true;
 
@@ -78,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Navigator.of(context).pushReplacementNamed(HomePage.routeName);
                 }
               }
-
             },
             bloc: BlocProvider.of<AccountBloc>(context),
             child: Column(

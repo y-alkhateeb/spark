@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage>{
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MoreItem(
-            title: S.of(context).label_logout,
+            title: "just log",
             image: ApplicationConstants.MENU_LOGOUT,
             onPressed: () async {
               "we are resource".logE;

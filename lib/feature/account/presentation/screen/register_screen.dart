@@ -12,10 +12,12 @@ import 'package:spark/core/route/animated_route.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
 import 'package:spark/core/ui/show_error.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
-import 'package:spark/feature/account/presentation/ViewModel/account_bloc.dart';
+import 'package:spark/feature/account/presentation/viewModel/account_bloc.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
+import 'package:spark/feature/home/screen/home_page.dart';
 import 'package:spark/generated/l10n.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import './../../../../core/common/resource.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "/RegisterScreen";
@@ -76,26 +78,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: ModalProgressHUD(
           inAsyncCall: _inAsyncCall,
           child: BlocListener(
-            listenWhen: (p,c)=>p != c,
             listener: (context, state) {
-              if (state is RegisterAccountWaiting) {
-                setState(() {
-                  _inAsyncCall = true;
-                });
-              }
-              if (state is RegisterAccountSuccess) {
-                setState(() {
-                  _inAsyncCall = false;
-                });
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(content: Text("Register Account Success now login")),
-                );
-                Navigator.pop(context);
-              } else if (state is RegisterAccountGeneralFailure) {
-                setState(() {
-                  _inAsyncCall = false;
-                });
-                ShowError.showErrorSnakBar(context, state.error, state);
+              "state is: $state ".logW;
+              if(state is RegisterAccountState){
+                if(state.registerAccountWaiting != null){
+                  setState(() {
+                    _inAsyncCall = true;
+                  });
+                }
+                if(state.registerAccountFailure != null){
+                  setState(() {
+                    _inAsyncCall = false;
+                  });
+                  ShowError.showErrorSnakBar(context,
+                      state.registerAccountFailure!.error,
+                      state.registerAccountFailure);
+                }
+                if(state.registerModel != null){
+                  setState(() {
+                    _inAsyncCall = false;
+                  });
+                  Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                }
               }
             },
             bloc: BlocProvider.of<AccountBloc>(context),
@@ -141,14 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 initialOffsetX: 1,
                 intervalStart: 0.2,
                 intervalEnd: 0.4,
-                child: _buildEmailField(),
-              ),
-              Gaps.vGap32,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.2,
-                intervalEnd: 0.4,
-                child: _buildEmailField(),
+                child: _buildPhoneField(),
               ),
               Gaps.vGap32,
               SlidingAnimated(
@@ -294,37 +291,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  _buildEmailField() {
-    return MyTextFormField(
-      color: AppColors.regularFontColor,
-      formKey: _phoneOrEmailKey,
-      controller: _phoneOrEmailController,
-      textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.emailAddress,
-      focusNode: myFocusNodePhoneOrEmail,
-      labelText: S.of(context).label_email,
-      validator: (value) {
-        if (turnPhoneOrEmailValidate) {
-          if (Validators.isValidEmail(value!))
-            return null;
-          else
-            return S.of(context).error_inValid_email;
-        } else
-          return null;
-      },
-      onFieldSubmitted: (term) {
-        fieldFocusChange(context, myFocusNodePhoneOrEmail, myFocusNodePassword);
-      },
-      onChanged: (value) {
-        if (turnPhoneOrEmailValidate) {
-          setState(() {
-            turnPhoneOrEmailValidate = false;
-          });
-          _phoneOrEmailKey.currentState!.validate();
-        }
-      },
-    );
-  }
+  // _buildEmailField() {
+  //   return MyTextFormField(
+  //     color: AppColors.regularFontColor,
+  //     formKey: _phoneOrEmailKey,
+  //     controller: _phoneOrEmailController,
+  //     textInputAction: TextInputAction.next,
+  //     keyboardType: TextInputType.emailAddress,
+  //     focusNode: myFocusNodePhoneOrEmail,
+  //     labelText: S.of(context).label_email,
+  //     validator: (value) {
+  //       if (turnPhoneOrEmailValidate) {
+  //         if (Validators.isValidEmail(value!))
+  //           return null;
+  //         else
+  //           return S.of(context).error_inValid_email;
+  //       } else
+  //         return null;
+  //     },
+  //     onFieldSubmitted: (term) {
+  //       fieldFocusChange(context, myFocusNodePhoneOrEmail, myFocusNodePassword);
+  //     },
+  //     onChanged: (value) {
+  //       if (turnPhoneOrEmailValidate) {
+  //         setState(() {
+  //           turnPhoneOrEmailValidate = false;
+  //         });
+  //         _phoneOrEmailKey.currentState!.validate();
+  //       }
+  //     },
+  //   );
+  // }
 
   _buildPasswordField() {
     return MyTextFormField(
