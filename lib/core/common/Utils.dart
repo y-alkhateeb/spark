@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spark/app.dart';
-import 'package:spark/core/navigation/INavigationService.dart';
-import 'package:spark/core/navigation/navigation_service.dart';
-import 'package:get_it/get_it.dart';
-import '../../feature/account/data/repository/account_repository.dart';
-import '../../feature/account/presentation/screen/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -36,4 +30,26 @@ launchURL(String url) async {
 //     await GetIt.I<AccountRepository>().deleteToken();
 //     Navigator.of(NavigationService.instance.navigatorKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
 //   }
+// }
+
+// class Camera {
+//   static Future<String> openCamera() async {
+//     final image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 15);
+//
+//     List<int> base64Byte = image.readAsBytesSync();
+//     String base64Encoded = base64Encode(base64Byte);
+//
+//     return "data:image/png;base64," + base64Encoded;
+//   }
+//
+//   static Future<String> openGallery({ bool getBase64 = true }) async {
+//     final image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 15);
+//
+//     List<int> base64Byte = image.readAsBytesSync();
+//     String base64Encoded = base64Encode(base64Byte);
+//
+//     return base64Encoded;
+//   }
+//
+//   static Uint8List base64ToFile(String image) => base64.decode(image);
 // }

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:spark/core/errors/connection_error.dart';
 import 'package:spark/core/navigation/navigation_service.dart';
 import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
@@ -27,7 +28,7 @@ import 'interceptor.dart';
 
 
 class HttpClient{
-  late Dio _client;
+  static late Dio _client;
 
   Dio get instance => _client;
 
@@ -43,14 +44,14 @@ class HttpClient{
     /// For logger
     _client.interceptors.add(PrettyDioLogger());
 
-    /// For add Authentication into header
+    /// To add Authentication into header
     /// [authorization] [os] [appversion] [session]
     _client.interceptors.add(AuthInterceptor());
   }
 
 
 
-  Future<Either<BaseError, T>> sendRequest<T,E>({
+  Future<Either<BaseError, T>> sendRequest<T>({
     required HttpMethod method,
     required String url,
     Map<String, String>? headers,
@@ -100,11 +101,8 @@ class HttpClient{
       }
       try {
           // Get the decoded json
-        if (response.data is String)
-          return Right(json.decode(response.data) as T);
-        else{
-          return Right(response.data as T);
-        }
+        return Right(response.data!);
+
       } on FormatException catch(e) {
         debugPrint(e.toString());
         return Left(FormatError());
@@ -122,9 +120,12 @@ class HttpClient{
     on SocketException catch (e) {
       return Left(SocketError());
     }
+    on HttpException catch (e){
+      return Left(ConnectionError());
+    }
   }
 
-  Future<Either<BaseError, T>> upload<T, E>({
+  Future<Either<BaseError, T>> upload<T>({
     required String url,
     required String fileKey,
     required String filePath,
@@ -149,7 +150,7 @@ class HttpClient{
         )
       });
     try {
-      final response = await _client.post(
+      Response<T> response = await _client.post(
         url,
         data: FormData.fromMap(dataMap),
         onSendProgress: onSendProgress,
@@ -160,11 +161,8 @@ class HttpClient{
 
       try {
         // Get the decoded json
-        if (response.data is String)
-          return Right(json.decode(response.data) as T);
-        else{
-          return Right(response.data as T);
-        }
+        return Right(response.data!);
+
       } on FormatException catch(e) {
         return Left(FormatError());
       } catch (e) {
@@ -180,8 +178,9 @@ class HttpClient{
     on SocketException catch (e) {
       return Left(SocketError());
     }
-
-
+    on HttpException catch (e){
+      return Left(ConnectionError());
+    }
   }
 
   BaseError _handleDioError<E>(DioError error) {
@@ -202,7 +201,6 @@ class HttpClient{
             return ConflictError();
           case 500:
                 return InternalServerError();
-             //   return ErrorMessageModel<E>.fromMap(error.response!.data);
           default:
             return UnknownError();
         }
@@ -214,7 +212,7 @@ class HttpClient{
         error.type == DioErrorType.receiveTimeout) {
       return TimeoutError();
     } else if (error.type == DioErrorType.cancel) {
-      return CancelError(S.of(NavigationService.instance.navigatorKey.currentContext!).error_cancel_token);
+      return CancelError(S.of(Navi().context).error_cancel_token);
     } else
       return UnknownError();
     }

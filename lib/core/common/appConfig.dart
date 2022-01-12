@@ -1,12 +1,12 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:spark/core/common/resource.dart';
+import 'package:spark/core/constants/enums/app_theme_enum.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
+import 'package:spark/core/theme/app_theme_light.dart';
 
-// This class it contain tow functions
-// for get device info
-// and for get and set language
-class AppConfig {
+class AppConfig extends ChangeNotifier{
   static final AppConfig _instance = AppConfig._internal();
 
   factory AppConfig() {
@@ -15,7 +15,87 @@ class AppConfig {
 
   AppConfig._internal();
 
-  final String apiKey = "";
+
+
+  /// [_appLocale] app language, first start will be English we can change it
+  /// from here
+  Locale _appLocale = Locale(ApplicationConstants.LANG_EN);
+
+  /// Get current Locale supported
+  Locale get appLocal => _appLocale;
+
+  /// Get current language code like [EN] or [AR]
+  String get currentLanguage => appLocal.languageCode;
+
+
+  /// call this method in main function before start MyApp to handle the language
+  fetchLocale() async {
+    var prefs = await SpUtil.getInstance();
+
+    /// check if the application is first start or not
+    if (prefs.getBool(ApplicationConstants.KEY_FIRST_START) == null) {
+      /// set first start is true
+      await prefs.putBool(ApplicationConstants.KEY_FIRST_START, true);
+    }
+    if (prefs.getString(ApplicationConstants.KEY_LANGUAGE) == null) {
+      _appLocale = Locale(ApplicationConstants.LANG_EN);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_EN);
+      return Null;
+    }
+    String? local = prefs.getString(ApplicationConstants.KEY_LANGUAGE);
+    _appLocale = Locale(local??ApplicationConstants.LANG_EN);
+    return Null;
+  }
+
+
+  /// this method to change language and [notifyListeners] to notify all widget
+  Future<void> changeLanguage(Locale type, BuildContext context) async {
+    var prefs = await SpUtil.getInstance();
+    if (_appLocale == type) {
+      return;
+    }
+    if (type == Locale(ApplicationConstants.LANG_AR)) {
+      _appLocale = Locale(ApplicationConstants.LANG_AR);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_AR);
+    } else {
+      _appLocale = Locale(ApplicationConstants.LANG_EN);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_EN);
+    }
+    notifyListeners();
+  }
+
+  /// don't set default value here
+  ThemeData? _currentTheme;
+
+  AppThemes _currentThemeEnum = AppThemes.LIGHT;
+
+  /// Application theme enum.
+  /// Default value is [AppThemes.LIGHT]
+  AppThemes get currentThemeEnum => _currentThemeEnum;
+
+  ThemeData get currentTheme => _currentTheme ?? AppThemeLight.instance.theme;
+
+  void changeValue(AppThemes theme) {
+    if (theme == AppThemes.LIGHT) {
+      _currentTheme = ThemeData.light();
+    } else {
+      _currentTheme = ThemeData.dark();
+    }
+    notifyListeners();
+  }
+
+  /// Change your app theme with [currentThemeEnum] value.
+  void changeTheme() {
+    if (_currentThemeEnum == AppThemes.LIGHT) {
+      _currentTheme = ThemeData.dark();
+      _currentThemeEnum = AppThemes.DARK;
+    } else {
+      _currentTheme = AppThemeLight.instance.theme;
+      _currentThemeEnum = AppThemes.LIGHT;
+    }
+    notifyListeners();
+  }
+
   String? _os;
   String? _currentVersion;
   String? _buildNumber;
@@ -42,61 +122,5 @@ class AppConfig {
     _currentVersion = packageInfo.version;
     _buildNumber = packageInfo.buildNumber;
     _appName = packageInfo.appName;
-  }
-
-  /// deleteToken
-  Future<void> deleteToken() async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.remove(ApplicationConstants.KEY_TOKEN);
-  }
-
-  /// deleteFcmToken
-  Future<void> deleteFcmToken() async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.remove(ApplicationConstants.KEY_FIREBASE_TOKEN);
-  }
-
-  /// persistToken
-  Future<void> persistToken(String token) async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.putString(ApplicationConstants.KEY_TOKEN, token);
-  }
-
-  /// persistFcmToken
-  Future<void> persistFcmToken(String token) async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.putString(ApplicationConstants.KEY_FIREBASE_TOKEN, token);
-  }
-
-
-  /// read authToken
-  /// if returns null thats means there no SP instance
-  Future<String?> get authToken async {
-    final prefs = await SpUtil.getInstance();
-    return prefs.getString(ApplicationConstants.KEY_TOKEN);
-  }
-
-  /// read fcmToken
-  /// if returns null thats means there no SP instance
-  Future<String?> get fcmToken async {
-    final prefs = await SpUtil.getInstance();
-    return prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
-  }
-
-
-  /// check if hasToken or not
-  Future<bool> get hasToken async {
-    final prefs = await SpUtil.getInstance();
-    String? token = prefs.getString(ApplicationConstants.KEY_TOKEN);
-    if (token != null) return true;
-    return false;
-  }
-
-  /// check if hasFcmToken or not
-  Future<bool> get hasFcmToken async {
-    final prefs = await SpUtil.getInstance();
-    String? token = prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
-    if (token != null && token.isNotEmpty) return true;
-    return false;
   }
 }

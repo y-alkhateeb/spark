@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:spark/core/bloc/base_state/base_state.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
-import '../errors/base_error.dart';
 import '../errors/conflict_error.dart';
 import '../errors/custom_error.dart';
 import '../errors/forbidden_error.dart';
@@ -14,35 +13,43 @@ import '../errors/unauthorized_error.dart';
 import '../errors/unknown_error.dart';
 
 class ShowError {
+
+  ShowError._init();
+
   static void showErrorSnakBar(
-      BuildContext context, BaseError error, dynamic state,
+      BuildContext context, BaseState baseFailureState,
       {ScaffoldState? scaffoldState}) {
-    if (error is ConnectionError) {
-      ShowError.showConnectionError(
-        context,
-        state != null && state.callback != null ? state.callback : () {},
-      );
-    } else if (error is CustomError) {
-      ShowError.showCustomError(context, error.message);
-    } else if (error is UnauthorizedError) {
-      ShowError.showUnauthorizedError(context);
-    } else if (error is BadRequestError) {
-      ShowError.showBadRequestError(context);
-    } else if (error is ForbiddenError) {
-      ShowError.showForbiddenError(context);
-    } else if (error is NotFoundError) {
-      ShowError.showNotFoundError(context);
-    } else if (error is ConflictError) {
-      ShowError.showConflictError(context);
-    } else if (error is TimeoutError) {
-      ShowError.showTimeoutError(context);
-    } else if (error is UnknownError) {
-      ShowError.showUnknownError(context);
-    } else if (error is InternalServerError) {
-      ShowError.showInternalServerError(context);
-    } else {
-      ShowError.showUnexpectedError(context);
-    }
+    baseFailureState.maybeWhen(
+        orElse: (){},
+      failure: (baseError, callback){
+        if (baseError is ConnectionError) {
+          ShowError.showConnectionError(
+            context,
+            callback,
+          );
+        } else if (baseError is CustomError) {
+          ShowError.showCustomError(context, baseError.message);
+        } else if (baseError is UnauthorizedError) {
+          ShowError.showUnauthorizedError(context);
+        } else if (baseError is BadRequestError) {
+          ShowError.showBadRequestError(context);
+        } else if (baseError is ForbiddenError) {
+          ShowError.showForbiddenError(context);
+        } else if (baseError is NotFoundError) {
+          ShowError.showNotFoundError(context);
+        } else if (baseError is ConflictError) {
+          ShowError.showConflictError(context);
+        } else if (baseError is TimeoutError) {
+          ShowError.showTimeoutError(context);
+        } else if (baseError is UnknownError) {
+          ShowError.showUnknownError(context);
+        } else if (baseError is InternalServerError) {
+          ShowError.showInternalServerError(context);
+        } else {
+          ShowError.showUnexpectedError(context);
+        }
+      }
+    );
   }
 
   static void showConnectionError(BuildContext context, VoidCallback callback) {

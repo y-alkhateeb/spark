@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spark/core/common/app_colors.dart';
-import '../common/dimens.dart';
+import 'package:spark/core/common/resource.dart';
 import '../common/text_formater.dart';
 
 class MyTextFormField extends StatelessWidget {
@@ -18,7 +16,7 @@ class MyTextFormField extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final bool obscureText;
-  final Color color;
+  final Color? color;
   final List<TextInputFormatter>? inputFormatters;
 
 
@@ -35,7 +33,7 @@ class MyTextFormField extends StatelessWidget {
     this.labelText,
     this.suffixIcon,
     this.obscureText = false,
-    this.color = AppColors.lightFontColor,
+    this.color,
     this.inputFormatters,
     this.hintText,
   }):super(key: key);
@@ -50,37 +48,37 @@ class MyTextFormField extends StatelessWidget {
       focusNode: focusNode,
       cursorColor: color,
       style: TextStyle(
-        color: color,
+        color: color ?? context.colors.primaryVariant,
         decorationThickness: 0,
-        decorationColor: color,
-        fontSize: Dimens.font_sp28.sp
+        decorationColor: color ?? context.colors.primaryVariant,
+        fontSize: context.textTheme.headline3!.fontSize
       ),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
-          color: color,
+          color: color ?? context.colors.primaryVariant,
           decorationThickness: 0,
-          decorationColor: color,
-          fontSize: Dimens.font_sp28.sp,
+          decorationColor: color ?? context.colors.primaryVariant,
+          fontSize: context.textTheme.headline3!.fontSize,
         ),
         focusedBorder:  UnderlineInputBorder(
           borderSide:  BorderSide(
-            color: color,
+            color: color ?? context.colors.primaryVariant,
           ),
         ),
         enabledBorder:  UnderlineInputBorder(
           borderSide:  BorderSide(
-            color: color,
+            color: color ?? context.colors.primaryVariant,
           ),
         ),
         errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.redColor,
+            color: context.colors.error,
           ),
         ),
         focusedErrorBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: AppColors.redColor,
+            color: context.colors.error,
           ),
         ),
         border: const UnderlineInputBorder(),
@@ -88,13 +86,14 @@ class MyTextFormField extends StatelessWidget {
           color: color,
           decorationThickness: 0,
           decorationColor: color,
-          fontSize: Dimens.font_sp28.sp,
+          fontSize: context.textTheme.headline3!.fontSize,
         ),
         labelText: labelText,
         suffixIcon: suffixIcon,
         errorStyle: const TextStyle(height: 0.8),
       ),
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       onFieldSubmitted: onFieldSubmitted,
       onChanged: onChanged,
       obscureText: obscureText,

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spark/core/common/dimens.dart';
+import 'package:spark/core/common/resource.dart';
 
 class CustomButton extends StatelessWidget {
   final Color? color;
@@ -29,9 +28,9 @@ class CustomButton extends StatelessWidget {
       pressedOpacity: 0.7,
       child: Text(
         text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: fontSize ?? Dimens.font_sp28.sp,
+        style: context.textTheme.headline2!.copyWith(
+          color: textColor ?? context.colors.surface,
+          fontSize: fontSize,
         ),
       ),
       onPressed: onPressed,

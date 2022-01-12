@@ -1,27 +1,31 @@
 import 'dart:convert';
 
-class LoginModel{
+import 'package:spark/core/model/base_model.dart';
+
+class LoginModel extends BaseModel<LoginModel>{
   final String? token;
   final AccountModel? account;
 
   LoginModel({
-    required this.account,
-    required this.token,
+    this.account,
+    this.token,
   });
 
-  factory LoginModel.fromJson(String str) => LoginModel.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
 
   factory LoginModel.fromMap(Map<String, dynamic> json) => LoginModel(
-    account: json["account"] == null ? null : AccountModel.fromMap(json["account"]),
     token: json["token"] == null ? null : json["token"],
   );
 
+  @override
   Map<String, dynamic> toMap() => {
     "account": account == null ? null : account!.toMap(),
     "token": token == null ? null : token,
   };
+
+  @override
+  LoginModel fromJson(Map<String, dynamic> json) {
+    return LoginModel.fromMap(json);
+  }
 }
 
 class AccountModel {

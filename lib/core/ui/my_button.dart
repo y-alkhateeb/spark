@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spark/core/common/app_colors.dart';
-import 'package:spark/core/common/dimens.dart';
+import 'package:spark/core/common/resource.dart';
 
 class MyButton extends StatelessWidget {
 
@@ -41,16 +40,16 @@ class MyButton extends StatelessWidget {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.disabled)) {
-              return disabledTextColor ?? AppColors().text_gray;
+              return disabledTextColor ?? context.colors.surface;
             }
             return textColor ?? Colors.white;
           },
           ),
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.disabled)) {
-              return disabledBackgroundColor ?? AppColors().text_gray;
+              return disabledBackgroundColor ?? context.colors.onSurface;
             }
-            return backgroundColor ?? AppColors().text_gray;
+            return backgroundColor ?? context.colors.onSurface;
           }),
           overlayColor: MaterialStateProperty.resolveWith((states) {
             return (textColor ?? Colors.white).withOpacity(0.12);

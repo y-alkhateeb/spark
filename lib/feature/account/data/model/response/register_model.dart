@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-class RegisterModel {
+import 'package:spark/core/model/base_model.dart';
+
+class RegisterModel extends BaseModel<RegisterModel>{
   RegisterModel({
     this.phoneNumber,
     this.userName,
@@ -58,4 +60,9 @@ class RegisterModel {
     "creator": creator == null ? null : creator,
     "modifier": modifier == null ? null : modifier,
   };
+
+  @override
+  RegisterModel fromJson(Map<String, dynamic> json) {
+    return RegisterModel.fromMap(json);
+  }
 }

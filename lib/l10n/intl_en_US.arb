@@ -29,5 +29,6 @@
   "label_or_u_can": "Or you can",
   "label_first_name": "First name",
   "label_last_name": "Last name",
-  "label_confirm_password": "Confirm password"
+  "label_confirm_password": "Confirm password",
+  "label_change_theme": "Change theme"
 }

@@ -1,38 +1,31 @@
 part of 'app_config_cubit.dart';
 
-class AppConfigState extends Equatable {
-  final bool? isApplicationStarted;
+class AppConfigState {
+  final AppStatus appStatus;
 
   // Current user profile.
   final Profile? profile;
 
   AppConfigState({
-    this.isApplicationStarted,
+    required this.appStatus,
     this.profile,
   });
 
-  AppConfigState copyWith({
-    bool? isApplicationStarted,
-    Profile? profile
-  }) =>
+  AppConfigState copyWith({AppStatus? appStatus, Profile? profile}) =>
       AppConfigState(
-        isApplicationStarted: isApplicationStarted ?? this.isApplicationStarted,
-        profile: profile ?? this.profile
+          appStatus: appStatus ?? this.appStatus,
+          profile: profile ?? this.profile,
       );
 
   AppConfigState clearProfile() {
     return AppConfigState(
-      isApplicationStarted: isApplicationStarted,
+      appStatus: AppStatus.UNAUTHORIZED,
+      profile: null,
     );
   }
 
-  @override
-  List<Object> get props => [];
-
-  Future<bool> get isUserAuthenticated async => await AppConfig().hasToken;
-
-  Future<bool> get isUserVerified async => await isUserAuthenticated && this.profile != null &&
-      this.profile!.phoneConfirmed;
-
-  static AppConfigState get initialState => AppConfigState();
+  factory AppConfigState.defaultState()=> AppConfigState(
+    appStatus: AppStatus.NONE,
+    profile: null,
+  );
 }

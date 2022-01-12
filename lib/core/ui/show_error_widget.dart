@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spark/core/bloc/base_state/base_state.dart';
 import 'package:spark/core/errors/cancel_error.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import 'package:spark/generated/l10n.dart';
@@ -14,57 +15,58 @@ import '../errors/unauthorized_error.dart';
 import '../constants/app/app_constants.dart';
 
 class ShowErrorWidget extends StatelessWidget {
-  final dynamic state;
+  final BaseState state;
 
-  ShowErrorWidget({Key? key, this.state}) : super(key: key);
+  ShowErrorWidget({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final error = state.error;
-    {
-      print(error);
-      // Connection Error
-      if (error is ConnectionError) {
-        return ConnectionErrorScreenWidget(callback: state.callback);
-      }
-      // Custom Error
-      else if (error is CustomError) {
-        return CustomErrorScreenWidget(message: error.message);
-      }
-      // Unauthorized Error
-      else if (error is UnauthorizedError) {
-        return UnauthorizedErrorScreenWidget();
-      }
-      // Not Found Error
-      else if (error is NotFoundError) {
-        return NotFoundErrorScreenWidget(
-          callback: state.callback,
+    return state.maybeWhen(
+      orElse: (){return Container();},
+      failure: (error, callback){
+        // Connection Error
+        if (error is ConnectionError) {
+          return ConnectionErrorScreenWidget(callback: callback);
+        }
+        // Custom Error
+        else if (error is CustomError) {
+          return CustomErrorScreenWidget(message: error.message);
+        }
+        // Unauthorized Error
+        else if (error is UnauthorizedError) {
+          return UnauthorizedErrorScreenWidget();
+        }
+        // Not Found Error
+        else if (error is NotFoundError) {
+          return NotFoundErrorScreenWidget(
+            callback: callback,
+          );
+        }
+        // Bad Request Error
+        else if (error is BadRequestError) {
+          return BadRequestErrorScreenWidget();
+        }
+        // Forbidden Error
+        else if (error is ForbiddenError) {
+          return ForbiddenErrorScreenWidget();
+        }
+        // Internal Server Error
+        else if (error is InternalServerError) {
+          return InternalServerErrorScreenWidget(
+            callback: callback,
+          );
+        } else if (error is TimeoutError) {
+          return TimeoutErrorScreenWidget(
+            callback: callback,
+          );
+        }
+        else if (error is CancelError) {
+          return CustomErrorScreenWidget(message: error.message??S.of(context).error_cancel_token);
+        }
+        return UnexpectedErrorScreenWidget(
+          callback: callback,
         );
       }
-      // Bad Request Error
-      else if (error is BadRequestError) {
-        return BadRequestErrorScreenWidget();
-      }
-      // Forbidden Error
-      else if (error is ForbiddenError) {
-        return ForbiddenErrorScreenWidget();
-      }
-      // Internal Server Error
-      else if (error is InternalServerError) {
-        return InternalServerErrorScreenWidget(
-          callback: state.callback,
-        );
-      } else if (error is TimeoutError) {
-        return TimeoutErrorScreenWidget(
-          callback: state.callback,
-        );
-      }
-      else if (error is CancelError) {
-        return CustomErrorScreenWidget(message: error.message??S.of(context).error_cancel_token);
-      }
-    }
-    return UnexpectedErrorScreenWidget(
-      callback: state.callback,
     );
   }
 }

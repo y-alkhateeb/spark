@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spark/core/common/app_colors.dart';
-import 'package:spark/core/theme/light/text_style_light.dart';
+import '../common/resource.dart';
 
 class MoreItem extends StatelessWidget {
   final String image;
@@ -20,18 +19,18 @@ class MoreItem extends StatelessWidget {
       children: <Widget>[
         FlatButton(
           highlightColor: Colors.transparent,
-          splashColor: AppColors.accentColor,
+          splashColor: context.colors.onSurface,
           onPressed: onPressed ?? () {},
           child: ListTile(
-            leading: Image.asset(
-              image,
-              color: AppColors.primaryColor,
-              height: 30,
-            ),
+            // leading: Image.asset(
+            //   image,
+            //   color: context.colors.onSurface,
+            //   height: 10,
+            // ),
             title: Text(
               title,
               textScaleFactor: 1.0,
-              style: TextStyleLight().headline24
+              style: context.textTheme.headline4,
             ),
           ),
         ),

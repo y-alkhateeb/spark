@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
@@ -11,21 +10,28 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  checkToken(AppConfigState state) {
-    Future.delayed(const Duration(seconds: 4), () async {
-      if (await state.isUserAuthenticated) {
-        Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+
+  @override
+  void initState() {
+    super.initState();
+    checkToken();
+  }
+
+  checkToken() {
+    Future.delayed(const Duration(seconds: 4), () async{
+      if (await BlocProvider.of<AppConfigCubit>(context,listen: false).hasToken) {
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
       } else
-        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<AppConfigCubit, AppConfigState>(
         builder: (context, state) {
-          checkToken(state);
         return Container(
           height: double.maxFinite,
           width: double.maxFinite,
@@ -45,7 +51,8 @@ class _SplashState extends State<Splash> {
               children: <Widget>[
                 SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Container()),
+                    child: Container(),
+                ),
               ],
             ),
           ),

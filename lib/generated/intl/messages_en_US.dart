@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_unknown_happened" : MessageLookupByLibrary.simpleMessage("Unknown error happened"),
     "label_Login" : MessageLookupByLibrary.simpleMessage("Login"),
     "label_change_language" : MessageLookupByLibrary.simpleMessage("Change language"),
+    "label_change_theme" : MessageLookupByLibrary.simpleMessage("Change theme"),
     "label_confirm_password" : MessageLookupByLibrary.simpleMessage("Confirm password"),
     "label_email" : MessageLookupByLibrary.simpleMessage("Email"),
     "label_first_name" : MessageLookupByLibrary.simpleMessage("First name"),

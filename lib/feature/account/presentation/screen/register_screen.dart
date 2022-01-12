@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/common/Utils.dart';
-import 'package:spark/core/common/app_colors.dart';
 import 'package:spark/core/common/dimens.dart';
 import 'package:spark/core/common/gaps.dart';
 import 'package:spark/core/common/validators.dart';
@@ -12,7 +11,8 @@ import 'package:spark/core/route/animated_route.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
 import 'package:spark/core/ui/show_error.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
-import 'package:spark/feature/account/presentation/viewModel/account_bloc.dart';
+import 'package:spark/feature/account/presentation/viewModel/account_register_cubit.dart';
+import 'package:spark/feature/account/presentation/viewModel/user_account_cubit.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
 import 'package:spark/feature/home/screen/home_page.dart';
 import 'package:spark/generated/l10n.dart';
@@ -27,6 +27,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final AccountRegisterCubit userAccountRegisterCubit = AccountRegisterCubit();
   bool _inAsyncCall = false;
   final cancelToken = CancelToken();
   final FocusNode myFocusNodeName = FocusNode();
@@ -52,20 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  bool turnPhoneOrEmailValidate = true;
-
-  bool turnPasswordValidate = true;
-
-  bool turnLastNameValidate = true;
-
-  bool turnNameValidate = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            S.of(context).label_sign_up
+            S.of(context).label_sign_up,
         ),
       ),
       body: Container(
@@ -77,32 +70,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: ModalProgressHUD(
           inAsyncCall: _inAsyncCall,
-          child: BlocListener(
+          child: BlocListener<AccountRegisterCubit, AccountRegisterState>(
+            bloc: userAccountRegisterCubit,
+            listenWhen: (c, p) => c != p,
             listener: (context, state) {
               "state is: $state ".logW;
-              if(state is RegisterAccountState){
-                if(state.registerAccountWaiting != null){
-                  setState(() {
-                    _inAsyncCall = true;
-                  });
-                }
-                if(state.registerAccountFailure != null){
-                  setState(() {
-                    _inAsyncCall = false;
-                  });
-                  ShowError.showErrorSnakBar(context,
-                      state.registerAccountFailure!.error,
-                      state.registerAccountFailure);
-                }
-                if(state.registerModel != null){
-                  setState(() {
-                    _inAsyncCall = false;
-                  });
-                  Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-                }
-              }
+              state.accountRegisterState.when(
+                  init: (){},
+                  loading: (){
+                    setState(() {
+                      _inAsyncCall = true;
+                    });
+                  },
+                  success: (data){
+                    setState(() {
+                      _inAsyncCall = false;
+                    });
+                    Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                  },
+                  failure: (_, __){
+                    setState(() {
+                      _inAsyncCall = false;
+                    });
+                    ShowError.showErrorSnakBar(context, state.accountRegisterState);
+                  },
+              );
             },
-            bloc: BlocProvider.of<AccountBloc>(context),
             child: _buildScreen(),
           ),
         ),
@@ -111,20 +104,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   _buildScreen(){
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Container(
-        height: MediaQuery.of(context).size.height -
-            kToolbarHeight -
-            MediaQuery.of(context).padding.top,
-        decoration: const BoxDecoration(
-          image: const DecorationImage(
-              image: const AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
-              fit: BoxFit.cover),
-        ),
+    return Container(
+      height: context.bodyHeight,
+      decoration: const BoxDecoration(
+        image: const DecorationImage(
+            image: const AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
+            fit: BoxFit.cover),
+      ),
+      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.dp32, vertical: Dimens.dp32),
+              horizontal: Dimens.dp32),
           child: Column(
             children: <Widget>[
               SlidingAnimated(
@@ -161,16 +151,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 intervalEnd: 0.8,
                 child: _buildConfirmPasswordField(),
               ),
-              Gaps.vGap128,
+              Gaps.vGap64,
               SlidingAnimated(
                 initialOffsetX: 1,
                 intervalStart: 0.2,
                 intervalEnd: 1,
                 child: CustomButton(
-                  color: AppColors.greenColor,
+                  color: context.colors.secondary,
                   text: S.of(context)
                       .label_sign_up,
-                  textColor: AppColors.lightFontColor,
+                  textColor: context.colors.background,
                   onPressed: () {
                     sendRequest();
                   },
@@ -196,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _buildNameField() {
     return MyTextFormField(
-      color: AppColors.regularFontColor,
+      color: context.colors.onSecondary,
       formKey: _nameKey,
       controller: _nameController,
       textInputAction: TextInputAction.next,
@@ -204,31 +194,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       focusNode: myFocusNodeName,
       labelText: S.of(context).label_first_name,
       validator: (value) {
-        if (turnNameValidate) {
           if (Validators.isValidName(value!))
             return null;
           else
             return S.of(context).error_inValid_name;
-        } else
-          return null;
       },
       onFieldSubmitted: (term) {
         fieldFocusChange(context, myFocusNodeName, myFocusNodeLastName);
-      },
-      onChanged: (value) {
-        if (turnNameValidate) {
-          setState(() {
-            turnNameValidate = false;
-          });
-          _nameKey.currentState!.validate();
-        }
       },
     );
   }
 
   _buildLastNameField() {
     return MyTextFormField(
-      color: AppColors.regularFontColor,
+      color: context.colors.onSecondary,
       formKey: _lastNameKey,
       controller: _lastNameController,
       textInputAction: TextInputAction.next,
@@ -236,31 +215,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       focusNode: myFocusNodeLastName,
       labelText: S.of(context).label_last_name,
       validator: (value) {
-        if (turnLastNameValidate) {
           if (Validators.isValidName(value!))
             return null;
           else
             return S.of(context).error_inValid_name;
-        } else
-          return null;
       },
       onFieldSubmitted: (term) {
         fieldFocusChange(context, myFocusNodeLastName, myFocusNodePhoneOrEmail);
-      },
-      onChanged: (value) {
-        if (turnLastNameValidate) {
-          setState(() {
-            turnLastNameValidate = false;
-          });
-          _lastNameKey.currentState!.validate();
-        }
       },
     );
   }
 
   _buildPhoneField() {
     return MyTextFormField(
-      color: AppColors.regularFontColor,
+      color: context.colors.onSecondary,
       formKey: _phoneOrEmailKey,
       controller: _phoneOrEmailController,
       textInputAction: TextInputAction.next,
@@ -269,24 +237,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       hintText: "09X-XXX-XXXX",
       labelText: S.of(context).label_phone,
       validator: (value) {
-        if (turnPhoneOrEmailValidate) {
           if (Validators.isValidPhoneNumber(value!))
             return null;
           else
             return S.of(context).error_inValid_phone;
-        } else
-          return null;
       },
       onFieldSubmitted: (term) {
         fieldFocusChange(context, myFocusNodePhoneOrEmail, myFocusNodePassword);
-      },
-      onChanged: (value) {
-        if (turnPhoneOrEmailValidate) {
-          setState(() {
-            turnPhoneOrEmailValidate = false;
-          });
-          _phoneOrEmailKey.currentState!.validate();
-        }
       },
     );
   }
@@ -325,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _buildPasswordField() {
     return MyTextFormField(
-      color: AppColors.regularFontColor,
+      color: context.colors.onSecondary,
       formKey: _passwordKey,
       controller: _passwordController,
       textInputAction: TextInputAction.next,
@@ -335,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       suffixIcon: IconButton(
           icon: Icon(
             _passwordSecure ? Icons.visibility : Icons.visibility_off,
-            color: AppColors.regularFontColor,
+            color: context.colors.onSecondary,
           ),
           onPressed: () {
             setState(() {
@@ -347,21 +304,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             context, myFocusNodePassword, myFocusNodeConfirmPassword);
       },
       validator: (value) {
-        if (turnPasswordValidate) {
           if (Validators.isValidPassword(value!))
             return null;
           else
             return S.of(context).error_password_short;
-        } else
-          return null;
-      },
-      onChanged: (val) {
-        if (turnPasswordValidate) {
-          setState(() {
-            turnPasswordValidate = false;
-          });
-          _passwordKey.currentState!.validate();
-        }
+
       },
       obscureText: _passwordSecure,
     );
@@ -369,7 +316,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _buildConfirmPasswordField() {
     return MyTextFormField(
-      color: AppColors.regularFontColor,
+      color: context.colors.onSecondary,
       formKey: _confirmPasswordKey,
       controller: _confirmPasswordController,
       textInputAction: TextInputAction.go,
@@ -379,7 +326,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       suffixIcon: IconButton(
           icon: Icon(
             _confirmPasswordSecure ? Icons.visibility : Icons.visibility_off,
-            color: AppColors.regularFontColor,
+            color: context.colors.onSecondary,
           ),
           onPressed: () {
             setState(() {
@@ -395,39 +342,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       onFieldSubmitted: (term) {
         sendRequest();
       },
-      onChanged: (value) {
-        _passwordKey.currentState!.validate();
-      },
       obscureText: _confirmPasswordSecure,
     );
   }
 
   sendRequest() {
     unFocus();
-    setState(() {
-      turnPhoneOrEmailValidate = true;
-
-      turnPasswordValidate = true;
-
-      turnLastNameValidate = true;
-
-      turnNameValidate = true;
-    });
-
     if (_nameKey.currentState!.validate()) {
      if (_lastNameKey.currentState!.validate()) {
       if (_phoneOrEmailKey.currentState!.validate()) {
         if (_passwordKey.currentState!.validate()) {
           if (_confirmPasswordKey.currentState!.validate()) {
-            BlocProvider.of<AccountBloc>(context).add(
-              RegisterAccountEvent(RegisterRequest(
-                  firstName: _nameController.text,
-                  lastName: _lastNameController.text,
-                  phoneNumber: _phoneOrEmailController.text.
-                  replaceAll(RegExp("[^0-9]"), ""),
-                  email: _phoneOrEmailController.text,
-                  password: _passwordController.text,
-                  cancelToken: cancelToken)),
+            userAccountRegisterCubit.registerAccount(
+                RegisterRequest(
+                    firstName: _nameController.text,
+                    lastName: _lastNameController.text,
+                    phoneNumber: _phoneOrEmailController.text.
+                    replaceAll(RegExp("[^0-9]"), ""),
+                    email: _phoneOrEmailController.text,
+                    password: _passwordController.text,
+                    cancelToken: cancelToken)
             );
           }
         }
@@ -450,5 +384,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _phoneOrEmailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    userAccountRegisterCubit.close();
   }
 }
