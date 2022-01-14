@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:spark/core/theme/dark/dark_theme_interface.dart';
 
 import 'light/light_theme_interface.dart';
 import '../theme/app_theme.dart';
 
-class AppThemeLight extends AppTheme with ILightTheme {
-  static AppThemeLight? _instance;
+class AppThemeDark extends AppTheme with IDarkTheme {
+  static AppThemeDark? _instance;
 
-  static AppThemeLight get instance {
-    return _instance ??= AppThemeLight._init();
+  static AppThemeDark get instance {
+    return _instance ??= AppThemeDark._init();
   }
 
-  AppThemeLight._init();
+  AppThemeDark._init();
 
   @override
   ThemeData get theme => ThemeData(
         colorScheme: _appColorScheme,
         textTheme: textTheme(),
-        appBarTheme: ThemeData.light().appBarTheme.copyWith(
+        shadowColor: _appColorScheme.primaryVariant,
+        dividerColor: _appColorScheme.primaryVariant,
+        appBarTheme: ThemeData.dark().appBarTheme.copyWith(
             color: _appColorScheme.primary,
-            elevation: 0,
+            elevation: 5,
             centerTitle: true,
+            shadowColor: _appColorScheme.primaryVariant,
             titleTextStyle: TextStyle(
               fontSize: textThemeLight!.headline1.fontSize,
               color: _appColorScheme.surface
@@ -35,11 +39,11 @@ class AppThemeLight extends AppTheme with ILightTheme {
           ),
           errorStyle: const TextStyle(height: 0.8),
         ),
-        scaffoldBackgroundColor: Color(0xfff1f3f8),
+        scaffoldBackgroundColor: _appColorScheme.primary,
         floatingActionButtonTheme:
-            ThemeData.light().floatingActionButtonTheme.copyWith(),
-        buttonTheme: ThemeData.light().buttonTheme.copyWith(
-              colorScheme: ColorScheme.light(
+            ThemeData.dark().floatingActionButtonTheme.copyWith(),
+        buttonTheme: ThemeData.dark().buttonTheme.copyWith(
+              colorScheme: ColorScheme.dark(
                 onError: Color(0xffFF2D55),
               ),
             ),
@@ -58,7 +62,7 @@ class AppThemeLight extends AppTheme with ILightTheme {
   }
 
   TextTheme textTheme() {
-    return ThemeData.light().textTheme.copyWith(
+    return ThemeData.dark().textTheme.copyWith(
         headline1: textThemeLight!.headline1,
         headline2: textThemeLight!.headline2,
         headline3: textThemeLight!.headline3,
@@ -79,21 +83,21 @@ class AppThemeLight extends AppTheme with ILightTheme {
         primary: colorSchemeLight!.black,
         primaryVariant: Colors.white,
         //
-        secondary: Colors.green,
+        secondary: Colors.blueAccent,
         secondaryVariant: colorSchemeLight!.azure,
         surface: Colors.blue,
         //
         background: Color(0xfff6f9fc),
         //
-        error: Colors.red[900]!,
-        onPrimary: Colors.greenAccent,
-        onSecondary: Colors.black,
+        error: Colors.red,
+        onPrimary: Colors.white38,
+        onSecondary: Colors.black54,
         //
         onSurface: Colors.white30,
         onBackground: Colors.black12,
-        onError: Color(0xFFF9B916),
+        onError:Colors.limeAccent,
         //
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
     );
   }
 }

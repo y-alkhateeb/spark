@@ -31,9 +31,7 @@ dependencies:
   # Pretty Dio logger is a Dio interceptor that logs network calls in a pretty, easy to read format
   pretty_dio_logger: ^1.2.0-beta-1
   # adapting screen and font size
-  flutter_screenutil:
-    git:
-      url: git://github.com/OpenFlutter/flutter_screenutil.git
+  flutter_screenutil: 5.0.4
   # scroll component drop-down refresh
   pull_to_refresh:
     git:

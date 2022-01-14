@@ -252,11 +252,9 @@ packages:
   flutter_screenutil:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "717d4b2d96743abba9fc88b379af8e3bba48b7ff"
-      url: "git://github.com/OpenFlutter/flutter_screenutil.git"
-    source: git
+      name: flutter_screenutil
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "5.0.4"
   flutter_test:
     dependency: "direct dev"

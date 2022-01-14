@@ -17,9 +17,10 @@ class MoreItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FlatButton(
-          highlightColor: Colors.transparent,
-          splashColor: context.colors.onSurface,
+        TextButton(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
           onPressed: onPressed ?? () {},
           child: ListTile(
             // leading: Image.asset(
@@ -29,7 +30,6 @@ class MoreItem extends StatelessWidget {
             // ),
             title: Text(
               title,
-              textScaleFactor: 1.0,
               style: context.textTheme.headline4,
             ),
           ),

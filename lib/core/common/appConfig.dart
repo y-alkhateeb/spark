@@ -4,6 +4,7 @@ import 'package:package_info/package_info.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/constants/enums/app_theme_enum.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
+import 'package:spark/core/theme/app_theme_dark.dart';
 import 'package:spark/core/theme/app_theme_light.dart';
 
 class AppConfig extends ChangeNotifier{
@@ -75,19 +76,10 @@ class AppConfig extends ChangeNotifier{
 
   ThemeData get currentTheme => _currentTheme ?? AppThemeLight.instance.theme;
 
-  void changeValue(AppThemes theme) {
-    if (theme == AppThemes.LIGHT) {
-      _currentTheme = ThemeData.light();
-    } else {
-      _currentTheme = ThemeData.dark();
-    }
-    notifyListeners();
-  }
-
   /// Change your app theme with [currentThemeEnum] value.
   void changeTheme() {
     if (_currentThemeEnum == AppThemes.LIGHT) {
-      _currentTheme = ThemeData.dark();
+      _currentTheme = AppThemeDark.instance.theme;
       _currentThemeEnum = AppThemes.DARK;
     } else {
       _currentTheme = AppThemeLight.instance.theme;
