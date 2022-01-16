@@ -5,7 +5,7 @@ part 'base_state.freezed.dart';
 
 @immutable
 @freezed
-abstract class BaseState<T> with _$BaseState<T>{
+class BaseState<T> with _$BaseState<T>{
   const factory BaseState.init() = _Init;
   const factory BaseState.loading() = _Loading;
   const factory BaseState.success([T? model]) = _Success<T>;

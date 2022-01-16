@@ -1,10 +1,12 @@
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
-import 'feature/account/presentation/screen/login_screen.dart';
-import 'feature/home/screen/home_page.dart';
+import 'core/datasource/sp_helper.dart';
+import 'core/navigation/base_route.gr.dart';
 
 class Splash extends StatefulWidget {
+  static const routeName = "/splash";
   @override
   _SplashState createState() => _SplashState();
 }
@@ -15,14 +17,17 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     checkToken();
+
   }
 
   checkToken() {
     Future.delayed(const Duration(seconds: 4), () async{
-      if (await BlocProvider.of<AppConfigCubit>(context,listen: false).hasToken) {
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      if (await SPHelper.hasToken) {
+        context.router.replace(BottomBarParent());
+        // HomeNS().replacementToPage(path: BottomBar.routeName);
       } else
-      Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+        context.router.replace(LoginScreenRoute());
+        // HomeNS().replacementToPage(path: LoginScreen.routeName);
     });
   }
 

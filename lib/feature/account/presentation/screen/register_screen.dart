@@ -1,21 +1,15 @@
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/common/Utils.dart';
-import 'package:spark/core/common/dimens.dart';
-import 'package:spark/core/common/gaps.dart';
 import 'package:spark/core/common/validators.dart';
-import 'package:spark/core/constants/app/app_constants.dart';
+import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/core/route/animated_route.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
-import 'package:spark/core/ui/show_error.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/presentation/viewModel/account_register_cubit.dart';
-import 'package:spark/feature/account/presentation/viewModel/user_account_cubit.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
-import 'package:spark/feature/home/screen/home_page.dart';
-import 'package:spark/generated/l10n.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import './../../../../core/common/resource.dart';
 
@@ -86,7 +80,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     setState(() {
                       _inAsyncCall = false;
                     });
-                    Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+                    context.router.replace(BottomBarParent());
+                    // Navigator.of(context).pushReplacementNamed(BottomBar.routeName);
                   },
                   failure: (_, __){
                     setState(() {

@@ -1,67 +1,60 @@
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
 import 'package:spark/core/common/appConfig.dart';
-import 'package:spark/core/constants/app/app_constants.dart';
+import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/model/lanuage_model.dart';
+import 'package:spark/core/navigation/base_route.gr.dart';
+import 'package:spark/core/navigation/more_navigation_service.dart';
 import 'package:spark/core/ui/more_item.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
-import '../../../core/common/resource.dart';
 
-
-class HomePage extends StatefulWidget {
-  static const routeName = "/Home";
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage>{
+class HomeScreen extends StatelessWidget {
+  static const routeName = "HomeScreen";
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Spark"),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MoreItem(
-            title: "just log",
-            image: ApplicationConstants.MENU_LOGOUT,
-            onPressed: () async {
-              "we are resource".logE;
-            },
-          ),
-          MoreItem(
-            title: S.of(context).label_change_language,
-            image: ApplicationConstants.MENU_LOGOUT,
-            onPressed: () async {
-              _buildChangeLanguage();
-            },
-          ),
-          MoreItem(
-            title: S.of(context).label_change_theme,
-            image: ApplicationConstants.MENU_LOGOUT,
-            onPressed: () async {
-              context.read<AppConfig>().changeTheme();
-            },
-          ),
-          MoreItem(
-            title: S.of(context).label_logout,
-            image: ApplicationConstants.MENU_LOGOUT,
-            onPressed: () async {
-              BlocProvider.of<AppConfigCubit>(context,listen: false).userLogout();
-            },
-          ),
-        ],
-      ),
-    );
+    return Scaffold(body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MoreItem(
+          title: "navigate To ScreenOne",
+          image: ApplicationConstants.MENU_LOGOUT,
+          onPressed: () async {
+            context.router.push(ScreenOneRoute());
+            // MoreNS().navigateToPage(path: ScreenOne.routeName);
+            "we are resource".logE;
+          },
+        ),
+        MoreItem(
+          title: S.of(context).label_change_language,
+          image: ApplicationConstants.MENU_LOGOUT,
+          onPressed: () async {
+            _buildChangeLanguage(context);
+          },
+        ),
+        MoreItem(
+          title: S.of(context).label_change_theme,
+          image: ApplicationConstants.MENU_LOGOUT,
+          onPressed: () async {
+            context.read<AppConfig>().changeTheme();
+          },
+        ),
+        MoreItem(
+          title: S.of(context).label_logout,
+          image: ApplicationConstants.MENU_LOGOUT,
+          onPressed: () async {
+            BlocProvider.of<AppConfigCubit>(context,listen: false).userLogout();
+          },
+        ),
+      ],
+    ),);
   }
 
-  _buildChangeLanguage() {
+  _buildChangeLanguage(BuildContext context) {
     int? _currentLangValue =
     Localizations.localeOf(context).languageCode == ApplicationConstants.LANG_AR
         ? LanguageModel.getLanguage().first.languageId

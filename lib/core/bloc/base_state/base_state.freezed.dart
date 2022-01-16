@@ -1,5 +1,7 @@
+// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'base_state.dart';
 
@@ -30,7 +32,7 @@ class _$BaseStateTearOff {
     );
   }
 
-  _Failure<T> failure<T>(BaseError error, void Function() callback) {
+  _Failure<T> failure<T>(BaseError error, VoidCallback callback) {
     return _Failure<T>(
       error,
       callback,
@@ -48,8 +50,15 @@ mixin _$BaseState<T> {
     required TResult Function() init,
     required TResult Function() loading,
     required TResult Function(T? model) success,
-    required TResult Function(BaseError error, void Function() callback)
-        failure,
+    required TResult Function(BaseError error, VoidCallback callback) failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? loading,
+    TResult Function(T? model)? success,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,7 +66,7 @@ mixin _$BaseState<T> {
     TResult Function()? init,
     TResult Function()? loading,
     TResult Function(T? model)? success,
-    TResult Function(BaseError error, void Function() callback)? failure,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -67,6 +76,14 @@ mixin _$BaseState<T> {
     required TResult Function(_Loading<T> value) loading,
     required TResult Function(_Success<T> value) success,
     required TResult Function(_Failure<T> value) failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init<T> value)? init,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_Success<T> value)? success,
+    TResult Function(_Failure<T> value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -124,7 +141,8 @@ class _$_Init<T> implements _Init<T> {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Init<T>);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _Init<T>);
   }
 
   @override
@@ -136,10 +154,20 @@ class _$_Init<T> implements _Init<T> {
     required TResult Function() init,
     required TResult Function() loading,
     required TResult Function(T? model) success,
-    required TResult Function(BaseError error, void Function() callback)
-        failure,
+    required TResult Function(BaseError error, VoidCallback callback) failure,
   }) {
     return init();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? loading,
+    TResult Function(T? model)? success,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
+  }) {
+    return init?.call();
   }
 
   @override
@@ -148,7 +176,7 @@ class _$_Init<T> implements _Init<T> {
     TResult Function()? init,
     TResult Function()? loading,
     TResult Function(T? model)? success,
-    TResult Function(BaseError error, void Function() callback)? failure,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
     required TResult orElse(),
   }) {
     if (init != null) {
@@ -166,6 +194,17 @@ class _$_Init<T> implements _Init<T> {
     required TResult Function(_Failure<T> value) failure,
   }) {
     return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init<T> value)? init,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_Success<T> value)? success,
+    TResult Function(_Failure<T> value)? failure,
+  }) {
+    return init?.call(this);
   }
 
   @override
@@ -217,7 +256,8 @@ class _$_Loading<T> implements _Loading<T> {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _Loading<T>);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _Loading<T>);
   }
 
   @override
@@ -229,10 +269,20 @@ class _$_Loading<T> implements _Loading<T> {
     required TResult Function() init,
     required TResult Function() loading,
     required TResult Function(T? model) success,
-    required TResult Function(BaseError error, void Function() callback)
-        failure,
+    required TResult Function(BaseError error, VoidCallback callback) failure,
   }) {
     return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? loading,
+    TResult Function(T? model)? success,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
+  }) {
+    return loading?.call();
   }
 
   @override
@@ -241,7 +291,7 @@ class _$_Loading<T> implements _Loading<T> {
     TResult Function()? init,
     TResult Function()? loading,
     TResult Function(T? model)? success,
-    TResult Function(BaseError error, void Function() callback)? failure,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -259,6 +309,17 @@ class _$_Loading<T> implements _Loading<T> {
     required TResult Function(_Failure<T> value) failure,
   }) {
     return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init<T> value)? init,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_Success<T> value)? success,
+    TResult Function(_Failure<T> value)? failure,
+  }) {
+    return loading?.call(this);
   }
 
   @override
@@ -327,14 +388,14 @@ class _$_Success<T> implements _Success<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Success<T> &&
-            (identical(other.model, model) ||
-                const DeepCollectionEquality().equals(other.model, model)));
+        (other.runtimeType == runtimeType &&
+            other is _Success<T> &&
+            const DeepCollectionEquality().equals(other.model, model));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(model);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(model));
 
   @JsonKey(ignore: true)
   @override
@@ -347,10 +408,20 @@ class _$_Success<T> implements _Success<T> {
     required TResult Function() init,
     required TResult Function() loading,
     required TResult Function(T? model) success,
-    required TResult Function(BaseError error, void Function() callback)
-        failure,
+    required TResult Function(BaseError error, VoidCallback callback) failure,
   }) {
     return success(model);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? loading,
+    TResult Function(T? model)? success,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
+  }) {
+    return success?.call(model);
   }
 
   @override
@@ -359,7 +430,7 @@ class _$_Success<T> implements _Success<T> {
     TResult Function()? init,
     TResult Function()? loading,
     TResult Function(T? model)? success,
-    TResult Function(BaseError error, void Function() callback)? failure,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -381,6 +452,17 @@ class _$_Success<T> implements _Success<T> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init<T> value)? init,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_Success<T> value)? success,
+    TResult Function(_Failure<T> value)? failure,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init<T> value)? init,
     TResult Function(_Loading<T> value)? loading,
@@ -398,7 +480,7 @@ class _$_Success<T> implements _Success<T> {
 abstract class _Success<T> implements BaseState<T> {
   const factory _Success([T? model]) = _$_Success<T>;
 
-  T? get model => throw _privateConstructorUsedError;
+  T? get model;
   @JsonKey(ignore: true)
   _$SuccessCopyWith<T, _Success<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -409,7 +491,7 @@ abstract class _$FailureCopyWith<T, $Res> {
   factory _$FailureCopyWith(
           _Failure<T> value, $Res Function(_Failure<T>) then) =
       __$FailureCopyWithImpl<T, $Res>;
-  $Res call({BaseError error, void Function() callback});
+  $Res call({BaseError error, VoidCallback callback});
 }
 
 /// @nodoc
@@ -434,7 +516,7 @@ class __$FailureCopyWithImpl<T, $Res> extends _$BaseStateCopyWithImpl<T, $Res>
       callback == freezed
           ? _value.callback
           : callback // ignore: cast_nullable_to_non_nullable
-              as void Function(),
+              as VoidCallback,
     ));
   }
 }
@@ -447,7 +529,7 @@ class _$_Failure<T> implements _Failure<T> {
   @override
   final BaseError error;
   @override
-  final void Function() callback;
+  final VoidCallback callback;
 
   @override
   String toString() {
@@ -457,19 +539,16 @@ class _$_Failure<T> implements _Failure<T> {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Failure<T> &&
-            (identical(other.error, error) ||
-                const DeepCollectionEquality().equals(other.error, error)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Failure<T> &&
+            const DeepCollectionEquality().equals(other.error, error) &&
             (identical(other.callback, callback) ||
-                const DeepCollectionEquality()
-                    .equals(other.callback, callback)));
+                other.callback == callback));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(error) ^
-      const DeepCollectionEquality().hash(callback);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(error), callback);
 
   @JsonKey(ignore: true)
   @override
@@ -482,10 +561,20 @@ class _$_Failure<T> implements _Failure<T> {
     required TResult Function() init,
     required TResult Function() loading,
     required TResult Function(T? model) success,
-    required TResult Function(BaseError error, void Function() callback)
-        failure,
+    required TResult Function(BaseError error, VoidCallback callback) failure,
   }) {
     return failure(error, callback);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? loading,
+    TResult Function(T? model)? success,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
+  }) {
+    return failure?.call(error, callback);
   }
 
   @override
@@ -494,7 +583,7 @@ class _$_Failure<T> implements _Failure<T> {
     TResult Function()? init,
     TResult Function()? loading,
     TResult Function(T? model)? success,
-    TResult Function(BaseError error, void Function() callback)? failure,
+    TResult Function(BaseError error, VoidCallback callback)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -516,6 +605,17 @@ class _$_Failure<T> implements _Failure<T> {
 
   @override
   @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Init<T> value)? init,
+    TResult Function(_Loading<T> value)? loading,
+    TResult Function(_Success<T> value)? success,
+    TResult Function(_Failure<T> value)? failure,
+  }) {
+    return failure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Init<T> value)? init,
     TResult Function(_Loading<T> value)? loading,
@@ -531,11 +631,11 @@ class _$_Failure<T> implements _Failure<T> {
 }
 
 abstract class _Failure<T> implements BaseState<T> {
-  const factory _Failure(BaseError error, void Function() callback) =
+  const factory _Failure(BaseError error, VoidCallback callback) =
       _$_Failure<T>;
 
-  BaseError get error => throw _privateConstructorUsedError;
-  void Function() get callback => throw _privateConstructorUsedError;
+  BaseError get error;
+  VoidCallback get callback;
   @JsonKey(ignore: true)
   _$FailureCopyWith<T, _Failure<T>> get copyWith =>
       throw _privateConstructorUsedError;

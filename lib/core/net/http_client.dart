@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
-import 'package:spark/core/navigation/navigation_service.dart';
+import 'package:spark/core/navigation/home_navigation_service.dart';
 import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
 import '../errors/base_error.dart';
@@ -212,7 +212,7 @@ class HttpClient{
         error.type == DioErrorType.receiveTimeout) {
       return TimeoutError();
     } else if (error.type == DioErrorType.cancel) {
-      return CancelError(S.of(Navi().context).error_cancel_token);
+      return CancelError(S.of(HomeNS().context).error_cancel_token);
     } else
       return UnknownError();
     }

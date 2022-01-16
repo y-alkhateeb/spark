@@ -31,7 +31,7 @@ dependencies:
   # Pretty Dio logger is a Dio interceptor that logs network calls in a pretty, easy to read format
   pretty_dio_logger: ^1.2.0-beta-1
   # adapting screen and font size
-  flutter_screenutil: 5.0.4
+  flutter_screenutil: 5.1.0
   # scroll component drop-down refresh
   pull_to_refresh:
     git:
@@ -51,12 +51,16 @@ dependencies:
   encrypt: ^5.0.1
   # Flutter Modal Bottom Sheet
   modal_bottom_sheet: ^2.0.0
-
+  # a Flutter navigation package, it allows for strongly-typed arguments passing,
+  # effortless deep-linking and it uses code generation to simplify routes setup
+  auto_route: ^3.2.1
   cupertino_icons: ^1.0.4
   freezed_annotation: ^1.1.0
 
 
+
 dev_dependencies:
+  auto_route_generator: ^3.2.1
   build_runner: ^2.1.7
   json_serializable: ^6.1.3
   freezed: ^1.1.1

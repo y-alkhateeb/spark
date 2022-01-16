@@ -5,11 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark/core/common/appConfig.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:provider/provider.dart';
+import 'core/navigation/base_route.gr.dart';
 import 'splash.dart';
 import 'core/common/provider_list.dart';
-import 'core/navigation/navigation_route.dart';
-import 'core/navigation/navigation_service.dart';
+import 'core/navigation/home_navigation_service.dart';
 import 'generated/l10n.dart';
+
+final appRouter = AppRouter();
 
 class App extends StatelessWidget {
   @override
@@ -17,6 +19,8 @@ class App extends StatelessWidget {
     return ScreenUtilInit(
       /// [Size] must be set like as Figma or XD design
       designSize: Size(847, 412),
+      minTextAdapt: true,
+      splitScreenMode: true,
       builder: () => MultiProvider(
         providers: [
           ...ApplicationProvider().singleItems,
@@ -25,14 +29,12 @@ class App extends StatelessWidget {
         ],
         child: Consumer<AppConfig>(
           builder: (context, provider, __) {
-            return MaterialApp(
+            return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               title: ApplicationConstants.TITLE_APP_NAME,
               theme: provider.currentTheme,
-              // set this Widget as root
-              initialRoute: '/',
-              navigatorKey: Navi().navigatorKey,
-              onGenerateRoute: NavigationRoute.instance.generateRoute,
+              routerDelegate: appRouter.delegate(),
+              routeInformationParser: appRouter.defaultRouteParser(),
               supportedLocales: S.delegate.supportedLocales,
               locale: provider.appLocal,
               // These delegates make sure that the localization data for the proper language is loaded
@@ -47,7 +49,6 @@ class App extends StatelessWidget {
                 DefaultCupertinoLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate
               ],
-              home: Splash(),
             );
           },
         ),

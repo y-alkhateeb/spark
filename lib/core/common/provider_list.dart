@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
-import 'package:spark/core/navigation/navigation_service.dart';
+import 'package:spark/core/navigation/home_navigation_service.dart';
 import 'package:provider/provider.dart';
 import 'appConfig.dart';
 import 'package:provider/single_child_widget.dart';
@@ -13,7 +13,7 @@ class ApplicationProvider {
   factory ApplicationProvider() => _instance;
 
   List<SingleChildWidget> singleItems = [
-    Provider.value(value: Navi()),
+    Provider.value(value: HomeNS()),
   ];
   List<SingleChildWidget> blocItems = [
     BlocProvider(
