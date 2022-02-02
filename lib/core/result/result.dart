@@ -12,6 +12,11 @@ class Result<Error extends BaseError, Data> {
   /// checks whether an error is present
   bool get hasErrorOnly => data == null && error != null;
 
+  @override
+  String toString() {
+    return 'Result{data: $data, error: $error}';
+  }
+
   /// checks whether data and error is present
   /// error from network data source and data from cache data source
   bool get hasDataAndError => data != null && error != null;
@@ -31,6 +36,13 @@ class Result<Error extends BaseError, Data> {
       data: data,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Result && runtimeType == other.runtimeType && data == other.data && error == other.error;
+
+  @override
+  int get hashCode => data.hashCode ^ error.hashCode;
 
   /// returns error and data
   factory Result.dataWithError(Data? data,Error error) {

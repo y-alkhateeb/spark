@@ -12,9 +12,25 @@ class LoginModel extends BaseModel<LoginModel>{
   });
 
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LoginModel &&
+          runtimeType == other.runtimeType &&
+          token == other.token &&
+          account == other.account;
+
+  @override
+  int get hashCode => token.hashCode ^ account.hashCode;
+
   factory LoginModel.fromMap(Map<String, dynamic> json) => LoginModel(
     token: json["token"] == null ? null : json["token"],
   );
+
+  @override
+  String toString() {
+    return 'LoginModel{token: $token, account: $account}';
+  }
 
   @override
   Map<String, dynamic> toMap() => {
@@ -54,4 +70,21 @@ class AccountModel {
     "name": name == null ? null : name,
     "imageUrl": imageUrl == null ? null : imageUrl,
   };
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AccountModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          imageUrl == other.imageUrl;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ imageUrl.hashCode;
+
+  @override
+  String toString() {
+    return 'AccountModel{id: $id, name: $name, imageUrl: $imageUrl}';
+  }
 }
