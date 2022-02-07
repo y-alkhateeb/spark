@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/constants/enums/app_theme_enum.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
