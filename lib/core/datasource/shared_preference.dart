@@ -15,10 +15,10 @@ class SpUtil {
     _spf = await SharedPreferences.getInstance();
   }
 
-  static Future<SpUtil> getInstance() async {
+  static SpUtil getInstance()  {
     if (_instance == null) {
       _instance = new SpUtil._();
-      await _instance!._init();
+       _instance!._init();
     }
     return _instance!;
   }

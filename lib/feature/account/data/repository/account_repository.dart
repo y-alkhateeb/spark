@@ -1,11 +1,5 @@
-import 'package:dartz/dartz.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
 import 'package:spark/core/datasource/sp_helper.dart';
 import 'package:spark/core/errors/base_error.dart';
-import 'package:spark/core/errors/unknown_error.dart';
-import 'package:spark/core/navigation/home_navigation_service.dart';
-import 'package:spark/core/repository/Repository.dart';
 import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/datasources/iaccount_remote.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
@@ -14,9 +8,7 @@ import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/data/model/response/register_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
 
-import '../../../../app.dart';
-
-class AccountRepository with Repository implements IAccountRepository{
+class AccountRepository implements IAccountRepository{
   final IAccountRemoteSource iAccountRemoteSource;
 
   AccountRepository(this.iAccountRemoteSource);
@@ -25,33 +17,19 @@ class AccountRepository with Repository implements IAccountRepository{
   @override
   Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
     final remote = await iAccountRemoteSource.login(loginRequest);
-    if (remote.isLeft()) {
-      return Result.error((remote as Left<BaseError, LoginModel>).value);
-    }
-    if (remote.isRight()) {
-    final data = (remote as Right<BaseError, LoginModel>).value;
+    if (remote.hasDataOnly) {
       // Persist token if exists.
-      if (data.token != null && data.token!.isNotEmpty) {
-        await SPHelper.persistToken(data.token!);
+      if (remote.data!.token != null && remote.data!.token!.isNotEmpty) {
+        SPHelper.persistToken(remote.data!.token!);
       }
-      return Result.data(data);
     }
-    else {
-      return Result.error(UnknownError());
-    }
+    return remote;
   }
 
   @override
   Future<Result<BaseError, RegisterModel>> register(
       RegisterRequest registerRequest) async {
-    final remote = await iAccountRemoteSource.register(registerRequest);
-    if(remote.isLeft()){
-      return Result.error((remote as Left<BaseError, RegisterModel>).value);
-    }
-    if(remote.isRight()){
-      return Result.data((remote as Right<BaseError, RegisterModel>).value);
-    }
-    else return Result.error(UnknownError());
+    return await iAccountRemoteSource.register(registerRequest);
   }
 
   @override

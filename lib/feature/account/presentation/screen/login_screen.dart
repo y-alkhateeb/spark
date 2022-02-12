@@ -99,9 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: context.colors.secondary,
                     text: S.of(context).label_Login,
                     textColor: context.colors.background,
-                    onPressed: () {
-                      sendRequest();
-                    },
+                    onPressed: sendRequest,
                   ),
                   Gaps.vGap64,
                   Row(

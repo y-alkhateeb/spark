@@ -1,25 +1,26 @@
-import 'package:dartz/dartz.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/core/constants/enums/http_method.dart';
 import 'package:spark/core/net/api_url.dart';
+import 'package:spark/core/net/http_client.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/data/model/response/register_model.dart';
 
+import '../../../../core/result/result.dart';
 import 'iaccount_remote.dart';
 
-class AccountRemoteSource extends IAccountRemoteSource {
+class AccountRemoteSource extends IAccountRemoteSource{
 
   @override
-  Future<Either<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
-    return await request<LoginModel, dynamic>(
+  Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
+    return await GetIt.I<HttpClient>().requestMapResponse<LoginModel>(
       converter: (json) => LoginModel.fromMap(json),
       method: HttpMethod.POST,
       url: LOGIN_URL,
-      model: LoginModel(),
       body: loginRequest.toMap(),
       cancelToken: loginRequest.cancelToken,
     );
@@ -27,9 +28,9 @@ class AccountRemoteSource extends IAccountRemoteSource {
 
 
   @override
-  Future<Either<BaseError, RegisterModel>> register(
+  Future<Result<BaseError, RegisterModel>> register(
       RegisterRequest registerRequest) async {
-    return await request<RegisterModel, dynamic>(
+    return await GetIt.I<HttpClient>().requestMapResponse<RegisterModel>(
       converter: (json) => RegisterModel.fromMap(json),
       method: HttpMethod.POST,
       url: "ACCOUNT_REGISTER",

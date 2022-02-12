@@ -62,6 +62,12 @@ class Result<Error extends BaseError, Data> {
   }
 
 
+  fold(Result onError(Error error), Result onData(Data data)) {
+    if(hasDataOnly)
+    return onData;
+    else return onError;
+  }
+
   /// Cherry pick values
   ///
   /// onError will return error, if present

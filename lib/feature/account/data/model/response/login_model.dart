@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:spark/core/model/base_model.dart';
+import 'package:spark/core/net/model/base_model.dart';
 
 class LoginModel extends BaseModel<LoginModel>{
   final String? token;

@@ -1,9 +1,8 @@
-import 'package:dartz/dartz.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/errors/base_error.dart';
-import 'package:spark/core/constants/enums/http_method.dart';
 import 'package:spark/core/errors/custom_error.dart';
+import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/data/model/response/login_model.dart';
@@ -14,11 +13,11 @@ import 'iaccount_remote.dart';
 class AccountRemoteSource extends IAccountRemoteSource {
 
   @override
-  Future<Either<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
+  Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
     await Future.delayed(Duration(seconds: 2));
     if(loginRequest.phoneNumber == "0950404087" &&
         loginRequest.password == "12345678"){
-      return Right(
+      return Result.data(
           LoginModel(
               account: AccountModel(
                   name: 'Yousef Alkhateeb',
@@ -28,20 +27,14 @@ class AccountRemoteSource extends IAccountRemoteSource {
               token: "token123"),
       );
     }
-    else return Left(CustomError(message: "Phone or password is wrong."));
+    else return Result.error(CustomError(message: "Phone or password is wrong."));
   }
 
 
   @override
-  Future<Either<BaseError, RegisterModel>> register(
+  Future<Result<BaseError, RegisterModel>> register(
       RegisterRequest registerRequest) async {
-    return await request<RegisterModel, dynamic>(
-      converter: (json) => RegisterModel.fromMap(json),
-      method: HttpMethod.POST,
-      url: "ACCOUNT_REGISTER",
-      body: registerRequest.toMap(),
-      cancelToken: registerRequest.cancelToken,
-    );
+    return Result.error(CustomError(message: "Phone or password is wrong."));
   }
 
 

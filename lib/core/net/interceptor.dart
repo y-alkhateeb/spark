@@ -4,9 +4,9 @@ import '../constants/app/app_constants.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
-  Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (await SPHelper.hasToken) {
-      final apiToken = await SPHelper.authToken;
+  Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async{
+    if (SPHelper.hasToken) {
+      final apiToken = SPHelper.authToken;
       options.headers[ApplicationConstants.HEADER_AUTH] = '$apiToken';
     }
     return super.onRequest(options, handler);
