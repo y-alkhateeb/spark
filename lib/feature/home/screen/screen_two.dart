@@ -10,8 +10,8 @@ class ScreenTwo extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          height: 412.w,
-          width: 380.w,
+          height: 412.h,
+          width: 350.w,
           color: Colors.amber,
           child: Text(
               "ScreenTwo",

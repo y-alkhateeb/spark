@@ -1,6 +1,5 @@
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
-import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/core/errors/custom_error.dart';
 import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
@@ -13,13 +12,13 @@ import 'iaccount_remote.dart';
 class AccountRemoteSource extends IAccountRemoteSource {
 
   @override
-  Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
+  Future<Result<LoginModel>> login(LoginRequest loginRequest) async {
     await Future.delayed(Duration(seconds: 2));
     if(loginRequest.phoneNumber == "0950404087" &&
         loginRequest.password == "12345678"){
-      return Result.data(
+      return Result.isSuccess(
           LoginModel(
-              account: AccountModel(
+              account: Account(
                   name: 'Yousef Alkhateeb',
                   id: "1",
                   imageUrl: "",
@@ -27,14 +26,14 @@ class AccountRemoteSource extends IAccountRemoteSource {
               token: "token123"),
       );
     }
-    else return Result.error(CustomError(message: "Phone or password is wrong."));
+    else return Result.isError(CustomError(message: "Phone or password is wrong."));
   }
 
 
   @override
-  Future<Result<BaseError, RegisterModel>> register(
+  Future<Result<RegisterModel>> register(
       RegisterRequest registerRequest) async {
-    return Result.error(CustomError(message: "Phone or password is wrong."));
+    return Result.isError(CustomError(message: "Phone or password is wrong."));
   }
 
 

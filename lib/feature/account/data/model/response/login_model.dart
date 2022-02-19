@@ -1,90 +1,26 @@
-import 'dart:convert';
-
-import 'package:spark/core/net/model/base_model.dart';
-
-class LoginModel extends BaseModel<LoginModel>{
-  final String? token;
-  final AccountModel? account;
-
-  LoginModel({
-    this.account,
-    this.token,
-  });
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is LoginModel &&
-          runtimeType == other.runtimeType &&
-          token == other.token &&
-          account == other.account;
+part 'login_model.freezed.dart';
+part 'login_model.g.dart';
 
-  @override
-  int get hashCode => token.hashCode ^ account.hashCode;
+@freezed
+class LoginModel with _$LoginModel {
+  const factory LoginModel({
+    final String? token,
+    final Account? account,
+  }) = _LoginModel;
 
-  factory LoginModel.fromMap(Map<String, dynamic> json) => LoginModel(
-    token: json["token"] == null ? null : json["token"],
-  );
-
-  @override
-  String toString() {
-    return 'LoginModel{token: $token, account: $account}';
-  }
-
-  @override
-  Map<String, dynamic> toMap() => {
-    "account": account == null ? null : account!.toMap(),
-    "token": token == null ? null : token,
-  };
-
-  @override
-  LoginModel fromJson(Map<String, dynamic> json) {
-    return LoginModel.fromMap(json);
-  }
+  factory LoginModel.fromJson(Map<String, dynamic> json) => _$LoginModelFromJson(json);
 }
 
-class AccountModel {
-  AccountModel({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-  });
+@freezed
+class Account with _$Account {
+  const factory Account({
+    final String? id,
+    final String? name,
+    final String? imageUrl,
+  }) = _Account;
 
-  final String id;
-  final String name;
-  final String imageUrl;
-
-  factory AccountModel.fromJson(String str) => AccountModel.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory AccountModel.fromMap(Map<String, dynamic> json) => AccountModel(
-    id: json["id"] == null ? null : json["id"],
-    name: json["name"] == null ? null : json["name"],
-    imageUrl: json["imageUrl"] == null ? null : json["imageUrl"],
-  );
-
-  Map<String, dynamic> toMap() => {
-    "id": id == null ? null : id,
-    "name": name == null ? null : name,
-    "imageUrl": imageUrl == null ? null : imageUrl,
-  };
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is AccountModel &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          name == other.name &&
-          imageUrl == other.imageUrl;
-
-  @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ imageUrl.hashCode;
-
-  @override
-  String toString() {
-    return 'AccountModel{id: $id, name: $name, imageUrl: $imageUrl}';
-  }
+  factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
 }

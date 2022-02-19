@@ -1,14 +1,24 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:spark/feature/account/data/datasources/account_remote.dart';
 import '../core/net/http_client.dart';
+import '../env/config_reader.dart';
 import '../feature/account/data/datasources/iaccount_remote.dart';
-import '../feature/account/data/repository/account_repository.dart';
+import '../feature/account/domain/repository/account_repository.dart';
 import '../feature/account/domain/repository/iaccount_repository.dart';
 
 Future<void> setupInjection() async {
   //Components
-  GetIt.I.registerSingleton(HttpClient());
+  GetIt.I.registerSingleton(HttpClient(
+      BaseOptions(
+        connectTimeout: 15000,
+        receiveTimeout: 15000,
+        sendTimeout: 10000,
+        responseType: ResponseType.json,
+        baseUrl: ConfigReader.getBaseUrl(),
+      )
+  ));
 
   GetIt.I.registerSingleton(Logger());
 

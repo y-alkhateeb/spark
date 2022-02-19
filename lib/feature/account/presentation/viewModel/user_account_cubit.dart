@@ -5,7 +5,6 @@ import 'package:spark/core/bloc/base_state/base_state.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
-import 'package:spark/feature/account/domain/usecase/login_usecase.dart';
 
 part 'user_account_state.dart';
 
@@ -17,25 +16,25 @@ class AccountLoginCubit extends Cubit<AccountLoginState> {
           accountLoadingState: BaseState.loading(),
         );
     emit(_state);
-    final data = await LoginUseCase(GetIt.I<IAccountRepository>())(LoginRequest(
+    final data = await GetIt.I<IAccountRepository>().login(LoginRequest(
       cancelToken: loginRequest.cancelToken,
       phoneNumber: loginRequest.phoneNumber,
       email: loginRequest.email,
       password: loginRequest.password,
     ));
 
-    data.pick(
-        onData: (data) {
+    data.when(
+        isSuccess: (data) {
           _state =
               this.state.copyWith(accountLoadingState: BaseState.success(data));
         },
-        onError: (error) {
+        isError: (error) {
           _state = this.state.copyWith(
                   accountLoadingState: BaseState.failure(error, () {
                 this.loginAccount(loginRequest);
               }));
         },
-        onErrorWithData: (data, error) {});
+    );
     emit(_state);
   }
 }

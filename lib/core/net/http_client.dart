@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import 'package:spark/core/navigation/home_navigation_service.dart';
-import 'package:spark/core/net/model/base_model.dart';
 import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
 import '../errors/base_error.dart';
@@ -20,25 +18,16 @@ import '../errors/timeout_error.dart';
 import '../errors/unauthorized_error.dart';
 import '../errors/unknown_error.dart';
 import '../result/result.dart';
-import 'api_url.dart';
 import '../constants/enums/http_method.dart';
 import 'package:http_parser/http_parser.dart';
 
 import 'interceptor.dart';
 
-
 class HttpClient{
   static late Dio _client;
 
-  HttpClient() {
-    BaseOptions _options = BaseOptions(
-      connectTimeout: 15000,
-      receiveTimeout: 15000,
-      sendTimeout: 10000,
-      responseType: ResponseType.json,
-      baseUrl: BASE_URL,
-    );
-    _client = Dio(_options);
+  HttpClient(BaseOptions options) {
+    _client = Dio(options);
     /// For logger
     _client.interceptors.add(PrettyDioLogger());
 
@@ -48,8 +37,8 @@ class HttpClient{
   }
 
 
-
-  Future<Result<BaseError, T>> requestMapResponse<T extends BaseModel>({
+  
+  Future<Result<T>> request<T>({
     required T Function(dynamic) converter,
     required HttpMethod method,
     required String url,
@@ -58,6 +47,7 @@ class HttpClient{
     dynamic queryParameters, // may be Map<String, dynamic> or String or int ..
     dynamic body, // may be Map<String, dynamic> or String or int ..
   }) async {
+
     // Get the response from the server
     Response response;
     try {
@@ -99,25 +89,25 @@ class HttpClient{
           break;
       }
       // Use the compute function to run parsePhotos in a separate isolate.
-      return Result.data(await compute(converter, response.data!));
+      return Result.isSuccess(converter(response.data!));
 
     }
     // Handling errors
     on DioError catch (e) {
-      return Result.error(_handleDioError(e));
+      return Result.isError(_handleDioError(e));
     }
 
     // Couldn't reach out the server
     on SocketException catch (e) {
-      return Result.error(SocketError());
+      return Result.isError(SocketError());
     }
     on HttpException catch (e){
-      return Result.error(ConnectionError());
+      return Result.isError(ConnectionError());
     }
   }
 
 
-  Future<Result<BaseError, T>> upload<T>({
+  Future<Result<T>> upload<T>({
     required String url,
     required String fileKey,
     required String filePath,
@@ -153,25 +143,25 @@ class HttpClient{
 
       try {
         // Get the decoded json
-        return Result.data(response.data!);
+        return Result.isSuccess(response.data!);
 
       } on FormatException catch(e) {
-        return Result.error(FormatError());
+        return Result.isError(FormatError());
       } catch (e) {
-        return Result.error(UnknownError());
+        return Result.isError(UnknownError());
       }
     }
     // Handling errors
     on DioError catch (e) {
-      return Result.error(_handleDioError(e));
+      return Result.isError(_handleDioError(e));
     }
 
     // Couldn't reach out the server
     on SocketException catch (e) {
-      return Result.error(SocketError());
+      return Result.isError(SocketError());
     }
     on HttpException catch (e){
-      return Result.error(ConnectionError());
+      return Result.isError(ConnectionError());
     }
   }
 

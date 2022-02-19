@@ -1,5 +1,4 @@
 import 'package:spark/core/datasource/sp_helper.dart';
-import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/datasources/iaccount_remote.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
@@ -15,19 +14,20 @@ class AccountRepository implements IAccountRepository{
 
 
   @override
-  Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
+  Future<Result<LoginModel>> login(LoginRequest loginRequest) async {
     final remote = await iAccountRemoteSource.login(loginRequest);
-    if (remote.hasDataOnly) {
-      // Persist token if exists.
-      if (remote.data!.token != null && remote.data!.token!.isNotEmpty) {
-        SPHelper.persistToken(remote.data!.token!);
+    remote.whenOrNull(
+      isSuccess: (data){
+        if (data!.token != null && data.token!.isNotEmpty) {
+          SPHelper.persistToken(data.token!);
+        }
       }
-    }
+    );
     return remote;
   }
 
   @override
-  Future<Result<BaseError, RegisterModel>> register(
+  Future<Result<RegisterModel>> register(
       RegisterRequest registerRequest) async {
     return await iAccountRemoteSource.register(registerRequest);
   }

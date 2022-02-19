@@ -5,7 +5,6 @@ import 'package:spark/core/bloc/base_state/base_state.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/data/model/response/register_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
-import 'package:spark/feature/account/domain/usecase/register_usecase.dart';
 
 part 'account_register_state.dart';
 
@@ -17,7 +16,7 @@ class AccountRegisterCubit extends Cubit<AccountRegisterState> {
     accountRegisterState: BaseState.loading(),
     );
     emit(_state);
-    final data = await RegisterUseCase(GetIt.I<IAccountRepository>())(
+    final data = await GetIt.I<IAccountRepository>().register(
         RegisterRequest(
           firstName: registerRequest.firstName,
           lastName: registerRequest.lastName,
@@ -28,21 +27,19 @@ class AccountRegisterCubit extends Cubit<AccountRegisterState> {
         )
     );
 
-    data.pick(
-        onData: (data){
+    data.when(
+        isSuccess: (data){
           _state = this.state.copyWith(
               accountRegisterState: BaseState.success(data),
           );
         },
-        onError: (error) {
+        isError: (error) {
           _state = this.state.copyWith(
             accountRegisterState: BaseState.failure(error, () {
               this.registerAccount(registerRequest);
             })
           );
         },
-        onErrorWithData: (data, error){
-        }
     );
     emit(_state);
   }

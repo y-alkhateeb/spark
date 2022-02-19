@@ -17,7 +17,7 @@ class SpUtil {
 
   static SpUtil getInstance()  {
     if (_instance == null) {
-      _instance = new SpUtil._();
+      _instance =  SpUtil._();
        _instance!._init();
     }
     return _instance!;
