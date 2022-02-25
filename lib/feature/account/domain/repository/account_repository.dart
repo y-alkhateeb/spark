@@ -14,7 +14,7 @@ class AccountRepository implements IAccountRepository{
 
 
   @override
-  Future<Result<LoginModel>> login(LoginRequest loginRequest) async {
+  Future<MyResult<LoginModel>> login(LoginRequest loginRequest) async {
     final remote = await iAccountRemoteSource.login(loginRequest);
     remote.whenOrNull(
       isSuccess: (data){
@@ -27,7 +27,7 @@ class AccountRepository implements IAccountRepository{
   }
 
   @override
-  Future<Result<RegisterModel>> register(
+  Future<MyResult<RegisterModel>> register(
       RegisterRequest registerRequest) async {
     return await iAccountRemoteSource.register(registerRequest);
   }

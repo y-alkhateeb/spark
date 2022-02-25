@@ -39,7 +39,7 @@ main() async{
             password: "cityslicka",
             cancelToken: CancelToken()),
     );
-    expect(response, Result<LoginModel>.isError(BadRequestError()));
+    expect(response, MyResult<LoginModel>.isError(BadRequestError()));
   });
 
 
@@ -50,7 +50,7 @@ main() async{
           password: "cityslicka",
           cancelToken: CancelToken()),
     );
-    expect(response, Result<LoginModel>.isSuccess(LoginModel(token: "QpwL5tke4Pnpja7X4")));
+    expect(response, MyResult<LoginModel>.isSuccess(LoginModel(token: "QpwL5tke4Pnpja7X4")));
   });
 
 }

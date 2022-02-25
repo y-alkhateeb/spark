@@ -12,11 +12,11 @@ import 'iaccount_remote.dart';
 class AccountRemoteSource extends IAccountRemoteSource {
 
   @override
-  Future<Result<LoginModel>> login(LoginRequest loginRequest) async {
+  Future<MyResult<LoginModel>> login(LoginRequest loginRequest) async {
     await Future.delayed(Duration(seconds: 2));
     if(loginRequest.phoneNumber == "0950404087" &&
         loginRequest.password == "12345678"){
-      return Result.isSuccess(
+      return MyResult.isSuccess(
           LoginModel(
               account: Account(
                   name: 'Yousef Alkhateeb',
@@ -26,14 +26,14 @@ class AccountRemoteSource extends IAccountRemoteSource {
               token: "token123"),
       );
     }
-    else return Result.isError(CustomError(message: "Phone or password is wrong."));
+    else return MyResult.isError(CustomError(message: "Phone or password is wrong."));
   }
 
 
   @override
-  Future<Result<RegisterModel>> register(
+  Future<MyResult<RegisterModel>> register(
       RegisterRequest registerRequest) async {
-    return Result.isError(CustomError(message: "Phone or password is wrong."));
+    return MyResult.isError(CustomError(message: "Phone or password is wrong."));
   }
 
 

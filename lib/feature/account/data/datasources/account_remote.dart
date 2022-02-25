@@ -15,7 +15,7 @@ import 'iaccount_remote.dart';
 class AccountRemoteSource extends IAccountRemoteSource{
 
   @override
-  Future<Result<LoginModel>> login(LoginRequest loginRequest) async {
+  Future<MyResult<LoginModel>> login(LoginRequest loginRequest) async {
     return await GetIt.I<HttpClient>().request<LoginModel>(
       converter: (json) => LoginModel.fromJson(json),
       method: HttpMethod.POST,
@@ -27,7 +27,7 @@ class AccountRemoteSource extends IAccountRemoteSource{
 
 
   @override
-  Future<Result<RegisterModel>> register(
+  Future<MyResult<RegisterModel>> register(
       RegisterRequest registerRequest) async {
     return await GetIt.I<HttpClient>().request<RegisterModel>(
       converter: (json) => RegisterModel.fromJson(json),

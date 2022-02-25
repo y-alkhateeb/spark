@@ -7,9 +7,9 @@ import '../../../../core/result/result.dart';
 
 abstract class IAccountRemoteSource {
 
-  Future<Result<LoginModel>> login(LoginRequest loginRequest);
+  Future<MyResult<LoginModel>> login(LoginRequest loginRequest);
 
-  Future<Result<RegisterModel>> register(
+  Future<MyResult<RegisterModel>> register(
       RegisterRequest registerRequest);
 
 

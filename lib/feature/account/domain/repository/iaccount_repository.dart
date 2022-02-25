@@ -5,9 +5,9 @@ import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/data/model/response/register_model.dart';
 
 abstract class IAccountRepository{
-  Future<Result<LoginModel>> login(LoginRequest loginRequest);
+  Future<MyResult<LoginModel>> login(LoginRequest loginRequest);
 
-  Future<Result<RegisterModel>> register(
+  Future<MyResult<RegisterModel>> register(
       RegisterRequest registerRequest);
 
 

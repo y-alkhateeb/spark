@@ -38,7 +38,7 @@ class HttpClient{
 
 
   
-  Future<Result<T>> request<T>({
+  Future<MyResult<T>> request<T>({
     required T Function(dynamic) converter,
     required HttpMethod method,
     required String url,
@@ -89,25 +89,24 @@ class HttpClient{
           break;
       }
       // Use the compute function to run parsePhotos in a separate isolate.
-      return Result.isSuccess(converter(response.data!));
-
+      return MyResult.isSuccess(converter(response.data!));
     }
     // Handling errors
     on DioError catch (e) {
-      return Result.isError(_handleDioError(e));
+      return MyResult.isError(_handleDioError(e));
     }
 
     // Couldn't reach out the server
     on SocketException catch (e) {
-      return Result.isError(SocketError());
+      return MyResult.isError(SocketError());
     }
     on HttpException catch (e){
-      return Result.isError(ConnectionError());
+      return MyResult.isError(ConnectionError());
     }
   }
 
 
-  Future<Result<T>> upload<T>({
+  Future<MyResult<T>> upload<T>({
     required String url,
     required String fileKey,
     required String filePath,
@@ -143,25 +142,25 @@ class HttpClient{
 
       try {
         // Get the decoded json
-        return Result.isSuccess(response.data!);
+        return MyResult.isSuccess(response.data!);
 
       } on FormatException catch(e) {
-        return Result.isError(FormatError());
+        return MyResult.isError(FormatError());
       } catch (e) {
-        return Result.isError(UnknownError());
+        return MyResult.isError(UnknownError());
       }
     }
     // Handling errors
     on DioError catch (e) {
-      return Result.isError(_handleDioError(e));
+      return MyResult.isError(_handleDioError(e));
     }
 
     // Couldn't reach out the server
     on SocketException catch (e) {
-      return Result.isError(SocketError());
+      return MyResult.isError(SocketError());
     }
     on HttpException catch (e){
-      return Result.isError(ConnectionError());
+      return MyResult.isError(ConnectionError());
     }
   }
 

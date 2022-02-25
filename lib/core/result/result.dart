@@ -3,9 +3,8 @@ import '../errors/base_error.dart';
 
 part 'result.freezed.dart';
 
-@immutable
 @freezed
-class Result<T> with _$Result<T>{
-  const factory Result.isSuccess([T? model]) = _IsSuccess;
-  const factory Result.isError(BaseError error) = _IsError;
+class MyResult<T> with _$MyResult<T>{
+  const factory MyResult.isSuccess([T? model]) = IsSuccess<T>;
+  const factory MyResult.isError(BaseError error) = IsError;
 }
