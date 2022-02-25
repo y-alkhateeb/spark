@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
 part 'login_model.freezed.dart';
+
 part 'login_model.g.dart';
 
 @freezed
@@ -12,6 +12,8 @@ class LoginModel with _$LoginModel {
   }) = _LoginModel;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => _$LoginModelFromJson(json);
+
+
 }
 
 @freezed
@@ -23,4 +25,5 @@ class Account with _$Account {
   }) = _Account;
 
   factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
+
 }

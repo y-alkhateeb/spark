@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.4"
+  auto_route_generator:
+    dependency: "direct dev"
+    description:
+      name: auto_route_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.3"
   bloc:
     dependency: transitive
     description:
@@ -288,7 +295,7 @@ packages:
     source: hosted
     version: "1.1.1"
   freezed_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: freezed_annotation
       url: "https://pub.dartlang.org"
@@ -372,7 +379,7 @@ packages:
     source: hosted
     version: "0.6.3"
   json_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_annotation
       url: "https://pub.dartlang.org"
