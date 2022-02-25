@@ -33,6 +33,12 @@
 .pub/
 /build/
 
+# Remove the following pattern if you wish to check in your lock file
+pubspec.lock
+
+# code generated
+lib/generated
+
 # Web related
 lib/generated_plugin_registrant.dart
 
