@@ -56,6 +56,9 @@ dependencies:
   freezed_annotation: ^1.1.0
   platform: ^3.1.0
 
+  # this package just to change App Package Name with single command
+  change_app_package_name: ^1.0.0
+
 
 
 
