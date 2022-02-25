@@ -6,9 +6,7 @@ import 'package:spark/core/common/appConfig.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:provider/provider.dart';
 import 'core/navigation/base_route.gr.dart';
-import 'splash.dart';
 import 'core/common/provider_list.dart';
-import 'core/navigation/home_navigation_service.dart';
 import 'generated/l10n.dart';
 
 final appRouter = AppRouter();

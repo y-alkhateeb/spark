@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
-import 'package:spark/core/navigation/home_navigation_service.dart';
-import 'package:spark/generated/l10n.dart';
 import '../errors/bad_request_error.dart';
 import '../errors/base_error.dart';
 import '../errors/cancel_error.dart';
@@ -24,7 +22,7 @@ import 'package:http_parser/http_parser.dart';
 import 'interceptor.dart';
 
 class HttpClient{
-  static late Dio _client;
+  late Dio _client;
 
   HttpClient(BaseOptions options) {
     _client = Dio(options);
@@ -35,7 +33,6 @@ class HttpClient{
     /// [authorization] [os] [appversion] [session]
     _client.interceptors.add(AuthInterceptor());
   }
-
 
   
   Future<MyResult<T>> request<T>({
@@ -193,7 +190,7 @@ class HttpClient{
         error.type == DioErrorType.receiveTimeout) {
       return TimeoutError();
     } else if (error.type == DioErrorType.cancel) {
-      return CancelError(S.of(HomeNS().context).error_cancel_token);
+      return CancelError();
     } else
       return UnknownError();
     }

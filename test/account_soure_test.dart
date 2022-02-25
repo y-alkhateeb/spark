@@ -2,7 +2,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark/core/errors/bad_request_error.dart';
 import 'package:spark/core/net/net.dart';
@@ -31,26 +33,30 @@ main() async{
   setUp((){
     iAccountRemoteSource = AccountRemoteSource();
   });
-  // Verify the interaction.
-  test("login with phone should be return error BadRequestError", () async {
-    final response = await iAccountRemoteSource.login(
+  group("test login",(){
+    LoginRequest loginRequest = LoginRequest(
+        phoneNumber: "eve.holt@reqres.in",
+        password: "cityslicka",
+        cancelToken: CancelToken());
+
+    // Verify the interaction.
+    test("login with phone should be return error BadRequestError", () async {
+      final response = await iAccountRemoteSource.login(
+        loginRequest,
+      );
+      expect(response, MyResult<LoginModel>.isError(BadRequestError()));
+    });
+
+
+    test("login with email should be return success", () async {
+      final response = await iAccountRemoteSource.login(
         LoginRequest(
-            phoneNumber: "eve.holt@reqres.in",
+            email: "eve.holt@reqres.in",
             password: "cityslicka",
             cancelToken: CancelToken()),
-    );
-    expect(response, MyResult<LoginModel>.isError(BadRequestError()));
-  });
-
-
-  test("login with email should be return success", () async {
-    final response = await iAccountRemoteSource.login(
-      LoginRequest(
-          email: "eve.holt@reqres.in",
-          password: "cityslicka",
-          cancelToken: CancelToken()),
-    );
-    expect(response, MyResult<LoginModel>.isSuccess(LoginModel(token: "QpwL5tke4Pnpja7X4")));
+      );
+      expect(response, MyResult<LoginModel>.isSuccess(LoginModel(token: "QpwL5tke4Pnpja7X4")));
+    });
   });
 
 }

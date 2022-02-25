@@ -1,8 +1,5 @@
-
 abstract class BaseError{
-
   const BaseError();
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

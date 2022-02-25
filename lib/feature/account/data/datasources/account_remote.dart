@@ -19,7 +19,7 @@ class AccountRemoteSource extends IAccountRemoteSource{
     return await GetIt.I<HttpClient>().request<LoginModel>(
       converter: (json) => LoginModel.fromJson(json),
       method: HttpMethod.POST,
-      url: LOGIN_URL,
+      url: ApiUrl.LOGIN_URL,
       body: loginRequest.toMap(),
       cancelToken: loginRequest.cancelToken,
     );
@@ -32,7 +32,7 @@ class AccountRemoteSource extends IAccountRemoteSource{
     return await GetIt.I<HttpClient>().request<RegisterModel>(
       converter: (json) => RegisterModel.fromJson(json),
       method: HttpMethod.POST,
-      url: "ACCOUNT_REGISTER",
+      url: ApiUrl.REGISTER_URL,
       body: registerRequest.toMap(),
       cancelToken: registerRequest.cancelToken,
     );

@@ -17,6 +17,8 @@
   "error_password_short": "كلمة المرور قصيرة",
   "error_inValid_name": "الاسم غير صالح",
   "error_confirm_password": "كلمة المرور غير مطابقة",
+  "error_socket": "تأكد من إتصالك بالانترنيت",
+  "error_conflict": "خطأ تعارض",
   "app_cancel": "الغاء",
   "app_confirm": "تاكيد",
   "label_logout": "تسجيل خروج",

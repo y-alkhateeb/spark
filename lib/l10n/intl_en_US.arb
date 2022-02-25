@@ -17,6 +17,8 @@
   "error_password_short": "Password short",
   "error_inValid_name": "inValid name",
   "error_confirm_password": "Passwords do not match",
+  "error_socket": "No internet connection",
+  "error_conflict": "Conflict error",
   "app_cancel": "Cancel",
   "app_confirm": "Confirm",
   "label_logout": "Logout",

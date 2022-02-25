@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("تم مقاطعة الاتصال"),
         "error_confirm_password":
             MessageLookupByLibrary.simpleMessage("كلمة المرور غير مطابقة"),
+        "error_conflict": MessageLookupByLibrary.simpleMessage("خطأ تعارض"),
         "error_connection": MessageLookupByLibrary.simpleMessage(
             "حصل خطأ اثناء اتصالك بالشبكة"),
         "error_connection_lost":
@@ -55,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("حصل خطأ في السيرفر"),
         "error_password_short":
             MessageLookupByLibrary.simpleMessage("كلمة المرور قصيرة"),
+        "error_socket":
+            MessageLookupByLibrary.simpleMessage("تأكد من إتصالك بالانترنيت"),
         "error_unknown_happened":
             MessageLookupByLibrary.simpleMessage("حصل خطأ غير معروف"),
         "label_Login": MessageLookupByLibrary.simpleMessage("تسجيل دخول"),

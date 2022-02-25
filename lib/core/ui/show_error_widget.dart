@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spark/core/bloc/base_state/base_state.dart';
 import 'package:spark/core/errors/cancel_error.dart';
@@ -17,7 +16,7 @@ import '../constants/app/app_constants.dart';
 class ShowErrorWidget extends StatelessWidget {
   final BaseState state;
 
-  ShowErrorWidget({Key? key, required this.state}) : super(key: key);
+  const ShowErrorWidget({Key? key, required this.state}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,7 @@ class ShowErrorWidget extends StatelessWidget {
           );
         }
         else if (error is CancelError) {
-          return CustomErrorScreenWidget(message: error.message??S.of(context).error_cancel_token);
+          return CustomErrorScreenWidget(message: error.toString());
         }
         return UnexpectedErrorScreenWidget(
           callback: callback,
@@ -147,13 +146,7 @@ class InternalServerErrorScreenWidget extends StatelessWidget {
   }
 }
 
-class ForbiddenErrorScreenWidget extends StatefulWidget {
-  @override
-  _ForbiddenErrorScreenWidgetState createState() => _ForbiddenErrorScreenWidgetState();
-}
-
-class _ForbiddenErrorScreenWidgetState extends State<ForbiddenErrorScreenWidget> {
-
+class ForbiddenErrorScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,13 +220,7 @@ class NotFoundErrorScreenWidget extends StatelessWidget {
   }
 }
 
-class UnauthorizedErrorScreenWidget extends StatefulWidget {
-  @override
-  _UnauthorizedErrorScreenWidgetState createState() => _UnauthorizedErrorScreenWidgetState();
-}
-
-class _UnauthorizedErrorScreenWidgetState extends State<UnauthorizedErrorScreenWidget> {
-
+class UnauthorizedErrorScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

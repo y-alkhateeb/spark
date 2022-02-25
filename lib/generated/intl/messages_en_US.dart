@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The connection is interrupted"),
         "error_confirm_password":
             MessageLookupByLibrary.simpleMessage("Passwords do not match"),
+        "error_conflict":
+            MessageLookupByLibrary.simpleMessage("Conflict error"),
         "error_connection": MessageLookupByLibrary.simpleMessage(
             "An error occurred during the connection"),
         "error_connection_lost":
@@ -54,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("INTERNAL SERVER ERROR"),
         "error_password_short":
             MessageLookupByLibrary.simpleMessage("Password short"),
+        "error_socket":
+            MessageLookupByLibrary.simpleMessage("No internet connection"),
         "error_unknown_happened":
             MessageLookupByLibrary.simpleMessage("Unknown error happened"),
         "label_Login": MessageLookupByLibrary.simpleMessage("Login"),

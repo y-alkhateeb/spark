@@ -220,6 +220,26 @@ class S {
     );
   }
 
+  /// `No internet connection`
+  String get error_socket {
+    return Intl.message(
+      'No internet connection',
+      name: 'error_socket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conflict error`
+  String get error_conflict {
+    return Intl.message(
+      'Conflict error',
+      name: 'error_conflict',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Cancel`
   String get app_cancel {
     return Intl.message(
