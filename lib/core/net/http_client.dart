@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import '../errors/bad_request_error.dart';
@@ -27,7 +28,9 @@ class HttpClient{
   HttpClient(BaseOptions options) {
     _client = Dio(options);
     /// For logger
-    _client.interceptors.add(PrettyDioLogger());
+    if (kDebugMode) {
+      _client.interceptors.add(PrettyDioLogger(requestBody: true));
+    }
 
     /// To add Authentication into header
     /// [authorization] [os] [appversion] [session]

@@ -53,6 +53,9 @@ dependencies:
   # effortless deep-linking and it uses code generation to simplify routes setup
   auto_route: ^3.2.4
 
+  # Being able to compare objects in Dart often involves having to override the == operator as well as hashCode.
+  equatable: ^2.0.3
+
   cupertino_icons: ^1.0.4
 
   freezed_annotation: ^1.1.0
@@ -66,7 +69,7 @@ dependencies:
 
 
 dev_dependencies:
-  auto_route_generator: ^3.2.1
+  auto_route_generator: ^3.2.3
   build_runner: ^2.1.7
   json_serializable: ^6.1.4
   freezed: ^1.1.1
