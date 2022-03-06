@@ -21,21 +21,12 @@ class App extends StatelessWidget {
       splitScreenMode: false,
       builder: () => MultiProvider(
         providers: [
-          ...ApplicationProvider().singleItems,
           ...ApplicationProvider().blocItems,
           ...ApplicationProvider().changeNotifierItems,
         ],
         child: Consumer<AppConfig>(
           builder: (context, provider, __) {
             return MaterialApp.router(
-              // builder: (context, Widget? widget) {
-              //   ScreenUtil.setContext(context);
-              //
-              //   return MediaQuery(
-              //     data: MediaQuery.of(context),
-              //     child: widget!,
-              //   );
-              // },
               debugShowCheckedModeBanner: false,
               title: ApplicationConstants.TITLE_APP_NAME,
               theme: provider.currentTheme,

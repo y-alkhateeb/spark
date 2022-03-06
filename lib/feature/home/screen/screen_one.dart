@@ -2,7 +2,6 @@ import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
-import 'package:spark/core/navigation/more_navigation_service.dart';
 import 'package:spark/core/ui/more_item.dart';
 
 class ScreenOne extends StatelessWidget {

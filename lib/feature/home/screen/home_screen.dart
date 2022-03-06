@@ -7,7 +7,6 @@ import 'package:spark/core/common/appConfig.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/model/lanuage_model.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
-import 'package:spark/core/navigation/more_navigation_service.dart';
 import 'package:spark/core/ui/more_item.dart';
 import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
 
@@ -25,7 +24,6 @@ class HomeScreen extends StatelessWidget {
           image: ApplicationConstants.MENU_LOGOUT,
           onPressed: () async {
             context.router.push(ScreenOneRoute());
-            // MoreNS().navigateToPage(path: ScreenOne.routeName);
             "we are resource".logE;
           },
         ),

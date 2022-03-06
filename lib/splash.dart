@@ -6,7 +6,7 @@ import 'core/datasource/sp_helper.dart';
 import 'core/navigation/base_route.gr.dart';
 
 class Splash extends StatefulWidget {
-  static const routeName = "/splash";
+  static const routeName = "SplashRoute";
   @override
   _SplashState createState() => _SplashState();
 }

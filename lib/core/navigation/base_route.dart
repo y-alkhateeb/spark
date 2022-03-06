@@ -13,7 +13,7 @@ import '../../splash.dart';
   routes: <AutoRoute>[
     AutoRoute(
       page: Splash,
-      name: "SplashRoute",
+      name: Splash.routeName,
       initial: true,
       children: [
         RedirectRoute(path: '*', redirectTo: ''),
@@ -21,22 +21,22 @@ import '../../splash.dart';
     ),
     AutoRoute(
       page: LoginScreen,
-      name: "LoginScreenRoute",
+      name: LoginScreen.routeName,
       children: [
         RedirectRoute(path: '*', redirectTo: ''),
       ],
     ),
     AutoRoute(
       page: RegisterScreen,
-      name: "RegisterScreenRoute",
+      name: RegisterScreen.routeName,
       children: [
         RedirectRoute(path: '*', redirectTo: ''),
       ],
     ),
     AutoRoute(
+      page: EmptyRouterPage,
       path: BottomBar.routeName,
       name: "BottomBarParent",
-      page: EmptyRouterPage,
       children: [
         AutoRoute(page: BottomBar, path: "", name: "BottomBarRoute"),
         AutoRoute(page: HomeScreen, name: "HomeScreenRoute"),

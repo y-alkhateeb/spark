@@ -1,14 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/constants/enums/app_status.dart';
-import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/datasource/sp_helper.dart';
 import 'package:spark/core/model/profile.dart';
-import 'package:spark/core/navigation/home_navigation_service.dart';
+import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
-import 'package:spark/feature/account/presentation/screen/login_screen.dart';
+
+import '../../../app.dart';
 
 part 'app_config_state.dart';
 
@@ -31,7 +31,7 @@ class AppConfigCubit extends Cubit<AppConfigState> {
 
   userLogout() async {
     SPHelper.deleteToken();
-    Navigator.of(HomeNS().context).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
+    appRouter.navigatorKey.currentContext!.router.pushAndPopUntil(LoginScreenRoute(), predicate: (Route<dynamic> route) => false,);
     emit(this.state.clearProfile());
   }
 

@@ -14,7 +14,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import './../../../../core/common/resource.dart';
 
 class RegisterScreen extends StatefulWidget {
-  static const routeName = "/RegisterScreen";
+  static const routeName = "RegisterScreenRoute";
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:spark/core/common/double_tap_back_exit_app.dart';
-import 'package:spark/core/navigation/more_navigation_service.dart';
 import 'home_screen.dart';
 
 

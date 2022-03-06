@@ -14,7 +14,7 @@ import './../../../../core/common/resource.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  static const routeName = "/LoginScreen";
+  static const routeName = "LoginScreenRoute";
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
