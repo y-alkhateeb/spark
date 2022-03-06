@@ -1,5 +1,7 @@
-import '../../app.dart';
+import 'package:get_it/get_it.dart';
+
 import '../../generated/l10n.dart';
+import '../navigation/base_route.gr.dart';
 import 'base_error.dart';
 
 class SocketError extends BaseError {
@@ -7,7 +9,7 @@ class SocketError extends BaseError {
 
   @override
   String toString() {
-    return S.of(appRouter.navigatorKey.currentContext!).error_socket;
+    return S.of(GetIt.I<AppRouter>().navigatorKey.currentContext!).error_socket;
   }
 
   @override

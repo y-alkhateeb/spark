@@ -24,10 +24,8 @@ class _SplashState extends State<Splash> {
     Future.delayed(const Duration(seconds: 4), () async{
       if (await SPHelper.hasToken) {
         context.router.replace(BottomBarParent());
-        // HomeNS().replacementToPage(path: BottomBar.routeName);
       } else
         context.router.replace(LoginScreenRoute());
-        // HomeNS().replacementToPage(path: LoginScreen.routeName);
     });
   }
 

@@ -1,5 +1,7 @@
-import '../../app.dart';
+import 'package:get_it/get_it.dart';
+
 import '../../generated/l10n.dart';
+import '../navigation/base_route.gr.dart';
 import 'base_error.dart';
 
 class BadRequestError extends BaseError {
@@ -9,7 +11,7 @@ class BadRequestError extends BaseError {
 
   @override
   String toString() {
-    return message ?? '${S.of(appRouter.navigatorKey.currentContext!).error_BadRequest_Error}';
+    return message ?? '${S.of(GetIt.I<AppRouter>().navigatorKey.currentContext!).error_BadRequest_Error}';
   }
 
   @override

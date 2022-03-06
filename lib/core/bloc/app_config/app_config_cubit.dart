@@ -8,8 +8,6 @@ import 'package:spark/core/model/profile.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
 
-import '../../../app.dart';
-
 part 'app_config_state.dart';
 
 class AppConfigCubit extends Cubit<AppConfigState> {
@@ -31,7 +29,7 @@ class AppConfigCubit extends Cubit<AppConfigState> {
 
   userLogout() async {
     SPHelper.deleteToken();
-    appRouter.navigatorKey.currentContext!.router.pushAndPopUntil(LoginScreenRoute(), predicate: (Route<dynamic> route) => false,);
+    GetIt.I<AppRouter>().navigatorKey.currentContext!.router.pushAndPopUntil(LoginScreenRoute(), predicate: (Route<dynamic> route) => false,);
     emit(this.state.clearProfile());
   }
 
