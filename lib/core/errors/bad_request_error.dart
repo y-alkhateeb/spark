@@ -3,12 +3,13 @@ import '../../generated/l10n.dart';
 import 'base_error.dart';
 
 class BadRequestError extends BaseError {
-  const BadRequestError();
+  final String? message;
+  const BadRequestError({this.message});
 
 
   @override
   String toString() {
-    return '${S.of(appRouter.navigatorKey.currentContext!).error_BadRequest_Error}';
+    return message ?? '${S.of(appRouter.navigatorKey.currentContext!).error_BadRequest_Error}';
   }
 
   @override

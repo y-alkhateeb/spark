@@ -11,4 +11,14 @@ class UnknownError extends BaseError {
   String toString() {
     return S.of(appRouter.navigatorKey.currentContext!).error_unknown_happened;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is UnknownError &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => super.hashCode;
 }
