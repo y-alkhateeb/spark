@@ -36,7 +36,7 @@
 # Remove the following pattern if you wish to check in your lock file
 pubspec.lock
 
-# code generated
+
 lib/generated
 
 # Web related
@@ -52,3 +52,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/config/
+
+# code generated
+/lib/generated/
