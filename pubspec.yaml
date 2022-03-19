@@ -14,6 +14,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  google_fonts: ^2.3.1
+
   # Localization dependency
   intl: ^0.17.0
   # State management
@@ -56,6 +58,9 @@ dependencies:
   # Being able to compare objects in Dart often involves having to override the == operator as well as hashCode.
   equatable: ^2.0.3
 
+  # A Flutter plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
+  image_picker: ^0.8.4+11
+
   cupertino_icons: ^1.0.4
 
   freezed_annotation: ^1.1.0
@@ -84,7 +89,10 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/gif/
+    - assets/images/
     - assets/png/
+    - assets/png/drawer_icon/
     - config/
 
 

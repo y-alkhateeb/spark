@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "app_cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "app_confirm": MessageLookupByLibrary.simpleMessage("تاكيد"),
         "btn_Rty_title": MessageLookupByLibrary.simpleMessage("حاول مجددا"),
+        "camera": MessageLookupByLibrary.simpleMessage("كاميرا"),
         "error_BadRequest_Error":
             MessageLookupByLibrary.simpleMessage("طلب غير صالح"),
         "error_NotFound_Error":
@@ -61,19 +62,39 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_unknown_happened":
             MessageLookupByLibrary.simpleMessage("حصل خطأ غير معروف"),
         "label_Login": MessageLookupByLibrary.simpleMessage("تسجيل دخول"),
+        "label_birthdate":
+            MessageLookupByLibrary.simpleMessage("تاريخ الميلاد"),
         "label_change_language":
             MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
         "label_change_theme":
             MessageLookupByLibrary.simpleMessage("تغيير السمة"),
+        "label_chat": MessageLookupByLibrary.simpleMessage("الدردشة"),
         "label_confirm_password":
-            MessageLookupByLibrary.simpleMessage("تاكيد كلمة المرور"),
+            MessageLookupByLibrary.simpleMessage("تأكيد كلمة المرور"),
         "label_email": MessageLookupByLibrary.simpleMessage("البريد الاكتروني"),
-        "label_first_name": MessageLookupByLibrary.simpleMessage("الاسم الاول"),
-        "label_last_name": MessageLookupByLibrary.simpleMessage("اللقب"),
+        "label_forget_pass":
+            MessageLookupByLibrary.simpleMessage("تغيير كلمة المرور؟"),
+        "label_full_name": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
         "label_logout": MessageLookupByLibrary.simpleMessage("تسجيل خروج"),
-        "label_or_u_can": MessageLookupByLibrary.simpleMessage("او يمكنك"),
+        "label_notifications":
+            MessageLookupByLibrary.simpleMessage("الإشعارات"),
         "label_password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
         "label_phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
-        "label_sign_up": MessageLookupByLibrary.simpleMessage("تسجيل حساب جديد")
+        "label_profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+        "label_register":
+            MessageLookupByLibrary.simpleMessage("تسجيل حساب جديد"),
+        "label_registered_already": MessageLookupByLibrary.simpleMessage(
+            "لديك حساب مسبقا؟ تسجيل الدخول"),
+        "label_services": MessageLookupByLibrary.simpleMessage("الخدمات"),
+        "label_setting": MessageLookupByLibrary.simpleMessage("الإعدادات"),
+        "label_skip_tour": MessageLookupByLibrary.simpleMessage("تخطي"),
+        "label_terms_of_use":
+            MessageLookupByLibrary.simpleMessage("أوافق على سياسة الخصوصية."),
+        "phone_verification":
+            MessageLookupByLibrary.simpleMessage("تأكيد رقم الهاتف"),
+        "pick": MessageLookupByLibrary.simpleMessage("إستعراض"),
+        "please_enter_ur4digit": MessageLookupByLibrary.simpleMessage(
+            "الرجاء إدخال الرمز المؤلف من ٤ أرقام الذي تم إرساله الى هاتفك"),
+        "start_exploring": MessageLookupByLibrary.simpleMessage("تصفح")
       };
 }

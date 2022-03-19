@@ -16,14 +16,17 @@ class MyTextFormField extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final bool obscureText;
-  final Color? color;
   final List<TextInputFormatter>? inputFormatters;
+  final Iterable<String>? autofillHints;
+  final EdgeInsetsGeometry? contentPadding;
+  final bool autofocus;
 
 
   const MyTextFormField({
     Key? key,
     this.formKey,
     this.controller,
+    this.autofocus = false,
     this.textInputAction,
     this.keyboardType,
     this.onChanged,
@@ -33,9 +36,10 @@ class MyTextFormField extends StatelessWidget {
     this.labelText,
     this.suffixIcon,
     this.obscureText = false,
-    this.color,
     this.inputFormatters,
     this.hintText,
+    this.autofillHints,
+    this.contentPadding,
   }):super(key: key);
 
   @override
@@ -43,54 +47,61 @@ class MyTextFormField extends StatelessWidget {
     return TextFormField(
       key: formKey,
       controller: controller,
+      autofocus: autofocus,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       focusNode: focusNode,
-      cursorColor: color,
+      autofillHints: autofillHints,
+      cursorColor: context.colors.onSurface,
       style: TextStyle(
-        color: color ?? context.colors.primaryVariant,
+        color: context.colors.onSurface,
         decorationThickness: 0,
-        decorationColor: color ?? context.colors.primaryVariant,
-        fontSize: context.textTheme.headline3!.fontSize
+        decorationColor: context.colors.onSurface,
+        fontSize: context.textTheme.headline6!.fontSize
       ),
       decoration: InputDecoration(
         hintText: hintText,
+        filled: true,
+        contentPadding: contentPadding ?? const EdgeInsets.symmetric(horizontal: 12),
         hintStyle: TextStyle(
-          color: color ?? context.colors.primaryVariant,
+          color: context.colors.onSurface,
           decorationThickness: 0,
-          decorationColor: color ?? context.colors.primaryVariant,
-          fontSize: context.textTheme.headline3!.fontSize,
+          decorationColor: context.colors.onSurface,
+          fontSize: context.textTheme.headline6!.fontSize,
         ),
-        focusedBorder:  UnderlineInputBorder(
-          borderSide:  BorderSide(
-            color: color ?? context.colors.primaryVariant,
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: context.colors.surface,
           ),
         ),
-        enabledBorder:  UnderlineInputBorder(
-          borderSide:  BorderSide(
-            color: color ?? context.colors.primaryVariant,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: context.colors.surface,
           ),
         ),
-        errorBorder: UnderlineInputBorder(
+        errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: context.colors.error,
           ),
         ),
-        focusedErrorBorder: UnderlineInputBorder(
+        focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: context.colors.error,
           ),
         ),
-        border: const UnderlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelStyle: TextStyle(
-          color: color,
+          color: context.colors.onPrimaryContainer,
           decorationThickness: 0,
-          decorationColor: color,
-          fontSize: context.textTheme.headline3!.fontSize,
+          decorationColor: context.colors.onPrimaryContainer,
+          fontSize: context.textTheme.headline5!.fontSize,
         ),
         labelText: labelText,
         suffixIcon: suffixIcon,
-        errorStyle: const TextStyle(height: 0.8),
+        errorStyle: TextStyle(
+            fontSize: context.textTheme.headline6!.fontSize,
+            height: 0.8,
+        ),
       ),
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -101,7 +112,7 @@ class MyTextFormField extends StatelessWidget {
       <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(10),
-        mobileFormatter,
+        syMobileFormatter,
       ]
           :
       inputFormatters,

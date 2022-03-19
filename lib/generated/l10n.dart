@@ -290,11 +290,21 @@ class S {
     );
   }
 
-  /// `Sign up`
-  String get label_sign_up {
+  /// `Register`
+  String get label_register {
     return Intl.message(
-      'Sign up',
-      name: 'label_sign_up',
+      'Register',
+      name: 'label_register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forget password?`
+  String get label_forget_pass {
+    return Intl.message(
+      'Forget password?',
+      name: 'label_forget_pass',
       desc: '',
       args: [],
     );
@@ -330,31 +340,11 @@ class S {
     );
   }
 
-  /// `Or you can`
-  String get label_or_u_can {
+  /// `Full name`
+  String get label_full_name {
     return Intl.message(
-      'Or you can',
-      name: 'label_or_u_can',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `First name`
-  String get label_first_name {
-    return Intl.message(
-      'First name',
-      name: 'label_first_name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Last name`
-  String get label_last_name {
-    return Intl.message(
-      'Last name',
-      name: 'label_last_name',
+      'Full name',
+      name: 'label_full_name',
       desc: '',
       args: [],
     );
@@ -370,11 +360,151 @@ class S {
     );
   }
 
+  /// `Birth date`
+  String get label_birthdate {
+    return Intl.message(
+      'Birth date',
+      name: 'label_birthdate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change theme`
   String get label_change_theme {
     return Intl.message(
       'Change theme',
       name: 'label_change_theme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I agree to terms of use.`
+  String get label_terms_of_use {
+    return Intl.message(
+      'I agree to terms of use.',
+      name: 'label_terms_of_use',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registered already? Login`
+  String get label_registered_already {
+    return Intl.message(
+      'Registered already? Login',
+      name: 'label_registered_already',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `pick`
+  String get pick {
+    return Intl.message(
+      'pick',
+      name: 'pick',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `camera`
+  String get camera {
+    return Intl.message(
+      'camera',
+      name: 'camera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone verification`
+  String get phone_verification {
+    return Intl.message(
+      'Phone verification',
+      name: 'phone_verification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your 5 digit pin sent on your registered mobile number`
+  String get please_enter_ur4digit {
+    return Intl.message(
+      'Please enter your 5 digit pin sent on your registered mobile number',
+      name: 'please_enter_ur4digit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get label_profile {
+    return Intl.message(
+      'Profile',
+      name: 'label_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Services`
+  String get label_services {
+    return Intl.message(
+      'Services',
+      name: 'label_services',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get label_notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'label_notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chats`
+  String get label_chat {
+    return Intl.message(
+      'Chats',
+      name: 'label_chat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get label_setting {
+    return Intl.message(
+      'Settings',
+      name: 'label_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip this tour`
+  String get label_skip_tour {
+    return Intl.message(
+      'Skip this tour',
+      name: 'label_skip_tour',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start exploring`
+  String get start_exploring {
+    return Intl.message(
+      'Start exploring',
+      name: 'start_exploring',
       desc: '',
       args: [],
     );

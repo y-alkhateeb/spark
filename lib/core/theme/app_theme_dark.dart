@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spark/core/theme/dark/dark_theme_interface.dart';
 
-import 'light/light_theme_interface.dart';
 import '../theme/app_theme.dart';
 
 class AppThemeDark extends AppTheme with IDarkTheme {

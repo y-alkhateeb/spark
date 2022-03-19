@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'light/light_theme_interface.dart';
 import '../theme/app_theme.dart';
@@ -16,33 +17,64 @@ class AppThemeLight extends AppTheme with ILightTheme {
   ThemeData get theme => ThemeData(
         colorScheme: _appColorScheme,
         textTheme: textTheme(),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.all(_appColorScheme.primary),
+        ),
+        checkboxTheme: CheckboxThemeData(
+          checkColor: MaterialStateProperty.all(_appColorScheme.onPrimary),
+          fillColor: MaterialStateProperty.all(_appColorScheme.primary),
+        ),
         appBarTheme: ThemeData.light().appBarTheme.copyWith(
             color: _appColorScheme.primary,
             elevation: 0,
             centerTitle: true,
             titleTextStyle: TextStyle(
               fontSize: textThemeLight!.headline1.fontSize,
-              color: _appColorScheme.surface
+              color: _appColorScheme.onPrimary
             ),
-            iconTheme: IconThemeData(color: _appColorScheme.primaryVariant, size: 21)),
+            iconTheme: IconThemeData(color: _appColorScheme.onPrimary, size: 21),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           hintStyle: TextStyle(
             decorationThickness: 0,
           ),
-          border: const UnderlineInputBorder(),
+          border: const OutlineInputBorder(),
           labelStyle: TextStyle(
             decorationThickness: 0,
           ),
           errorStyle: const TextStyle(height: 0.8),
         ),
-        scaffoldBackgroundColor: Color(0xfff1f3f8),
+        scaffoldBackgroundColor: _appColorScheme.background,
         floatingActionButtonTheme:
             ThemeData.light().floatingActionButtonTheme.copyWith(),
-        buttonTheme: ThemeData.light().buttonTheme.copyWith(
-              colorScheme: ColorScheme.light(
-                onError: Color(0xffFF2D55),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return _appColorScheme.onBackground;
+              }
+              return _appColorScheme.primary;
+            },
+            ),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return _appColorScheme.onBackground;
+              }
+              return _appColorScheme.primary;
+            },
+            ),
+            overlayColor: MaterialStateProperty.resolveWith((states) {
+              return (Colors.white).withOpacity(0.12);
+            }),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.all(15.r)),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r),
               ),
             ),
+            side: MaterialStateProperty.all<BorderSide>(BorderSide(color: _appColorScheme.primary,width: 3)),
+          )
+        ),
         snackBarTheme: SnackBarThemeData(
           backgroundColor: _appColorScheme.error
         ),
@@ -76,22 +108,21 @@ class AppThemeLight extends AppTheme with ILightTheme {
   /// https://material.io/design/color/the-color-system.html#color-theme-creation
   ColorScheme get _appColorScheme {
     return ColorScheme(
-        primary: colorSchemeLight!.black,
-        primaryVariant: Colors.white,
-        //
-        secondary: Colors.green,
-        secondaryVariant: colorSchemeLight!.azure,
-        surface: Colors.blue,
-        //
-        background: Color(0xfff6f9fc),
-        //
+        primary: Color(0xffF8BA2C),
+        onPrimary: Colors.white,
+        surface: Color(0xfff0f1f2),
+        onSurface: Color(0xff777777),
+        primaryContainer: Colors.white,
+        onPrimaryContainer: Color(0xff23496B),
+        background: Colors.transparent,
+        onBackground: Colors.black87,
         error: Colors.red[900]!,
-        onPrimary: Colors.greenAccent,
-        onSecondary: Colors.black,
+        onError: Colors.white,
         //
-        onSurface: Colors.white30,
-        onBackground: Colors.black12,
-        onError: Color(0xFFF9B916),
+        secondary: Color(0xffF2BC25),
+        //
+        //
+        onSecondary: Colors.black,
         //
         brightness: Brightness.light,
     );

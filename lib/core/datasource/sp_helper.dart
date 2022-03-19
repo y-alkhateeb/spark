@@ -27,6 +27,16 @@ class SPHelper {
     prefs.putString(ApplicationConstants.KEY_FIREBASE_TOKEN, token);
   }
 
+  /// persist run tutorial
+  static void persistRunTutorial(bool value) {
+    final prefs = SpUtil.getInstance();
+    prefs.putBool(ApplicationConstants.KEY_RUN_TUTORIAL, value);
+  }
+
+  static bool? get isRunTutorial{
+    final prefs = SpUtil.getInstance();
+    return prefs.getBool(ApplicationConstants.KEY_RUN_TUTORIAL);
+  }
 
   /// read authToken
   /// if returns null that's means there no SP instance

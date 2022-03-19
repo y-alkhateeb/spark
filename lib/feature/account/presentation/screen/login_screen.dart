@@ -1,5 +1,6 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
+import 'package:spark/core/ui/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spark/core/common/Utils.dart';
@@ -8,8 +9,11 @@ import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/presentation/viewModel/user_account_cubit.dart';
-import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import '../../../../core/ui/my_base_bg_widget.dart';
+import '../../../../core/ui/my_logo_on_bg_widget.dart';
+import '../../../../core/ui/my_screen_container_widget.dart';
 import './../../../../core/common/resource.dart';
 
 
@@ -20,9 +24,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _inAsyncCall = false;
-  final FocusNode myFocusNodeUserName = FocusNode();
-  final FocusNode myFocusNodePassword = FocusNode();
+  ValueNotifier<bool> _inAsyncCall = ValueNotifier(false);
 
   final AccountLoginCubit loginCubit = AccountLoginCubit();
 
@@ -35,119 +37,88 @@ class _LoginScreenState extends State<LoginScreen> {
   final _phoneOrEmailController = TextEditingController(text: "eve.holt@reqres.in");
   final _passwordController = TextEditingController(text: "cityslicka");
 
-  bool turnPhoneOrEmailValidate = true;
-
-  bool turnPasswordValidate = true;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.surface,
-      resizeToAvoidBottomInset: false,
-      body: ModalProgressHUD(
-        inAsyncCall: _inAsyncCall,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Dimens.dp32),
-            child: BlocListener<AccountLoginCubit, AccountLoginState>(
-              bloc: loginCubit,
-              listenWhen: (c, p)=> c != p,
-              listener: (context, state) {
-                // "state is: $state ".logW;
-                state.accountLoggingState.when(
-                    init: (){},
-                    loading: (){
-                      setState(() {
-                        _inAsyncCall = true;
-                      });
-                    },
-                    success: (data){
-                      setState(() {
-                        _inAsyncCall = false;
-                      });
-                      context.router.replace(BottomBarParent());
-                      // Navigator.of(context).pushReplacementNamed(BottomBar.routeName);
-                    },
-                    failure: (_, __){
-                      setState(() {
-                        _inAsyncCall = false;
-                      });
-                      ShowError.showErrorSnakBar(context, state.accountLoggingState);
-                    },
-                );
-              },
-              child: Column(
-                children: <Widget>[
-                  Gaps.vGap64,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "WELCOME",
-                        style: context.textTheme.overline!.copyWith(
-                            color: context.colors.background
-                        )
-                      ),
-                    ],
-                  ),
-                  Gaps.vGap64,
-                  _buildPhoneNumberField(),
-                  Gaps.vGap32,
-                  _buildPasswordField(),
-                  Gaps.vGap128,
-                  CustomButton(
-                    color: context.colors.secondary,
-                    text: S.of(context).label_Login,
-                    textColor: context.colors.background,
-                    onPressed: sendRequest,
-                  ),
-                  Gaps.vGap64,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        S.of(context).label_or_u_can,
-                        style: context.textTheme.headline4!.copyWith(
-                          color: context.colors.background,
+    return ValueListenableBuilder<bool>(
+      valueListenable: _inAsyncCall,
+      child: MyBaseBgWidget(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              const MyLogoOnbgWidget(),
+              MyScreenContainerWidget(
+                top: 200.h,
+                child: BlocListener<AccountLoginCubit, AccountLoginState>(
+                  bloc: loginCubit,
+                  listenWhen: (c, p)=> c.accountLoggingState != p.accountLoggingState,
+                  listener: (context, state) {
+                    // "state is: $state ".logW;
+                    state.accountLoggingState.when(
+                      init: (){},
+                      loading: (){
+                          _inAsyncCall.value = true;
+                      },
+                      success: (data){
+                          _inAsyncCall.value = false;
+                        context.router.replace(BottomBarParent());
+                      },
+                      failure: (_, __){
+                          _inAsyncCall.value = false;
+                        ShowError.showErrorSnakBar(context, state.accountLoggingState);
+                      },
+                    );
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Gaps.vGap64,
+                        _buildPhoneNumberField(),
+                        Gaps.vGap32,
+                        _buildPasswordField(),
+                        Gaps.vGap128,
+                        MyTextButton.primary(
+                          text: S.of(context).label_Login,
+                          onPressed: sendRequest,
                         ),
-                      ),
-                    ],
+                        Gaps.vGap16,
+                        Text(
+                          S.of(context).label_forget_pass,
+                          style: context.textTheme.subtitle2!.copyWith(
+                            color: context.colors.primary,
+                          ),
+                        ),
+                        Gaps.vGap16,
+                        GestureDetector(
+                          onTap: (){
+                            context.router.push(RegisterScreenRoute());
+                          },
+                          child: Text(
+                            S.of(context).label_register,
+                            style: context.textTheme.subtitle2!.copyWith(
+                              color: context.colors.primary,
+                            ),
+                          ),
+                        ),
+                        Gaps.vGap64,
+                      ],
+                    ),
                   ),
-                  Gaps.vGap64,
-                  CustomButton(
-                    color: context.colors.background,
-                    text:
-                        S.of(context).label_sign_up,
-                    textColor: context.colors.surface,
-                    onPressed: () {
-                      unFocus();
-                      context.router.push(RegisterScreenRoute());
-                      // Navigator.of(context).pushNamed(RegisterScreen.routeName);
-                    },
-                  ),
-                  Gaps.vGap64,
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
+      builder: (_, value, child) {
+        return ModalProgressHUD(
+          inAsyncCall: value,
+          child: child!,
+        );
+      }
     );
   }
 
-  unFocus() {
-    unFocusList(focus: [
-      myFocusNodeUserName,
-      myFocusNodePassword,
-    ]);
-  }
-
   sendRequest() {
-    unFocus();
-    setState(() {
-      turnPhoneOrEmailValidate = true;
-      turnPasswordValidate = true;
-    });
     if (_phoneOrEmailKey.currentState!.validate()) {
       if (_passwordKey.currentState!.validate()) {
         loginCubit.loginAccount(
@@ -168,28 +139,13 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: _phoneOrEmailController,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
-      focusNode: myFocusNodeUserName,
       labelText: S.of(context).label_email,
       hintText: "example@spark.com",
       validator: (value) {
-        if (turnPhoneOrEmailValidate) {
           if (Validators.isValidEmail(value!))
             return null;
           else
             return S.of(context).error_inValid_email;
-        } else
-          return null;
-      },
-      onFieldSubmitted: (term) {
-        fieldFocusChange(context, myFocusNodeUserName, myFocusNodePassword);
-      },
-      onChanged: (val) {
-        if (turnPhoneOrEmailValidate) {
-          setState(() {
-            turnPhoneOrEmailValidate = false;
-          });
-          _phoneOrEmailKey.currentState!.validate();
-        }
       },
     );
   }
@@ -201,12 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: _passwordController,
       textInputAction: TextInputAction.go,
       keyboardType: TextInputType.text,
-      focusNode: myFocusNodePassword,
       labelText: S.of(context).label_password,
       suffixIcon: IconButton(
           icon: Icon(
             _passwordSecure ? Icons.visibility : Icons.visibility_off,
-            color: context.colors.background,
+            color: context.colors.onBackground,
           ),
           onPressed: () {
             setState(() {
@@ -214,24 +169,13 @@ class _LoginScreenState extends State<LoginScreen> {
             });
           }),
       validator: (value) {
-        if (turnPasswordValidate) {
           if (Validators.isValidPassword(value!))
             return null;
           else
             return S.of(context).error_password_short;
-        } else
-          return null;
       },
       onFieldSubmitted: (term) {
         sendRequest();
-      },
-      onChanged: (val) {
-        if (turnPasswordValidate) {
-          setState(() {
-            turnPasswordValidate = false;
-          });
-          _passwordKey.currentState!.validate();
-        }
       },
       obscureText: _passwordSecure,
     );
@@ -243,8 +187,6 @@ class _LoginScreenState extends State<LoginScreen> {
     cancelToken.cancel();
     _phoneOrEmailController.dispose();
     _passwordController.dispose();
-    myFocusNodeUserName.dispose();
-    myFocusNodePassword.dispose();
     loginCubit.close();
   }
 }

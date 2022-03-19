@@ -1,20 +1,29 @@
+import 'dart:io';
+
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
+import 'package:spark/core/ui/my_base_bg_widget.dart';
+import 'package:spark/core/ui/my_logo_on_bg_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/common/Utils.dart';
 import 'package:spark/core/common/validators.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/core/route/animated_route.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
 import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/presentation/viewModel/account_register_cubit.dart';
-import 'package:spark/feature/account/presentation/widget/custom_button_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import '../../../../core/common/text_formater.dart';
+import '../../../../core/ui/my_button.dart';
+import '../../../../core/ui/my_popup_showAddImage.dart';
+import '../../../../core/ui/my_screen_container_widget.dart';
 import './../../../../core/common/resource.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "RegisterScreenRoute";
+
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -22,267 +31,246 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final AccountRegisterCubit userAccountRegisterCubit = AccountRegisterCubit();
-  bool _inAsyncCall = false;
+  ValueNotifier<bool> _inAsyncCall = ValueNotifier(false);
   final cancelToken = CancelToken();
-  final FocusNode myFocusNodeName = FocusNode();
-  final FocusNode myFocusNodeLastName = FocusNode();
-  final FocusNode myFocusNodePhoneOrEmail = FocusNode();
-  final FocusNode myFocusNodePassword = FocusNode();
-  final FocusNode myFocusNodeConfirmPassword = FocusNode();
 
   bool _passwordSecure = true;
-  bool _confirmPasswordSecure = true;
 
   // Key
-  final _nameKey = new GlobalKey<FormFieldState<String>>();
-  final _lastNameKey = new GlobalKey<FormFieldState<String>>();
-  final _phoneOrEmailKey = new GlobalKey<FormFieldState<String>>();
+  final _fullNameKey = new GlobalKey<FormFieldState<String>>();
+  final _emailKey = new GlobalKey<FormFieldState<String>>();
+  final _phoneKey = new GlobalKey<FormFieldState<String>>();
   final _passwordKey = new GlobalKey<FormFieldState<String>>();
-  final _confirmPasswordKey = new GlobalKey<FormFieldState<String>>();
+  final _birthDateKey = new GlobalKey<FormFieldState<String>>();
 
   // Controller
-  final _nameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _phoneOrEmailController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  final _birthDateController = TextEditingController();
+
+  ValueNotifier<bool> _termsOfUseCheckBox = ValueNotifier(false);
+
+  ValueNotifier<File?> _imageFile = ValueNotifier(null);
+
+
+  late AddImageController addImageController;
+
+
+  @override
+  void initState() {
+    super.initState();
+    addImageController = AddImageController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            S.of(context).label_sign_up,
-        ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: ModalProgressHUD(
-          inAsyncCall: _inAsyncCall,
-          child: BlocListener<AccountRegisterCubit, AccountRegisterState>(
+    addImageController.setContext(context);
+    return ValueListenableBuilder<bool>(
+      valueListenable: _inAsyncCall,
+      builder: (_, value, child) {
+        return ModalProgressHUD(
+          inAsyncCall: value,
+          child: child!,
+        );
+      },
+      child: MyBaseBgWidget(
+        child: Scaffold(
+          body: BlocListener<AccountRegisterCubit, AccountRegisterState>(
             bloc: userAccountRegisterCubit,
             listenWhen: (c, p) => c != p,
             listener: (context, state) {
-              "state is: $state ".logW;
               state.accountRegisterState.when(
-                  init: (){},
-                  loading: (){
-                    setState(() {
-                      _inAsyncCall = true;
-                    });
-                  },
-                  success: (data){
-                    setState(() {
-                      _inAsyncCall = false;
-                    });
-                    context.router.replace(BottomBarParent());
-                    // Navigator.of(context).pushReplacementNamed(BottomBar.routeName);
-                  },
-                  failure: (_, __){
-                    setState(() {
-                      _inAsyncCall = false;
-                    });
-                    ShowError.showErrorSnakBar(context, state.accountRegisterState);
-                  },
+                init: () {},
+                loading: () {
+                  _inAsyncCall.value = true;
+                },
+                success: (data) {
+                  _inAsyncCall.value = false;
+                  context.router.replace(BottomBarParent());
+                },
+                failure: (_, __) {
+                  _inAsyncCall.value = false;
+                  ShowError.showErrorSnakBar(
+                      context, state.accountRegisterState);
+                },
               );
             },
-            child: _buildScreen(),
-          ),
-        ),
-      ),
-    );
-  }
-
-  _buildScreen(){
-    return Container(
-      height: context.bodyHeight,
-      decoration: const BoxDecoration(
-        image: const DecorationImage(
-            image: const AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
-            fit: BoxFit.cover),
-      ),
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.dp32),
-          child: Column(
-            children: <Widget>[
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0,
-                intervalEnd: 0.1,
-                child: _buildNameField(),
-              ),
-              Gaps.vGap32,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.1,
-                intervalEnd: 0.2,
-                child: _buildLastNameField(),
-              ),
-              Gaps.vGap32,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.2,
-                intervalEnd: 0.4,
-                child: _buildPhoneField(),
-              ),
-              Gaps.vGap32,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.4,
-                intervalEnd: 0.6,
-                child: _buildPasswordField(),
-              ),
-              Gaps.vGap32,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.6,
-                intervalEnd: 0.8,
-                child: _buildConfirmPasswordField(),
-              ),
-              Gaps.vGap64,
-              SlidingAnimated(
-                initialOffsetX: 1,
-                intervalStart: 0.2,
-                intervalEnd: 1,
-                child: CustomButton(
-                  color: context.colors.secondary,
-                  text: S.of(context)
-                      .label_sign_up,
-                  textColor: context.colors.background,
-                  onPressed: () {
-                    sendRequest();
-                  },
+            child: Stack(
+              children: [
+                const MyLogoOnbgWidget(),
+                Positioned(
+                  top: 40.h,
+                  left: 32,
+                  child: SlidingUpAnimated(
+                    initialOffsetY: 1,
+                    intervalStart: 0.8,
+                    intervalEnd: 1,
+                    child: GestureDetector(
+                      onTap: (){
+                        MyPopUpShowAddImage(
+                          context,
+                          onFilePressed: () async{
+                            _imageFile.value = await addImageController.onFilePressed();
+                          },
+                          onCameraPressed: () async{
+                            _imageFile.value = await addImageController.onCameraPressed();
+                          },
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: context.colors.primary,
+                          ),
+                          height: 100.h,
+                          width: 100.h,
+                          child: ValueListenableBuilder<File?>(
+                            valueListenable: _imageFile,
+                            builder: (_, file, __) {
+                              if(file == null) return const SizedBox();
+                              return Image.file(
+                                  file,
+                                fit: BoxFit.fill,
+                              );
+                            }
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                MyScreenContainerWidget(
+                  top: 150.h,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Gaps.vGap24,
+                        _buildFullNameField(),
+                        Gaps.vGap32,
+                        _buildEmailField(),
+                        Gaps.vGap32,
+                        _buildPhoneField(),
+                        Gaps.vGap32,
+                        _buildBirthDateField(),
+                        Gaps.vGap32,
+                        _buildPasswordField(),
+                        ValueListenableBuilder<bool>(
+                            valueListenable: _termsOfUseCheckBox,
+                            builder: (_, value, __) {
+                              return CheckboxListTile(
+                                title: InkWell(
+                                  onTap: () {
+                                    /// TODO go to terms of use
+                                  },
+                                  child: Text(
+                                    S.of(context).label_terms_of_use,
+                                    style: context.textTheme.subtitle1!
+                                        .copyWith(
+                                      decoration:
+                                          TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                                contentPadding: EdgeInsets.zero,
+                                value: value,
+                                onChanged: (value) {
+                                  _termsOfUseCheckBox.value = value!;
+                                },
+                              );
+                            }),
+                        Gaps.vGap8,
+                        MyTextButton.primary(
+                          text: S.of(context).label_register,
+                          onPressed: () {
+                            sendRequest();
+                          },
+                        ),
+                        Gaps.vGap16,
+                        GestureDetector(
+                          onTap: (){
+                            context.router.pushAndPopUntil(LoginScreenRoute(), predicate: (Route<dynamic> route) => false,);
+                          },
+                          child: Text(
+                            S.of(context).label_registered_already,
+                            style: context.textTheme.subtitle2!.copyWith(
+                              color: context.colors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-
-  unFocus() {
-    unFocusList(focus: [
-      myFocusNodeName,
-      myFocusNodeLastName,
-      myFocusNodePhoneOrEmail,
-      myFocusNodePassword,
-      myFocusNodeConfirmPassword,
-    ]);
-  }
-
-  _buildNameField() {
+  _buildFullNameField() {
     return MyTextFormField(
-      color: context.colors.onSecondary,
-      formKey: _nameKey,
-      controller: _nameController,
+      formKey: _fullNameKey,
+      controller: _fullNameController,
       textInputAction: TextInputAction.next,
+      autofillHints: [AutofillHints.name],
       keyboardType: TextInputType.text,
-      focusNode: myFocusNodeName,
-      labelText: S.of(context).label_first_name,
+      labelText: S.of(context).label_full_name,
       validator: (value) {
-          if (Validators.isValidName(value!))
-            return null;
-          else
-            return S.of(context).error_inValid_name;
-      },
-      onFieldSubmitted: (term) {
-        fieldFocusChange(context, myFocusNodeName, myFocusNodeLastName);
+        if (Validators.isValidName(value!))
+          return null;
+        else
+          return S.of(context).error_inValid_name;
       },
     );
   }
 
-  _buildLastNameField() {
+  _buildEmailField() {
     return MyTextFormField(
-      color: context.colors.onSecondary,
-      formKey: _lastNameKey,
-      controller: _lastNameController,
+      formKey: _emailKey,
+      controller: _emailController,
       textInputAction: TextInputAction.next,
-      keyboardType: TextInputType.text,
-      focusNode: myFocusNodeLastName,
-      labelText: S.of(context).label_last_name,
+      autofillHints: [AutofillHints.email],
+      keyboardType: TextInputType.emailAddress,
+      labelText: S.of(context).label_email,
       validator: (value) {
-          if (Validators.isValidName(value!))
-            return null;
-          else
-            return S.of(context).error_inValid_name;
-      },
-      onFieldSubmitted: (term) {
-        fieldFocusChange(context, myFocusNodeLastName, myFocusNodePhoneOrEmail);
+        if (Validators.isValidEmail(value!))
+          return null;
+        else
+          return S.of(context).error_inValid_email;
       },
     );
   }
 
   _buildPhoneField() {
     return MyTextFormField(
-      color: context.colors.onSecondary,
-      formKey: _phoneOrEmailKey,
-      controller: _phoneOrEmailController,
+      formKey: _phoneKey,
+      controller: _phoneController,
       textInputAction: TextInputAction.next,
+      autofillHints: [AutofillHints.telephoneNumberDevice],
       keyboardType: TextInputType.phone,
-      focusNode: myFocusNodePhoneOrEmail,
       hintText: "09X-XXX-XXXX",
       labelText: S.of(context).label_phone,
       validator: (value) {
-          if (Validators.isValidPhoneNumber(value!))
-            return null;
-          else
-            return S.of(context).error_inValid_phone;
-      },
-      onFieldSubmitted: (term) {
-        fieldFocusChange(context, myFocusNodePhoneOrEmail, myFocusNodePassword);
+        if (Validators.isValidPhoneNumber(value!))
+          return null;
+        else
+          return S.of(context).error_inValid_phone;
       },
     );
   }
 
-  // _buildEmailField() {
-  //   return MyTextFormField(
-  //     color: AppColors.regularFontColor,
-  //     formKey: _phoneOrEmailKey,
-  //     controller: _phoneOrEmailController,
-  //     textInputAction: TextInputAction.next,
-  //     keyboardType: TextInputType.emailAddress,
-  //     focusNode: myFocusNodePhoneOrEmail,
-  //     labelText: S.of(context).label_email,
-  //     validator: (value) {
-  //       if (turnPhoneOrEmailValidate) {
-  //         if (Validators.isValidEmail(value!))
-  //           return null;
-  //         else
-  //           return S.of(context).error_inValid_email;
-  //       } else
-  //         return null;
-  //     },
-  //     onFieldSubmitted: (term) {
-  //       fieldFocusChange(context, myFocusNodePhoneOrEmail, myFocusNodePassword);
-  //     },
-  //     onChanged: (value) {
-  //       if (turnPhoneOrEmailValidate) {
-  //         setState(() {
-  //           turnPhoneOrEmailValidate = false;
-  //         });
-  //         _phoneOrEmailKey.currentState!.validate();
-  //       }
-  //     },
-  //   );
-  // }
-
   _buildPasswordField() {
     return MyTextFormField(
-      color: context.colors.onSecondary,
       formKey: _passwordKey,
       controller: _passwordController,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.visiblePassword,
-      focusNode: myFocusNodePassword,
+      autofillHints: [AutofillHints.newPassword],
       labelText: S.of(context).label_password,
       suffixIcon: IconButton(
           icon: Icon(
@@ -294,91 +282,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _passwordSecure = !_passwordSecure;
             });
           }),
-      onFieldSubmitted: (term) {
-        fieldFocusChange(
-            context, myFocusNodePassword, myFocusNodeConfirmPassword);
-      },
       validator: (value) {
-          if (Validators.isValidPassword(value!))
-            return null;
-          else
-            return S.of(context).error_password_short;
-
+        if (Validators.isValidPassword(value!))
+          return null;
+        else
+          return S.of(context).error_password_short;
       },
       obscureText: _passwordSecure,
     );
   }
 
-  _buildConfirmPasswordField() {
+  _buildBirthDateField() {
     return MyTextFormField(
-      color: context.colors.onSecondary,
-      formKey: _confirmPasswordKey,
-      controller: _confirmPasswordController,
+      formKey: _birthDateKey,
+      controller: _birthDateController,
       textInputAction: TextInputAction.go,
-      keyboardType: TextInputType.visiblePassword,
-      focusNode: myFocusNodeConfirmPassword,
-      labelText: S.of(context).label_confirm_password,
-      suffixIcon: IconButton(
-          icon: Icon(
-            _confirmPasswordSecure ? Icons.visibility : Icons.visibility_off,
-            color: context.colors.onSecondary,
-          ),
-          onPressed: () {
-            setState(() {
-              _confirmPasswordSecure = !_confirmPasswordSecure;
-            });
-          }),
-      validator: (value) {
-        if (_passwordController.text == value)
-          return null;
-        else
-          return S.of(context).error_confirm_password;
-      },
+      autofillHints: [AutofillHints.birthday],
+      keyboardType: TextInputType.datetime,
+      labelText: S.of(context).label_birthdate,
+      hintText: "DD/MM/YYYY",
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(8),
+        birthDateFormatter,
+      ],
       onFieldSubmitted: (term) {
         sendRequest();
       },
-      obscureText: _confirmPasswordSecure,
     );
   }
 
   sendRequest() {
-    unFocus();
-    if (_nameKey.currentState!.validate()) {
-     if (_lastNameKey.currentState!.validate()) {
-      if (_phoneOrEmailKey.currentState!.validate()) {
-        if (_passwordKey.currentState!.validate()) {
-          if (_confirmPasswordKey.currentState!.validate()) {
-            userAccountRegisterCubit.registerAccount(
-                RegisterRequest(
-                    firstName: _nameController.text,
-                    lastName: _lastNameController.text,
-                    phoneNumber: _phoneOrEmailController.text.
-                    replaceAll(RegExp("[^0-9]"), ""),
-                    email: _phoneOrEmailController.text,
-                    password: _passwordController.text,
-                    cancelToken: cancelToken)
-            );
-          }
-        }
-      }
-    }
-    }
+    context.router.push(OTPScreenRoute());
+    // if (_fullNameKey.currentState!.validate()) {
+    //   if (_emailKey.currentState!.validate()) {
+    //     if (_phoneKey.currentState!.validate()) {
+    //       if (_passwordKey.currentState!.validate()) {
+    //         if (_birthDateKey.currentState!.validate()) {
+    //           userAccountRegisterCubit.registerAccount(RegisterRequest(
+    //               firstName: _fullNameController.text,
+    //               lastName: _emailController.text,
+    //               phoneNumber:
+    //                   _phoneController.text.replaceAll(RegExp("[^0-9]"), ""),
+    //               email: _phoneController.text,
+    //               password: _passwordController.text,
+    //               cancelToken: cancelToken));
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   @override
   void dispose() {
     super.dispose();
     cancelToken.cancel();
-    myFocusNodeName.dispose();
-    myFocusNodeLastName.dispose();
-    myFocusNodePhoneOrEmail.dispose();
-    myFocusNodePassword.dispose();
-    myFocusNodeConfirmPassword.dispose();
-    _nameController.dispose();
-    _lastNameController.dispose();
-    _phoneOrEmailController.dispose();
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _birthDateController.dispose();
     userAccountRegisterCubit.close();
   }
 }
