@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:injectable/injectable.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/constants/enums/http_method.dart';
@@ -12,7 +13,9 @@ import 'package:spark/feature/account/data/model/response/register_model.dart';
 import '../../../../core/result/result.dart';
 import 'iaccount_remote.dart';
 
-class AccountRemoteSource extends IAccountRemoteSource{
+
+@Injectable(as: IAccountRemoteSource)
+class AccountRemoteSource implements IAccountRemoteSource{
 
   @override
   Future<MyResult<LoginModel>> login(LoginRequest loginRequest) async {
