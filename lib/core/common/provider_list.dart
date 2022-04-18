@@ -1,5 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
 import 'package:provider/provider.dart';
 import 'appConfig.dart';
 import 'package:provider/single_child_widget.dart';
@@ -11,11 +9,7 @@ class ApplicationProvider {
 
   factory ApplicationProvider() => _instance;
 
-  List<SingleChildWidget> blocItems = [
-    BlocProvider(
-      create: (context) => AppConfigCubit(),
-    ),
-  ];
+  List<SingleChildWidget> blocItems = [];
   List<SingleChildWidget> changeNotifierItems = [
     ChangeNotifierProvider.value(
       value: AppConfig(),

@@ -1,5 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../datasource/isp_helper.dart';
+import '../navigation/base_route.gr.dart';
 
 
 /// This function for move cursor from A to B
@@ -25,12 +30,11 @@ launchURL(String url) async {
   }
 }
 
-// logout() async {
-//   if (await AccountRepository.hasToken){
-//     await GetIt.I<AccountRepository>().deleteToken();
-//     Navigator.of(NavigationService.instance.navigatorKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
-//   }
-// }
+userLogout() async {
+  var prefs = GetIt.I<ISpHelper>();
+  prefs.deleteToken();
+  GetIt.I<AppRouter>().navigatorKey.currentContext!.router.pushAndPopUntil(LoginScreenRoute(), predicate: (Route<dynamic> route) => false,);
+}
 
 // class Camera {
 //   static Future<String> openCamera() async {

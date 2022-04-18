@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
-import 'package:spark/core/helper/validator.dart';
+import 'package:spark/core/common/extension/validator.dart';
 import 'package:spark/core/ui/my_base_bg_widget.dart';
 import 'package:spark/core/ui/my_logo_on_bg_widget.dart';
 import 'package:flutter/material.dart';

@@ -4,11 +4,10 @@ import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/constants/enums/app_theme_enum.dart';
-import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/theme/app_theme_dark.dart';
 import 'package:spark/core/theme/app_theme_light.dart';
 
-import '../helper/firebase_analytics_helper.dart';
+import '../datasource/isp_helper.dart';
 
 class AppConfig extends ChangeNotifier{
   static final AppConfig _instance = AppConfig._internal();
@@ -34,19 +33,19 @@ class AppConfig extends ChangeNotifier{
 
   /// call this method in main function before start MyApp to handle the language
   fetchLocale() async {
-    var prefs = await SpUtil.getInstance();
+    var prefs = GetIt.I<ISpHelper>();
 
     /// check if the application is first start or not
-    if (prefs.getBool(ApplicationConstants.KEY_FIRST_START) == null) {
+    if (await prefs.isNotFirstRunApp == null) {
       /// set first start is true
-      await prefs.putBool(ApplicationConstants.KEY_FIRST_START, true);
+      await prefs.writeRunTutorial(true);
     }
-    if (prefs.getString(ApplicationConstants.KEY_LANGUAGE) == null) {
+    if (await prefs.readAppLang == null) {
       _appLocale = Locale(ApplicationConstants.LANG_EN);
-      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_EN);
+      await prefs.writeAppLang(ApplicationConstants.LANG_EN);
       return Null;
     }
-    String? local = prefs.getString(ApplicationConstants.KEY_LANGUAGE);
+    String? local = await prefs.readAppLang;
     _appLocale = Locale(local??ApplicationConstants.LANG_EN);
     return Null;
   }
@@ -54,16 +53,16 @@ class AppConfig extends ChangeNotifier{
 
   /// this method to change language and [notifyListeners] to notify all widget
   Future<void> changeLanguage(Locale type, BuildContext context) async {
-    var prefs = await SpUtil.getInstance();
+    var prefs = GetIt.I<ISpHelper>();
     if (_appLocale == type) {
       return;
     }
     if (type == Locale(ApplicationConstants.LANG_AR)) {
       _appLocale = Locale(ApplicationConstants.LANG_AR);
-      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_AR);
+      await prefs.writeAppLang(ApplicationConstants.LANG_AR);
     } else {
       _appLocale = Locale(ApplicationConstants.LANG_EN);
-      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_EN);
+      await prefs.writeAppLang(ApplicationConstants.LANG_EN);
     }
     notifyListeners();
   }
@@ -117,7 +116,5 @@ class AppConfig extends ChangeNotifier{
     _currentVersion = packageInfo.version;
     _buildNumber = packageInfo.buildNumber;
     _appName = packageInfo.appName;
-    GetIt.I<FirebaseAnalyticsHelper>().analytics.setConsent(
-        adStorageConsentGranted: false, analyticsStorageConsentGranted: true);
   }
 }

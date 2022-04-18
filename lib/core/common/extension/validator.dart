@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 
-import '../../generated/l10n.dart';
-import '../navigation/base_route.gr.dart';
+import '../../../generated/l10n.dart';
+import '../../navigation/base_route.gr.dart';
 
 extension Validator on String {
 

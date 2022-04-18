@@ -1,6 +1,6 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
-import 'package:spark/core/helper/validator.dart';
+import 'package:spark/core/common/extension/validator.dart';
 import 'package:spark/core/ui/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _passwordSecure = !_passwordSecure;
             });
           }),
-      validator: (value) => value!.validatePassword(),
+      validator: (value) => value!.noValidate(),
       onFieldSubmitted: (term) {
         sendRequest();
       },

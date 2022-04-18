@@ -1,9 +1,8 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:get_it/get_it.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/bloc/app_config/app_config_cubit.dart';
-import 'core/datasource/sp_helper.dart';
+import 'core/datasource/isp_helper.dart';
 import 'core/navigation/base_route.gr.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,11 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkToken() {
     Future.delayed(const Duration(seconds: 3), () async{
-      if (await SPHelper.hasToken) {
+      if (await GetIt.I<ISpHelper>().hasToken) {
         context.router.replace(BottomBarParent());
       } else{
-        if(SPHelper.isRunTutorial == null){
-          SPHelper.persistRunTutorial(true);
+        if(await GetIt.I<ISpHelper>().isRunTutorial == null){
+          await GetIt.I<ISpHelper>().writeRunTutorial(true);
           context.router.replace(TutorialScreenRoute());
         }
         else{
@@ -42,12 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 253, 252, 255),
-      body: BlocBuilder<AppConfigCubit, AppConfigState>(
-          builder: (context, state) {
-            return Center(
-                child: Image.asset(ApplicationConstants.IMAGE_SPLASH)
-            );
-          }
+      body: Center(
+          child: Image.asset(ApplicationConstants.IMAGE_SPLASH)
       ),
     );
   }

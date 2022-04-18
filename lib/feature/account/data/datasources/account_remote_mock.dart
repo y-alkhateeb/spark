@@ -1,5 +1,4 @@
 import 'package:spark/core/constants/app/app_constants.dart';
-import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/errors/custom_error.dart';
 import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/model/request/login_request.dart';

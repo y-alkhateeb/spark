@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:spark/core/common/resource.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/bloc/app_config/app_config_cubit.dart';
+import '../../../core/common/Utils.dart';
 import '../../../core/navigation/base_route.gr.dart';
 import '../widget/drawer_widget.dart';
 import 'home_screen.dart';
@@ -97,7 +95,7 @@ class _BaseHomeScreenState extends State<BaseHomeScreen>
           context.router.push(SettingScreenRoute());
         },
         onLogoutPressed:(){
-          BlocProvider.of<AppConfigCubit>(context,listen: false).userLogout();
+          userLogout();
         },
       ),
       bottomNavigationBar: Container(

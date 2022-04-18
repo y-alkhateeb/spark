@@ -1,7 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spark/core/constants/app/app_constants.dart';
-import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/constants/enums/http_method.dart';
 import 'package:spark/core/net/api_url.dart';
 import 'package:spark/core/net/http_client.dart';
@@ -39,71 +37,6 @@ class AccountRemoteSource implements IAccountRemoteSource{
       body: registerRequest.toMap(),
       cancelToken: registerRequest.cancelToken,
     );
-  }
-
-
-  @override
-  /// deleteToken
-  Future<void> deleteToken() async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.remove(ApplicationConstants.KEY_TOKEN);
-  }
-
-  @override
-  /// deleteFcmToken
-  Future<void> deleteFcmToken() async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.remove(ApplicationConstants.KEY_FIREBASE_TOKEN);
-  }
-
-  @override
-  /// persistToken
-  Future<void> persistToken(String token) async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.putString(ApplicationConstants.KEY_TOKEN, token);
-  }
-
-  @override
-  /// persistFcmToken
-  Future<void> persistFcmToken(String token) async {
-    final prefs = await SpUtil.getInstance();
-    await prefs.putString(ApplicationConstants.KEY_FIREBASE_TOKEN, token);
-  }
-
-  @override
-  /// read authToken
-  /// if returns null that's means there no SP instance
-  Future<String?> get authToken async {
-    final prefs = await SpUtil.getInstance();
-    return prefs.getString(ApplicationConstants.KEY_TOKEN);
-  }
-
-
-  @override
-  /// read fcmToken
-  /// if returns null that's means there no SP instance
-  Future<String?> get fcmToken async {
-    final prefs = await SpUtil.getInstance();
-    return prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
-  }
-
-
-  @override
-  /// check if hasToken or not
-  Future<bool> get hasToken async {
-    final prefs = await SpUtil.getInstance();
-    String? token = prefs.getString(ApplicationConstants.KEY_TOKEN);
-    if (token != null) return true;
-    return false;
-  }
-
-  @override
-  /// check if hasFcmToken or not
-  Future<bool> get hasFcmToken async {
-    final prefs = await SpUtil.getInstance();
-    String? token = prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
-    if (token != null && token.isNotEmpty) return true;
-    return false;
   }
 
 }
