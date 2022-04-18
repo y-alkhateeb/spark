@@ -21,6 +21,12 @@ lets start with change App Package Name with single command after Update depende
 ```
 flutter pub get
 ```
+then run build runner command by following command
+```
+make br
+```
+
+
 Run this command to change the package name.
 ```
 flutter pub run change_app_package_name:main com.new.package.name
