@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:spark/core/datasource/sp_helper.dart';
 import 'package:spark/core/result/result.dart';
 import 'package:spark/feature/account/data/datasources/iaccount_remote.dart';
@@ -7,6 +8,7 @@ import 'package:spark/feature/account/data/model/response/login_model.dart';
 import 'package:spark/feature/account/data/model/response/register_model.dart';
 import 'package:spark/feature/account/domain/repository/iaccount_repository.dart';
 
+@injectable
 class AccountRepository implements IAccountRepository{
   final IAccountRemoteSource iAccountRemoteSource;
 
