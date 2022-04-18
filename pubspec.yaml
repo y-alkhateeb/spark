@@ -34,10 +34,6 @@ dependencies:
   pretty_dio_logger: ^1.2.0-beta-1
   # adapting screen and font size
   flutter_screenutil: ^5.4.0
-  # scroll component drop-down refresh
-  pull_to_refresh:
-    git:
-      url: git://github.com/y-alkhateeb/flutter_pulltorefresh.git
   # launching a URL in the mobile platform. Supports iOS and Android.
   url_launcher: ^6.0.20
   #  A simple widget wrapper to enable modal progress HUD
@@ -121,7 +117,8 @@ dependencies:
 
   flutter_easyloading: ^3.0.3
 
-
+  # list pagination
+  infinite_scroll_pagination: ^3.1.0
 
 
 
