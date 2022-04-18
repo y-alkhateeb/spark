@@ -22,10 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "AddressValidation":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل العنوان"),
         "app_cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
         "app_confirm": MessageLookupByLibrary.simpleMessage("تاكيد"),
         "btn_Rty_title": MessageLookupByLibrary.simpleMessage("حاول مجددا"),
         "camera": MessageLookupByLibrary.simpleMessage("كاميرا"),
+        "confirmValidation": MessageLookupByLibrary.simpleMessage(
+            "من فضلك ادخل كلمة المرورمتطابق"),
         "error_BadRequest_Error":
             MessageLookupByLibrary.simpleMessage("طلب غير صالح"),
         "error_NotFound_Error":
@@ -47,16 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ليس لديك الصلاحية"),
         "error_general":
             MessageLookupByLibrary.simpleMessage("حصل خطأ غير متوقع"),
-        "error_inValid_email":
-            MessageLookupByLibrary.simpleMessage("بريد الكتروني غير صالح"),
-        "error_inValid_name":
-            MessageLookupByLibrary.simpleMessage("الاسم غير صالح"),
-        "error_inValid_phone":
-            MessageLookupByLibrary.simpleMessage("رقم هاتف غير صالح"),
         "error_internal_server":
             MessageLookupByLibrary.simpleMessage("حصل خطأ في السيرفر"),
-        "error_password_short":
-            MessageLookupByLibrary.simpleMessage("كلمة المرور قصيرة"),
         "error_socket":
             MessageLookupByLibrary.simpleMessage("تأكد من إتصالك بالانترنيت"),
         "error_unknown_happened":
@@ -90,6 +86,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "label_skip_tour": MessageLookupByLibrary.simpleMessage("تخطي"),
         "label_terms_of_use":
             MessageLookupByLibrary.simpleMessage("أوافق على سياسة الخصوصية."),
+        "mailValidation":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل البريد صحيحا"),
+        "nameValidation": MessageLookupByLibrary.simpleMessage(
+            "يجب أن يكون أكثر من ٨ احرف واقل من ٣٠"),
+        "passValidation": MessageLookupByLibrary.simpleMessage(
+            "من فضلك ادخل علي الاقل 6 حروف او ارقام"),
+        "phoneValidation":
+            MessageLookupByLibrary.simpleMessage("من فضلك ادخل الجوال صحيحا"),
         "phone_verification":
             MessageLookupByLibrary.simpleMessage("تأكيد رقم الهاتف"),
         "pick": MessageLookupByLibrary.simpleMessage("إستعراض"),

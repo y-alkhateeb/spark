@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spark/core/common/resource.dart';
 import 'package:spark/core/constants/enums/app_theme_enum.dart';
 import 'package:spark/core/datasource/shared_preference.dart';
 import 'package:spark/core/theme/app_theme_dark.dart';
 import 'package:spark/core/theme/app_theme_light.dart';
+
+import '../helper/firebase_analytics_helper.dart';
 
 class AppConfig extends ChangeNotifier{
   static final AppConfig _instance = AppConfig._internal();
@@ -114,5 +117,7 @@ class AppConfig extends ChangeNotifier{
     _currentVersion = packageInfo.version;
     _buildNumber = packageInfo.buildNumber;
     _appName = packageInfo.appName;
+    GetIt.I<FirebaseAnalyticsHelper>().analytics.setConsent(
+        adStorageConsentGranted: false, analyticsStorageConsentGranted: true);
   }
 }

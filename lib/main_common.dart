@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'app.dart';
@@ -12,6 +14,7 @@ Future<void> mainCommon(String env) async {
   await ConfigReader.initialize(env);
 
 
+
   switch (env) {
     case Environment.dev:
       break;
@@ -22,7 +25,9 @@ Future<void> mainCommon(String env) async {
       break;
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  configureDependencies();
   setupInjection();
   // Init Language.
   await AppConfig().fetchLocale();

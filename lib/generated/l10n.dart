@@ -170,51 +170,81 @@ class S {
     );
   }
 
-  /// `Invalid phone`
-  String get error_inValid_phone {
-    return Intl.message(
-      'Invalid phone',
-      name: 'error_inValid_phone',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `InValid email`
-  String get error_inValid_email {
-    return Intl.message(
-      'InValid email',
-      name: 'error_inValid_email',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Password short`
-  String get error_password_short {
-    return Intl.message(
-      'Password short',
-      name: 'error_password_short',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `inValid name`
-  String get error_inValid_name {
-    return Intl.message(
-      'inValid name',
-      name: 'error_inValid_name',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Passwords do not match`
   String get error_confirm_password {
     return Intl.message(
       'Passwords do not match',
       name: 'error_confirm_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter this field`
+  String get fillField {
+    return Intl.message(
+      'Please enter this field',
+      name: 'fillField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Should have Upper and Lower case, numbers and special characters`
+  String get passValidation {
+    return Intl.message(
+      'Should have Upper and Lower case, numbers and special characters',
+      name: 'passValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email`
+  String get mailValidation {
+    return Intl.message(
+      'Please enter a valid email',
+      name: 'mailValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid mobile phone`
+  String get phoneValidation {
+    return Intl.message(
+      'Please enter a valid mobile phone',
+      name: 'phoneValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the password identical`
+  String get confirmValidation {
+    return Intl.message(
+      'Please enter the password identical',
+      name: 'confirmValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the address`
+  String get AddressValidation {
+    return Intl.message(
+      'Please enter the address',
+      name: 'AddressValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Should be more than 8 and less than 30`
+  String get nameValidation {
+    return Intl.message(
+      'Should be more than 8 and less than 30',
+      name: 'nameValidation',
       desc: '',
       args: [],
     );

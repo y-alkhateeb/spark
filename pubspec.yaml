@@ -22,16 +22,18 @@ dependencies:
   flutter_bloc: ^8.0.1
   # Service Locator
   get_it: ^7.2.0
+  # njectable is a convenient code generator for get_it
+  injectable: ^1.5.3
   # prints beautiful logs
   logger: ^1.1.0
   # shared preferences
   shared_preferences: ^2.0.13
   #  Http client for Dart
-  dio: ^4.0.4
+  dio: ^4.0.6
   # Pretty Dio logger is a Dio interceptor that logs network calls in a pretty, easy to read format
   pretty_dio_logger: ^1.2.0-beta-1
   # adapting screen and font size
-  flutter_screenutil: ^5.3.1
+  flutter_screenutil: ^5.4.0
   # scroll component drop-down refresh
   pull_to_refresh:
     git:
@@ -41,9 +43,7 @@ dependencies:
   #  A simple widget wrapper to enable modal progress HUD
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   # This Flutter plugin provides an API for querying information about an application package.
-  package_info_plus: ^1.4.0
-  # A pure dart toast Library.
-  oktoast: ^3.1.5
+  package_info_plus: ^1.4.2
   # A Flutter plugin for finding commonly used locations on the filesystem.
   # Supports iOS, Android, Linux and MacOS. Not all methods are supported on all platforms.
   path_provider: ^2.0.9
@@ -59,7 +59,7 @@ dependencies:
   equatable: ^2.0.3
 
   # A Flutter plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
-  image_picker: ^0.8.4+11
+  image_picker: ^0.8.5
 
   cupertino_icons: ^1.0.4
 
@@ -69,6 +69,62 @@ dependencies:
 
   # this package just to change App Package Name with single command
   change_app_package_name: ^1.0.0
+
+
+
+  #Google Analytics is an app measurement solution, available at no charge,
+  # that provides insight on app usage and user engagement.
+  firebase_analytics: ^9.1.5
+
+  #Firebase Crashlytics is a lightweight, realtime crash reporter that helps you track, prioritize,
+  #and fix stability issues that erode your app quality.
+  firebase_crashlytics: ^2.6.2
+
+  #Flutter plugin for Firebase Cloud Messaging,
+  firebase_messaging: ^11.2.13
+
+  #A cross platform plugin for displaying and scheduling local notifications
+  flutter_local_notifications: ^9.4.0
+
+  #Flutter plugin for Firebase Core, enabling connecting to multiple Firebase apps.
+  firebase_core: ^1.14.1
+
+  #This plugin allows Flutter apps to discover network connectivity and configure themselves accordingly
+  connectivity_plus: ^2.3.0
+
+  #Dio-http-cache is a cache library for Dio ( http client for flutter ), like Rxcache in Android.
+  #
+  #Dio-http-cache uses sqflite as disk cache, and LRU strategy as memory cache.
+  #
+  #Inspired by flutter_cache_manager.
+  tf_dio_cache: ^1.0.1
+
+  #Now this toast library supports two kinds of toast messages one which requires BuildContext
+  #other with No BuildContext
+  fluttertoast: ^8.0.9
+
+  #This plugin provides a cross-platform (iOS, Android) API to request permissions and check their status.
+  permission_handler: ^9.2.0
+
+  #A package that allows you to use the native file explorer to pick single or multiple files.
+  file_picker: ^4.5.1
+
+  #Draw SVG
+  flutter_svg: ^1.0.3
+
+  google_maps_flutter: ^2.1.3
+  #It exposes two methods to translate coordinates into locations and addresses into coordinates.
+  geocode: ^1.0.1
+
+  # custom widget for personal use
+  tf_custom_widgets: ^1.1.23
+
+  flutter_easyloading: ^3.0.3
+
+
+
+
+
 
 
 
@@ -83,6 +139,7 @@ dev_dependencies:
 
   # TEST Mock library for Dart inspired by Mockito.
   mockito: ^5.1.0
+  injectable_generator: ^1.5.3
 
 flutter:
 

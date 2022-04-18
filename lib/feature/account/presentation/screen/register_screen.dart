@@ -2,16 +2,15 @@ import 'dart:io';
 
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
+import 'package:spark/core/helper/validator.dart';
 import 'package:spark/core/ui/my_base_bg_widget.dart';
 import 'package:spark/core/ui/my_logo_on_bg_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/common/validators.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/core/route/animated_route.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
-import 'package:spark/feature/account/data/model/request/register_request.dart';
 import 'package:spark/feature/account/presentation/viewModel/account_register_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -220,12 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       autofillHints: [AutofillHints.name],
       keyboardType: TextInputType.text,
       labelText: S.of(context).label_full_name,
-      validator: (value) {
-        if (Validators.isValidName(value!))
-          return null;
-        else
-          return S.of(context).error_inValid_name;
-      },
+      validator: (value) => value!.validateName(),
     );
   }
 
@@ -237,12 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       autofillHints: [AutofillHints.email],
       keyboardType: TextInputType.emailAddress,
       labelText: S.of(context).label_email,
-      validator: (value) {
-        if (Validators.isValidEmail(value!))
-          return null;
-        else
-          return S.of(context).error_inValid_email;
-      },
+      validator: (value) => value!.validateEmail(),
     );
   }
 
@@ -255,12 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       keyboardType: TextInputType.phone,
       hintText: "09X-XXX-XXXX",
       labelText: S.of(context).label_phone,
-      validator: (value) {
-        if (Validators.isValidPhoneNumber(value!))
-          return null;
-        else
-          return S.of(context).error_inValid_phone;
-      },
+      validator: (value) => value!.validatePhone(),
     );
   }
 
@@ -282,12 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _passwordSecure = !_passwordSecure;
             });
           }),
-      validator: (value) {
-        if (Validators.isValidPassword(value!))
-          return null;
-        else
-          return S.of(context).error_password_short;
-      },
+      validator: (value) => value!.validatePassword(),
       obscureText: _passwordSecure,
     );
   }

@@ -22,10 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "AddressValidation":
+            MessageLookupByLibrary.simpleMessage("Please enter the address"),
         "app_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "app_confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "btn_Rty_title": MessageLookupByLibrary.simpleMessage("TRY AGAIN"),
         "camera": MessageLookupByLibrary.simpleMessage("camera"),
+        "confirmValidation": MessageLookupByLibrary.simpleMessage(
+            "Please enter the password identical"),
         "error_BadRequest_Error":
             MessageLookupByLibrary.simpleMessage("BAD REQUEST"),
         "error_NotFound_Error":
@@ -47,20 +51,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("YOU DO NOT HAVE PRIVILEGE"),
         "error_general": MessageLookupByLibrary.simpleMessage(
             "AN UNEXPECTED ERROR OCCURRED"),
-        "error_inValid_email":
-            MessageLookupByLibrary.simpleMessage("InValid email"),
-        "error_inValid_name":
-            MessageLookupByLibrary.simpleMessage("inValid name"),
-        "error_inValid_phone":
-            MessageLookupByLibrary.simpleMessage("Invalid phone"),
         "error_internal_server":
             MessageLookupByLibrary.simpleMessage("INTERNAL SERVER ERROR"),
-        "error_password_short":
-            MessageLookupByLibrary.simpleMessage("Password short"),
         "error_socket":
             MessageLookupByLibrary.simpleMessage("No internet connection"),
         "error_unknown_happened":
             MessageLookupByLibrary.simpleMessage("Unknown error happened"),
+        "fillField":
+            MessageLookupByLibrary.simpleMessage("Please enter this field"),
         "label_Login": MessageLookupByLibrary.simpleMessage("Login"),
         "label_birthdate": MessageLookupByLibrary.simpleMessage("Birth date"),
         "label_change_language":
@@ -89,6 +87,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Skip this tour"),
         "label_terms_of_use":
             MessageLookupByLibrary.simpleMessage("I agree to terms of use."),
+        "mailValidation":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
+        "nameValidation": MessageLookupByLibrary.simpleMessage(
+            "Should be more than 8 and less than 30"),
+        "passValidation": MessageLookupByLibrary.simpleMessage(
+            "Should have Upper and Lower case, numbers and special characters"),
+        "phoneValidation": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid mobile phone"),
         "phone_verification":
             MessageLookupByLibrary.simpleMessage("Phone verification"),
         "pick": MessageLookupByLibrary.simpleMessage("pick"),

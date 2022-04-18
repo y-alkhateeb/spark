@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'toast.dart';
+import 'package:spark/core/helper/custom_toast.dart';
 
 class DoubleTapBackExitApp extends StatefulWidget {
 
@@ -33,10 +32,9 @@ class _DoubleTapBackExitAppState extends State<DoubleTapBackExitApp> {
   Future<bool> _isExit() async {
     if (DateTime.now().difference(_lastTime) > widget.duration) {
       _lastTime = DateTime.now();
-      Toast.show('Press twice to exit');
+      CustomToast.showSimpleToast(msg: 'Press twice to exit');
       return Future.value(false);
     }
-    Toast.cancelToast();
     await SystemNavigator.pop();
     return Future.value(true);
   }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import '../errors/bad_request_error.dart';
@@ -20,7 +21,10 @@ import '../result/result.dart';
 import '../constants/enums/http_method.dart';
 import 'package:http_parser/http_parser.dart';
 
+import 'cache/cache_manager.dart';
+import 'cache/dio_cache_options.dart';
 import 'interceptor.dart';
+import 'network_info.dart';
 
 class HttpClient{
   late Dio _client;
@@ -35,6 +39,7 @@ class HttpClient{
     /// To add Authentication into header
     /// [authorization] [os] [appversion] [session]
     _client.interceptors.add(AuthInterceptor());
+    _client.interceptors.add(CacheManager()().interceptor);
   }
 
   
@@ -42,21 +47,25 @@ class HttpClient{
     required T Function(dynamic) converter,
     required HttpMethod method,
     required String url,
+    bool forceRefresh = false,
     required CancelToken cancelToken,
-    Map<String, String>? headers,
     dynamic queryParameters, // may be Map<String, dynamic> or String or int ..
     dynamic body, // may be Map<String, dynamic> or String or int ..
   }) async {
 
     // Get the response from the server
     Response response;
+    final connected = await GetIt.I<NetworkInfoImpl>().isConnected;
+    if (!connected) {
+      return MyResult.isError(ConnectionError());
+    }
     try {
       switch (method) {
         case HttpMethod.GET:
           response = await _client.get(
             url,
             queryParameters: queryParameters,
-            options: Options(headers: headers),
+            options: GetIt.I<DioCacheOptions>()(forceRefresh: forceRefresh),
             cancelToken: cancelToken,
           );
           break;
@@ -65,7 +74,7 @@ class HttpClient{
             url,
             data: body,
             queryParameters: queryParameters,
-            options: Options(headers: headers),
+            options: GetIt.I<DioCacheOptions>()(forceRefresh: forceRefresh),
             cancelToken: cancelToken,
           );
           break;
@@ -74,7 +83,7 @@ class HttpClient{
             url,
             data: body,
             queryParameters: queryParameters,
-            options: Options(headers: headers),
+            options: GetIt.I<DioCacheOptions>()(forceRefresh: forceRefresh),
             cancelToken: cancelToken,
           );
           break;
@@ -83,7 +92,7 @@ class HttpClient{
             url,
             data: body,
             queryParameters: queryParameters,
-            options: Options(headers: headers),
+            options: GetIt.I<DioCacheOptions>()(forceRefresh: forceRefresh),
             cancelToken: cancelToken,
           );
           break;

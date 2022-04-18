@@ -37,4 +37,5 @@ class AccountLoginCubit extends Cubit<AccountLoginState> {
     );
     emit(_state);
   }
+
 }

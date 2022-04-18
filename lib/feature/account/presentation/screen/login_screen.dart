@@ -1,19 +1,18 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:dio/dio.dart';
+import 'package:spark/core/helper/validator.dart';
 import 'package:spark/core/ui/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spark/core/common/Utils.dart';
-import 'package:spark/core/common/validators.dart';
 import 'package:spark/core/navigation/base_route.gr.dart';
 import 'package:spark/core/ui/my_text_form_field.dart';
-import 'package:spark/feature/account/data/model/request/login_request.dart';
 import 'package:spark/feature/account/presentation/viewModel/user_account_cubit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../../core/ui/my_base_bg_widget.dart';
 import '../../../../core/ui/my_logo_on_bg_widget.dart';
 import '../../../../core/ui/my_screen_container_widget.dart';
+import '../../data/model/request/login_request.dart';
 import './../../../../core/common/resource.dart';
 
 
@@ -118,6 +117,12 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+  authenticate(Uri uri, String clientId, List<String> scopes) async {
+
+
+  }
+
   sendRequest() {
     if (_phoneOrEmailKey.currentState!.validate()) {
       if (_passwordKey.currentState!.validate()) {
@@ -141,12 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
       keyboardType: TextInputType.emailAddress,
       labelText: S.of(context).label_email,
       hintText: "example@spark.com",
-      validator: (value) {
-          if (Validators.isValidEmail(value!))
-            return null;
-          else
-            return S.of(context).error_inValid_email;
-      },
+      validator: (value) => value!.validateEmail(),
     );
   }
 
@@ -168,12 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
               _passwordSecure = !_passwordSecure;
             });
           }),
-      validator: (value) {
-          if (Validators.isValidPassword(value!))
-            return null;
-          else
-            return S.of(context).error_password_short;
-      },
+      validator: (value) => value!.validatePassword(),
       onFieldSubmitted: (term) {
         sendRequest();
       },
