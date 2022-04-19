@@ -9,13 +9,19 @@ class ColorSchemeLight {
 
   ColorSchemeLight._init();
 
-  final Color brown = Color(0xffa87e6f);
-  final Color red = Color(0xffc10e0e);
-  final Color white = Color(0xffffffff);
-  final Color gray = Color(0xffa5a6ae);
-  final Color lightGray = Color(0xfff7f7f7);
-  final Color darkGray = Color(0xff676870);
-  final Color black = Color(0xff020306);
-
-  final Color azure = Color(0xff27928d);
+  final Color primary = Color(0xFFF9656B);
+  final  Color secondary = Color(0xff30e3a0);
+  final  Color headerColor = Color(0xff6e7c87);
+  final  Color bg= Color(0xfffffafa);
+  final  Color offWhite= Color(0xffF2F2F2);
+  final  Color gold= Color(0xffe4aa69);
+  final  Color grey= Colors.grey;
+  final  Color greyBold= Color(0xffEEEEEE);
+  final Color greyWhite=Colors.grey.withOpacity(.2);
+  final  Color black= Color(0xff031626);
+  final  Color blackOpacity=Colors.black54;
+  final  Color white=Colors.white;
+  final  Color successColor=Color(0xff03A89E);
+  final  Color errorColor= Colors.red;
+  final  Color infoColor= Color(0xfffea632);
 }
