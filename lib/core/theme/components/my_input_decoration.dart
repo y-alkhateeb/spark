@@ -39,7 +39,7 @@ class MyInputDecoration extends InputDecoration {
   // TODO: implement enabledBorder
   InputBorder get enabledBorder => OutlineInputBorder(
         borderSide:
-            BorderSide(color: enableColor ?? GetIt.I<AppConfig>().currentTheme.colorScheme.background, width: .7),
+            BorderSide(color: enableColor ?? AppConfig().currentTheme.colorScheme.background, width: .7),
         borderRadius: borderRadius ?? BorderRadius.circular( 10),
       );
 
@@ -47,7 +47,7 @@ class MyInputDecoration extends InputDecoration {
   // TODO: implement focusedBorder
   InputBorder get focusedBorder => OutlineInputBorder(
       borderRadius: borderRadius ?? BorderRadius.circular( 10),
-      borderSide: BorderSide(color: focusColor ?? GetIt.I<AppConfig>().currentTheme.colorScheme.primary, width: 1));
+      borderSide: BorderSide(color: focusColor ?? AppConfig().currentTheme.colorScheme.primary, width: 1));
 
   @override
   // TODO: implement errorBorder

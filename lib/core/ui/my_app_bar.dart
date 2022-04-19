@@ -29,7 +29,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: MyText(
         title: title,
         size: 18,
-        color: GetIt.I<AppConfig>().currentTheme.colorScheme.onBackground,
+        color: AppConfig().currentTheme.colorScheme.onBackground,
         fontWeight: FontWeight.w500,
       ),
       centerTitle: centerTitle??true,

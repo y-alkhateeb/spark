@@ -28,7 +28,7 @@ class AddImageController{
       }
     } on PlatformException catch (e) {
       if (e.code == "camera_access_denied") {
-        ShowError.showCustomError(_context, e.message!);
+        ShowError.showCustomError(e.message!);
       }
       return null;
     }

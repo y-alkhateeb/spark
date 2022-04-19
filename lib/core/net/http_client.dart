@@ -5,6 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:spark/core/errors/connection_error.dart';
+import 'package:spark/core/ui/show_error.dart';
+import '../common/loading_helper.dart';
 import '../errors/bad_request_error.dart';
 import '../errors/base_error.dart';
 import '../errors/cancel_error.dart';
@@ -48,15 +50,22 @@ class HttpClient{
     required HttpMethod method,
     required String url,
     bool forceRefresh = false,
+    bool isShowDialog = false,
     required CancelToken cancelToken,
     dynamic queryParameters, // may be Map<String, dynamic> or String or int ..
     dynamic body, // may be Map<String, dynamic> or String or int ..
   }) async {
-
+    if(isShowDialog){
+      GetIt.I<LoadingHelper>().showLoadingDialog();
+    }
     // Get the response from the server
     Response response;
     final connected = await GetIt.I<NetworkInfoImpl>().isConnected;
     if (!connected) {
+      if(isShowDialog){
+        GetIt.I<LoadingHelper>().dismissDialog();
+      }
+      ShowError.showErrorSnakBar(ConnectionError());
       return MyResult.isError(ConnectionError());
     }
     try {
@@ -97,19 +106,35 @@ class HttpClient{
           );
           break;
       }
+      if(isShowDialog){
+        GetIt.I<LoadingHelper>().dismissDialog();
+      }
       // Use the compute function to run parsePhotos in a separate isolate.
       return MyResult.isSuccess(converter(response.data!));
     }
     // Handling errors
     on DioError catch (e) {
-      return MyResult.isError(_handleDioError(e));
+      BaseError error = _handleDioError(e);
+      if(isShowDialog){
+        GetIt.I<LoadingHelper>().dismissDialog();
+      }
+      ShowError.showErrorSnakBar(error);
+      return MyResult.isError(error);
     }
 
     // Couldn't reach out the server
     on SocketException catch (e) {
+      if(isShowDialog){
+        GetIt.I<LoadingHelper>().dismissDialog();
+      }
+      ShowError.showErrorSnakBar(SocketError());
       return MyResult.isError(SocketError());
     }
     on HttpException catch (e){
+      if(isShowDialog){
+        GetIt.I<LoadingHelper>().dismissDialog();
+      }
+      ShowError.showErrorSnakBar(ConnectionError());
       return MyResult.isError(ConnectionError());
     }
   }

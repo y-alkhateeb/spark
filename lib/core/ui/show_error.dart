@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:spark/core/bloc/base_state/base_state.dart';
+import 'package:get_it/get_it.dart';
+import 'package:spark/core/common/custom_toast.dart';
+import 'package:spark/core/errors/base_error.dart';
 import 'package:spark/core/errors/connection_error.dart';
 import 'package:spark/core/errors/socket_error.dart';
 import 'package:spark/generated/l10n.dart';
@@ -12,67 +13,48 @@ import '../errors/not_found_error.dart';
 import '../errors/timeout_error.dart';
 import '../errors/unauthorized_error.dart';
 import '../errors/unknown_error.dart';
+import '../navigation/base_route.gr.dart';
 
 class ShowError {
 
-  static void showErrorSnakBar(
-      BuildContext context, BaseState baseFailureState,
-      {ScaffoldState? scaffoldState}) {
-    baseFailureState.maybeWhen(
-        orElse: (){},
-      failure: (baseError, callback){
-        if (baseError is ConnectionError) {
-          ShowError.showConnectionError(
-            context,
-            callback,
-          );
-        } else if (baseError is CustomError) {
-          ShowError.showCustomError(context, baseError.message);
-        } else if (baseError is UnauthorizedError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is BadRequestError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is ForbiddenError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is NotFoundError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is ConflictError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is TimeoutError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is UnknownError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is InternalServerError) {
-          ShowError.showCustomError(context, baseError.toString());
-        } else if (baseError is SocketError) {
-          ShowError.showCustomError(context,baseError.toString());
-        }else {
-          ShowError.showCustomError(context, baseError.toString());
-        }
-      }
+  static void showErrorSnakBar(BaseError error) {
+    if (error is ConnectionError) {
+      ShowError.showConnectionError();
+    } else if (error is CustomError) {
+      ShowError.showCustomError(error.message);
+    } else if (error is UnauthorizedError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is BadRequestError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is ForbiddenError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is NotFoundError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is ConflictError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is TimeoutError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is UnknownError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is InternalServerError) {
+      ShowError.showCustomError(error.toString());
+    } else if (error is SocketError) {
+      ShowError.showCustomError(error.toString());
+    }else {
+      ShowError.showCustomError(error.toString());
+    }
+  }
+
+  static void showConnectionError() {
+    CustomToast.showSnakeBar(
+      S.of(GetIt.I<AppRouter>().navigatorKey.currentContext!).error_connection_lost,
     );
   }
 
-  static void showConnectionError(BuildContext context, VoidCallback callback) {
-    final snackBar = SnackBar(
-      content: Text(S.of(context).error_connection_lost),
-      action: SnackBarAction(
-        label: S.of(context).btn_Rty_title,
-        onPressed: () {
-          callback();
-        },
-      ),
+  static void showCustomError(String message) {
+    CustomToast.showSnakeBar(
+      message,
     );
-    ScaffoldMessenger.of(context).showSnackBar(
-      snackBar,
-    );
-  }
-
-  static void showCustomError(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
 }

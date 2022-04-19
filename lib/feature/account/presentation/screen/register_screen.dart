@@ -91,8 +91,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
                 failure: (_, __) {
                   _inAsyncCall.value = false;
-                  ShowError.showErrorSnakBar(
-                      context, state.accountRegisterState);
                 },
               );
             },

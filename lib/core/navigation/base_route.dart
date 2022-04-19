@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:spark/feature/account/presentation/screen/login_screen.dart';
+import 'package:spark/feature/account/presentation/screen/login/login_screen.dart';
 import 'package:spark/feature/account/presentation/screen/otp_screen.dart';
 import 'package:spark/feature/account/presentation/screen/register_screen.dart';
 import 'package:spark/feature/home/screen/base_home_screen.dart';
