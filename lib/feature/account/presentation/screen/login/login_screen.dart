@@ -85,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginController.cancelToken.cancel();
     _loginController.phoneOrEmailController.dispose();
     _loginController.passwordController.dispose();
-    _loginController.loginCubit.close();
     _loginController.passCubit.close();
   }
 }

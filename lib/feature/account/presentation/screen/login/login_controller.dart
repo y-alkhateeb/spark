@@ -7,11 +7,9 @@ import 'package:tf_custom_widgets/tf_custom_widgets.dart';
 import '../../../../../core/navigation/base_route.gr.dart';
 import '../../../data/model/request/login_request.dart';
 import '../../../domain/repository/iaccount_repository.dart';
-import '../../viewModel/user_account_cubit.dart';
 
 class LoginController{
 
-  final AccountLoginCubit loginCubit = AccountLoginCubit();
 
   final GenericBloc<bool> passCubit = GenericBloc<bool>(false);
 
