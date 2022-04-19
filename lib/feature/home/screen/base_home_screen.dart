@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../../core/common/Utils.dart';
+import 'package:get_it/get_it.dart';
+import '../../../core/common/utilities.dart';
 import '../../../core/navigation/base_route.gr.dart';
 import '../widget/drawer_widget.dart';
 import 'home_screen.dart';
@@ -95,7 +96,7 @@ class _BaseHomeScreenState extends State<BaseHomeScreen>
           context.router.push(SettingScreenRoute());
         },
         onLogoutPressed:(){
-          userLogout();
+          GetIt.I<Utilities>().userLogout();
         },
       ),
       bottomNavigationBar: Container(

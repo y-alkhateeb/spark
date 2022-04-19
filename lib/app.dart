@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:spark/core/common/appConfig.dart';
 import 'package:spark/core/constants/app/app_constants.dart';
 import 'package:provider/provider.dart';
-import 'core/helper/firebase_analytics_helper.dart';
+import 'core/common/firebase_analytics_helper.dart';
 import 'core/navigation/base_route.gr.dart';
 import 'core/common/provider_list.dart';
 import 'generated/l10n.dart';

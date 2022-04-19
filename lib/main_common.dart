@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'app.dart';
 import 'core/common/appConfig.dart';
-import 'core/helper/firebase_analytics_helper.dart';
+import 'core/common/firebase_analytics_helper.dart';
 import 'di/service_locator.dart';
 import 'env/config_reader.dart';
 import 'env/enviroment.dart';
