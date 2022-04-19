@@ -1,6 +1,24 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
+/// for auto route
+typedef AnimatedRouteBuilder = Route<T> Function<T>(
+    BuildContext context, Widget child, CustomPage page);
+
+
+Route<T> myAnimatedRouteBuilder<T>(BuildContext context, Widget child, CustomPage<T> page){
+
+  return AnimatedPage(
+      fullscreenDialog: page.fullscreenDialog,
+      // this is important
+      settings: page,
+      pageBuilder: (context, animation, secondaryAnimation) => ListenableProvider(
+        create: (context) => animation,
+        child: child,
+      )
+  );
+}
 
 class AnimatedPage<T> extends PageRoute<T>{
   final RoutePageBuilder pageBuilder;

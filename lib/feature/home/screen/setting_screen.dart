@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/common/appConfig.dart';
 import '../../../core/model/lanuage_model.dart';
-import '../../../core/route/animated_route.dart';
 import '../../../core/ui/my_app_bar_widget.dart';
 import '../../../core/ui/my_base_bg_widget.dart';
 import '../../../core/ui/my_button.dart';

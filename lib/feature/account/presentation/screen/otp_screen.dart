@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/navigation/base_route.gr.dart';
-import '../../../../core/route/animated_route.dart';
+import '../../../../core/navigation/route/animated_route.dart';
 import '../../../../core/ui/my_base_bg_widget.dart';
 import '../../../../core/ui/my_button.dart';
 import '../../../../core/ui/my_logo_on_bg_widget.dart';

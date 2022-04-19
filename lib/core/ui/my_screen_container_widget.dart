@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../common/dimens.dart';
-import '../route/animated_route.dart';
+import '../navigation/route/animated_route.dart';
 
 class MyScreenContainerWidget extends StatelessWidget {
   final double top;
