@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:tf_custom_widgets/tf_custom_widgets.dart';
-
-import '../theme/light/color_scheme_light.dart';
+import '../common/appConfig.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -29,7 +29,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: MyText(
         title: title,
         size: 18,
-        color: ColorSchemeLight.instance!.black,
+        color: GetIt.I<AppConfig>().currentTheme.colorScheme.onBackground,
         fontWeight: FontWeight.w500,
       ),
       centerTitle: centerTitle??true,

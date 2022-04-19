@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'components/my_color_scheme.dart';
 import 'light/light_theme_interface.dart';
 import '../theme/app_theme.dart';
 
@@ -90,7 +91,7 @@ class AppThemeLight extends AppTheme with ILightTheme {
   }
 
   TextTheme textTheme() {
-    return ThemeData.light().textTheme.copyWith(
+    return TextTheme(
         headline1: textThemeLight!.headline1,
         headline2: textThemeLight!.headline2,
         headline3: textThemeLight!.headline3,
@@ -107,24 +108,6 @@ class AppThemeLight extends AppTheme with ILightTheme {
 
   /// https://material.io/design/color/the-color-system.html#color-theme-creation
   ColorScheme get _appColorScheme {
-    return ColorScheme(
-        primary: Color(0xffF8BA2C),
-        onPrimary: Colors.white,
-        surface: Color(0xfff0f1f2),
-        onSurface: Color(0xff777777),
-        primaryContainer: Colors.white,
-        onPrimaryContainer: Color(0xff23496B),
-        background: Colors.transparent,
-        onBackground: Colors.black87,
-        error: Colors.red[900]!,
-        onError: Colors.white,
-        //
-        secondary: Color(0xffF2BC25),
-        //
-        //
-        onSecondary: Colors.black,
-        //
-        brightness: Brightness.light,
-    );
+    return MyColorScheme.light().colorScheme;
   }
 }

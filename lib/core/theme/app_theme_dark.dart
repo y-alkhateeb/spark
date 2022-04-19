@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spark/core/theme/dark/dark_theme_interface.dart';
 
 import '../theme/app_theme.dart';
+import 'components/my_color_scheme.dart';
 
 class AppThemeDark extends AppTheme with IDarkTheme {
   static AppThemeDark? _instance;
@@ -78,25 +79,6 @@ class AppThemeDark extends AppTheme with IDarkTheme {
 
   /// https://material.io/design/color/the-color-system.html#color-theme-creation
   ColorScheme get _appColorScheme {
-    return ColorScheme(
-        primary: colorSchemeLight!.black,
-        primaryVariant: Colors.white,
-        //
-        secondary: Colors.blueAccent,
-        secondaryVariant: colorSchemeLight!.azure,
-        surface: Colors.blue,
-        //
-        background: Color(0xfff6f9fc),
-        //
-        error: Colors.red,
-        onPrimary: Colors.white38,
-        onSecondary: Colors.black54,
-        //
-        onSurface: Colors.white30,
-        onBackground: Colors.black12,
-        onError:Colors.limeAccent,
-        //
-        brightness: Brightness.dark,
-    );
+    return MyColorScheme.dark().colorScheme;
   }
 }

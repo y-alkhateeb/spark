@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import '../theme/light/color_scheme_light.dart';
+import 'package:get_it/get_it.dart';
+import 'appConfig.dart';
 
 
 enum ToastType { success, error, info }
@@ -9,9 +9,9 @@ enum ToastType { success, error, info }
 class CustomToast {
 
   static Map<ToastType, Color> toastBgColors = {
-    ToastType.success: ColorSchemeLight.instance!.successColor,
-    ToastType.error: ColorSchemeLight.instance!.errorColor,
-    ToastType.info: ColorSchemeLight.instance!.infoColor,
+    ToastType.success: GetIt.I<AppConfig>().currentTheme.colorScheme.primary,
+    ToastType.error: GetIt.I<AppConfig>().currentTheme.colorScheme.error,
+    ToastType.info: GetIt.I<AppConfig>().currentTheme.colorScheme.surface,
   };
 
   static showSnakeBar(msg,

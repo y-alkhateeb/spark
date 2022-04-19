@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../light/color_scheme_light.dart';
+import '../../common/appConfig.dart';
+import 'my_color_scheme.dart';
 
 
 
@@ -37,7 +39,7 @@ class MyInputDecoration extends InputDecoration {
   // TODO: implement enabledBorder
   InputBorder get enabledBorder => OutlineInputBorder(
         borderSide:
-            BorderSide(color: enableColor ?? ColorSchemeLight.instance!.greyWhite, width: .7),
+            BorderSide(color: enableColor ?? GetIt.I<AppConfig>().currentTheme.colorScheme.background, width: .7),
         borderRadius: borderRadius ?? BorderRadius.circular( 10),
       );
 
@@ -45,7 +47,7 @@ class MyInputDecoration extends InputDecoration {
   // TODO: implement focusedBorder
   InputBorder get focusedBorder => OutlineInputBorder(
       borderRadius: borderRadius ?? BorderRadius.circular( 10),
-      borderSide: BorderSide(color: focusColor ?? ColorSchemeLight.instance!.primary, width: 1));
+      borderSide: BorderSide(color: focusColor ?? GetIt.I<AppConfig>().currentTheme.colorScheme.primary, width: 1));
 
   @override
   // TODO: implement errorBorder
