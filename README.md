@@ -36,6 +36,7 @@ Where com.new.package.name is the new package name that you want for your app. r
 ## setup our config like base url
 
 - this app works on environments and flavors [dev] [stage] [prod]
+  https://blog.codemagic.io/environments-in-flutter-with-codemagic-cicd/
 
 ```
 config/
